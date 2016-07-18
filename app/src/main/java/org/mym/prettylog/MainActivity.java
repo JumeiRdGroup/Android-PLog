@@ -1,7 +1,10 @@
 package org.mym.prettylog;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import org.mym.plog.PLog;
+import org.mym.plog.PLogConfig;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -9,5 +12,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        PLog.init(new PLogConfig.Builder()
+                .globalTag("GlobalTag")
+                .keepLineNumber(true)
+                .build());
+        PLog.v("This is a verbose log.");
+        PLog.d("DebugTag", "This is a debug log.");
+        PLog.i("InfoTag", "This is a info log.");
+        PLog.w("This is a warn log.");
+        PLog.e("This is a error log.");
+        new InnerClass().innerLogTest();
+    }
+
+    private class InnerClass{
+        void innerLogTest(){
+            PLog.i("This is a log in inner class.");
+        }
     }
 }
