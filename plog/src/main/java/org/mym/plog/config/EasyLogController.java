@@ -1,4 +1,4 @@
-package org.mym.plog;
+package org.mym.plog.config;
 
 /**
  * Default implementation of {@link LogController}.

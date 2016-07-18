@@ -1,4 +1,4 @@
-package org.mym.plog;
+package org.mym.plog.config;
 
 /**
  * This interface provides a mechanism to fully control log output

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import org.mym.plog.PLog;
-import org.mym.plog.PLogConfig;
+import org.mym.plog.config.PLogConfig;
 
 public class MainActivity extends AppCompatActivity {
 

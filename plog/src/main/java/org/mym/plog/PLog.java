@@ -3,6 +3,9 @@ package org.mym.plog;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.mym.plog.config.Logger;
+import org.mym.plog.config.PLogConfig;
+
 /**
  * Entry class of log module, settings & init configs are here.
  *

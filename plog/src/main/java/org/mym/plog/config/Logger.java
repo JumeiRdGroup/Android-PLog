@@ -1,4 +1,4 @@
-package org.mym.plog;
+package org.mym.plog.config;
 
 /**
  * An interface to customize logger.
