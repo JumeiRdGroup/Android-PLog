@@ -72,11 +72,28 @@ public final class PLog {
         log(Log.ERROR, tag, msg, params);
     }
 
+    /**
+     * Print {@link PLogConfig#getEmptyMsg()}, using DEBUG Level,
+     * or {@link PLogConfig#getEmptyMsgLevel()} if specified.
+     */
+    public static void empty() {
+        int level = mConfig == null ? Log.DEBUG : mConfig.getEmptyMsgLevel();
+        log(level, null, null);
+    }
+
     private static void log(int level, String tag, String msg, Object... params) {
         checkInitOrUseDefaultConfig();
+
+        //When tag is empty, using global
         if (TextUtils.isEmpty(tag)) {
             tag = mConfig.getGlobalTag();
         }
+        //Only concat when tag is not empty and config is specified to true
+        else if (mConfig.isForceConcatGlobalTag()){
+            tag = mConfig.getGlobalTag() + "-" + tag;
+        }
+
+        //If loggable, print it
         if (mConfig.getController().isLogEnabled(level, tag, msg)) {
             String logContent = wrapLogStr(msg, params);
             Logger logger = mConfig.getLogger();

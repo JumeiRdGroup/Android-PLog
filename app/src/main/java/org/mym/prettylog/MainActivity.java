@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
 
         PLog.init(new PLogConfig.Builder()
                 .globalTag("GlobalTag")
+                .forceConcatGlobalTag(true)
                 .keepLineNumber(true)
                 .build());
+        PLog.empty();
         PLog.v("This is a verbose log.");
         PLog.d("DebugTag", "This is a debug log.");
         PLog.i("InfoTag", "This is a info log.");

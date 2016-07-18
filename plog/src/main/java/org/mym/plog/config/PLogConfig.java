@@ -1,5 +1,8 @@
 package org.mym.plog.config;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 /**
  * Class for config fields.
  *
@@ -8,7 +11,12 @@ package org.mym.plog.config;
  */
 public class PLogConfig {
     private String globalTag;
+    /**
+     * If this config is set to true, then all tag would be append after global tag.
+     */
+    private boolean forceConcatGlobalTag;
     private String emptyMsg;
+    private int emptyMsgLevel;
     private boolean keepLineNumber;
     private Logger logger;
     private LogController controller;
@@ -19,6 +27,14 @@ public class PLogConfig {
 
     public String getEmptyMsg() {
         return emptyMsg;
+    }
+
+    public int getEmptyMsgLevel() {
+        return emptyMsgLevel;
+    }
+
+    public boolean isForceConcatGlobalTag() {
+        return forceConcatGlobalTag;
     }
 
     public boolean isKeepLineNumber() {
@@ -35,6 +51,8 @@ public class PLogConfig {
 
     private PLogConfig(Builder builder) {
         globalTag = builder.globalTag;
+        emptyMsgLevel = builder.emptyMsgLevel;
+        forceConcatGlobalTag = builder.forceConcatGlobalTag;
         emptyMsg = builder.emptyMsg;
         keepLineNumber = builder.keepLineNumber;
         logger = builder.logger;
@@ -44,6 +62,8 @@ public class PLogConfig {
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
+        private boolean forceConcatGlobalTag;
+        private int emptyMsgLevel;
         private String emptyMsg;
         private boolean keepLineNumber;
         private Logger logger;
@@ -54,6 +74,16 @@ public class PLogConfig {
 
         public Builder globalTag(String val) {
             globalTag = val;
+            return this;
+        }
+
+        public Builder forceConcatGlobalTag(boolean val) {
+            forceConcatGlobalTag = val;
+            return this;
+        }
+
+        public Builder emptyMsgLevel(int val) {
+            emptyMsgLevel = val;
             return this;
         }
 
@@ -79,6 +109,14 @@ public class PLogConfig {
 
         public PLogConfig build() {
             //check fields which can be unsafe
+            if (emptyMsgLevel < Log.VERBOSE || emptyMsgLevel > Log.ASSERT) {
+                emptyMsgLevel = Log.DEBUG;
+            }
+
+            if (TextUtils.isEmpty(emptyMsg)) {
+                emptyMsg = "Here executed.";
+            }
+
             if (logger == null) {
                 logger = new DefaultLogger();
             }
