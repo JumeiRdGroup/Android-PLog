@@ -7,7 +7,7 @@ import org.mym.plog.config.Logger;
 import org.mym.plog.config.PLogConfig;
 
 /**
- * Entry class of log module, settings & init configs are here.
+ * Entry class of log module, settings, and init configs are all here.
  *
  * @author Muyangmin
  * @since 1.0.0

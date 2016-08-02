@@ -21,3 +21,6 @@ android {
 dependencies {
     //Empty
 }
+
+apply from: rootProject.file('gradle/android-artifacts.gradle')
+apply from: rootProject.file('gradle/gradle-jcenter-push.gradle')
