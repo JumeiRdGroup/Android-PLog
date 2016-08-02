@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION as int
+    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION as String
 
     defaultConfig {
         applicationId "org.mym.prettylog"
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION as int
+        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
         versionCode 1
         versionName "1.0"
     }
@@ -22,6 +22,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile "com.android.support:appcompat-v7:${rootProject.ext.APPCOMPAT_V7_VERSION as String}"
     compile project(':plog')
 }

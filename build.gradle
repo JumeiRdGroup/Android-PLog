@@ -18,6 +18,16 @@ allprojects {
     }
 }
 
+//Define all module compile version here.
+ext {
+    MIN_SDK_VERSION = 14
+    TARGET_SDK_VERSION = 24
+    COMPILE_SDK_VERSION = 24
+    BUILD_TOOLS_VERSION = "24.0.1"
+    SUPPORT_V4_VERSION = "24.1.1"
+    APPCOMPAT_V7_VERSION = "24.1.1"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
