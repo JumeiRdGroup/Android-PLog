@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         PLog.empty();
         PLog.v("This is a verbose log.");
         PLog.d("DebugTag", "This is a debug log.");
-        PLog.i("InfoTag", "This is a info log.");
+        PLog.i("InfoTag", "This is an info log.");
         PLog.w("This is a warn log.");
-        PLog.e("This is a error log.");
+        PLog.e("This is an error log.");
         new InnerClass().innerLogTest();
     }
 
