@@ -5,15 +5,14 @@
 
 PLog追求极简，因此也在尽量避免冗余，目前还是**零依赖**状态。
 
-PLog在设计的时候还充分考虑实际项目中对功能的需求，提供丰富的设置项可供定制而无需修改库本身的实现。通过使用`Builder
-`模式，使用者无需任何设置也可以工作，在需要定制时也只用关心自己要修改的设置项即可。
+PLog在设计的时候还充分考虑实际项目中对功能的需求，提供丰富的设置项可供定制而无需修改库本身的实现。通过使用`Builder`模式，使用者无需任何设置也可以工作，在需要定制时也只用关心自己要修改的设置项即可。
 
 ## Basic Usage
 1. Import via gradle:  
 ```Groovy
     compile 'org.mym.plog:android-plog:1.0.0'
 ```
-2. Initialize PLog before any log:  
+2. Initialize PLog before any log（**Optional**）:  
 ```Java
         PLog.init(new PLogConfig.Builder()
                 .globalTag("GlobalTag")
@@ -22,7 +21,8 @@ PLog在设计的时候还充分考虑实际项目中对功能的需求，提供�
                 .keepLineNumber(true)
                 .build());
 ```  
-*All settings are **optional**, and here just show a few part of options.Please see doc for advanced usage.*
+All settings are **optional**, and here just show a few part of options.Please see doc for 
+advanced usage.  
 3. Use `PLog` class to print log, via `v()`, `d()`, `i()` method, and so on. Sample:  
 ```Java
         PLog.empty();
