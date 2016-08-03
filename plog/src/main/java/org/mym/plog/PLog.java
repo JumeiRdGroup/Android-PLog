@@ -153,9 +153,29 @@ public final class PLog {
             className = pkgPath[pkgPath.length - 1];
         }
 
+        //If log in inner class, then class name contains '$', which cause IDE navigate file
+        // function not working.
+        int innerclassSymbolIndex = className.indexOf("$");
+        //is inner class
+        String innerClassName = null;
+        if (innerclassSymbolIndex!=-1){
+            //skip the first symbol
+            innerClassName = className.substring(innerclassSymbolIndex+1);
+            className = className.substring(0, innerclassSymbolIndex);
+        }
+
         String methodName = element.getMethodName();
         int lineNum = element.getLineNumber();
-        return String.format("[(%s.java:%s)#%s]", className, lineNum, methodName);
+
+        //concat inner classname in method string.
+        if (mConfig.isKeepInnerClass() && (!TextUtils.isEmpty(innerClassName))){
+            methodName = String.format("$%s#%s()", innerClassName, methodName);
+        }
+        else{
+            methodName = String.format("#%s()", methodName);
+        }
+
+        return String.format("[(%s.java:%s)%s]", className, lineNum, methodName);
     }
 
 }

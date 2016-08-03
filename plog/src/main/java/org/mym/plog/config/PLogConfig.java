@@ -18,6 +18,11 @@ public class PLogConfig {
     private String emptyMsg;
     private int emptyMsgLevel;
     private boolean keepLineNumber;
+    /**
+     * If this set to false, then inner class name would not be printed.
+     * @since 1.0.0
+     */
+    private boolean keepInnerClass;
     private Logger logger;
     private LogController controller;
 
@@ -41,6 +46,10 @@ public class PLogConfig {
         return keepLineNumber;
     }
 
+    public boolean isKeepInnerClass() {
+        return keepInnerClass;
+    }
+
     public Logger getLogger() {
         return logger;
     }
@@ -51,10 +60,11 @@ public class PLogConfig {
 
     private PLogConfig(Builder builder) {
         globalTag = builder.globalTag;
-        emptyMsgLevel = builder.emptyMsgLevel;
         forceConcatGlobalTag = builder.forceConcatGlobalTag;
         emptyMsg = builder.emptyMsg;
+        emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
+        keepInnerClass = builder.keepInnerClass;
         logger = builder.logger;
         controller = builder.controller;
     }
@@ -66,6 +76,7 @@ public class PLogConfig {
         private int emptyMsgLevel;
         private String emptyMsg;
         private boolean keepLineNumber;
+        private boolean keepInnerClass;
         private Logger logger;
         private LogController controller;
 
@@ -94,6 +105,11 @@ public class PLogConfig {
 
         public Builder keepLineNumber(boolean val) {
             keepLineNumber = val;
+            return this;
+        }
+
+        public Builder keepInnerClass(boolean val) {
+            keepInnerClass = val;
             return this;
         }
 

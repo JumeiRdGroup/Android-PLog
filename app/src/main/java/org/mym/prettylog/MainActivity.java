@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         PLog.init(new PLogConfig.Builder()
                 .globalTag("GlobalTag")
                 .forceConcatGlobalTag(true)
+                .keepInnerClass(true)
                 .keepLineNumber(true)
                 .build());
         PLog.empty();
@@ -35,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private class InnerClass{
         void innerLogTest(){
             PLog.i("This is a log in inner class.");
+            new NestedInnerClass().test();
+        }
+
+        class NestedInnerClass{
+            void test(){
+                PLog.i("This is a log in nested inner class.");
+            }
         }
     }
 }
