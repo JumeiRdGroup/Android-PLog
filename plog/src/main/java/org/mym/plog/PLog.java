@@ -10,7 +10,7 @@ import org.mym.plog.config.PLogConfig;
  * Entry class of log module, settings, and init configs are all here.
  *
  * <p>You don't need to create this class since it is only an utility class, for configs,
- * please use {@link #init(PLogConfig)}。 <br/>
+ * please use {@link #init(PLogConfig)}. <br>
  * Also, it is strongly recommended to create config instance using
  * {@link org.mym.plog.config.PLogConfig.Builder}, instead of directly call constructor.
  * </p>
