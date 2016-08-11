@@ -3,6 +3,8 @@ package org.mym.plog.config;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.mym.plog.PLog;
+
 /**
  * Class for config fields.
  *
@@ -10,9 +12,16 @@ import android.util.Log;
  * @since 1.0.0
  */
 public class PLogConfig {
+    // -------------- DEFAULT FIELDS BEGIN --------------
+    private static final int DEFAULT_EMPTY_MSG_LEVEL = Log.DEBUG;
+    private static final String DEFAULT_EMPTY_MSG = "Here executed.";
+    private static final String DEFAULT_GLOBAL_TAG = "GlobalTag";
+    // -------------- DEFAULT FIELDS  END  --------------
+
     private String globalTag;
     /**
-     * If this config is set to true, then all tag would be append after global tag.
+     * If this config is set to true, then all tags would be appended after global tag.
+     * @since 1.0.0
      */
     private boolean forceConcatGlobalTag;
     private String emptyMsg;
@@ -97,6 +106,14 @@ public class PLogConfig {
         controller = builder.controller;
     }
 
+    /**
+     * Same as {@code new PLogConfig.Builder()}.
+     */
+    @SuppressWarnings("unused")
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
@@ -108,44 +125,78 @@ public class PLogConfig {
         private Logger logger;
         private LogController controller;
 
+        /**
+         * Create a builder, you can also use static method {@link #newBuilder()}.
+         */
         public Builder() {
         }
 
+        /**
+         * Set global tag for all log, param must be not null.
+         */
         public Builder globalTag(String val) {
             globalTag = val;
             return this;
         }
 
+        /**
+         * If this sets to true, then all tags would be appended after global tag.
+         */
         public Builder forceConcatGlobalTag(boolean val) {
             forceConcatGlobalTag = val;
             return this;
         }
 
+        /**
+         * Set level for empty log. Default is {@value #DEFAULT_EMPTY_MSG_LEVEL}.
+         *
+         * @param val Must be one of
+         *            {@link Log#VERBOSE}, {@link Log#DEBUG}, {@link Log#INFO},
+         *            {@link Log#WARN}, {@link Log#ERROR}.
+         *            Otherwise this param is ignored.
+         */
         public Builder emptyMsgLevel(int val) {
             emptyMsgLevel = val;
             return this;
         }
 
+        /**
+         * Set default message for log printed by calling {@link PLog#empty()}.
+         * The default value is "{@value #DEFAULT_EMPTY_MSG}".
+         */
         public Builder emptyMsg(String val) {
             emptyMsg = val;
             return this;
         }
 
+        /**
+         * If this sets to true, the line number info would printed in log message.
+         */
         public Builder keepLineNumber(boolean val) {
             keepLineNumber = val;
             return this;
         }
 
+        /**
+         * If this sets to true and the log printed in an inner class, then this inner class name
+         * would also printed before method name.
+         */
         public Builder keepInnerClass(boolean val) {
             keepInnerClass = val;
             return this;
         }
 
+        /**
+         * Customize logger.
+         */
         public Builder logger(Logger val) {
             logger = val;
             return this;
         }
 
+        /**
+         * Customize log controller.
+         */
         public Builder controller(LogController val) {
             controller = val;
             return this;
@@ -154,15 +205,15 @@ public class PLogConfig {
         public PLogConfig build() {
             //check fields which can be unsafe
             if (emptyMsgLevel < Log.VERBOSE || emptyMsgLevel > Log.ASSERT) {
-                emptyMsgLevel = Log.DEBUG;
+                emptyMsgLevel = DEFAULT_EMPTY_MSG_LEVEL;
             }
 
             if (TextUtils.isEmpty(emptyMsg)) {
-                emptyMsg = "Here executed.";
+                emptyMsg = DEFAULT_EMPTY_MSG;
             }
 
             if (globalTag == null) {
-                globalTag = "GlobalTag";
+                globalTag = DEFAULT_GLOBAL_TAG;
             }
 
             if (logger == null) {
