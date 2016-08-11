@@ -23,9 +23,9 @@ public final class PLog {
     /**
      * 0 dalvik.system.VMStack.getThreadStackTrace(Native Method)       <br/>
      * 1 java.lang.Thread.getStackTrace(Thread.java:579)                <br/>
-     * 2 {@link #getLineNumAndMethodName()}                             <br/>
-     * 3 {@link #wrapLogStr(String, Object...)}                         <br/>
-     * 4 {@link #log(int, String, String, Object...)}                   <br/>
+     * 2 {@link #getLineNumAndMethodName(int)}                             <br/>
+     * 3 {@link #wrapLogStr(int, String, Object...)}                         <br/>
+     * 4 {@link #log(int, int, String, String, Object...)}                   <br/>
      * 5 v, d, i, w, e                                                  <br/>
      * 6 invoker
      */
@@ -55,43 +55,43 @@ public final class PLog {
     }
 
     public static void v(String msg, Object... params) {
-        log(Log.VERBOSE, null, msg, params);
+        log(Log.VERBOSE, 0, null, msg, params);
     }
 
     public static void v(String tag, String msg, Object... params) {
-        log(Log.VERBOSE, tag, msg, params);
+        log(Log.VERBOSE, 0, tag, msg, params);
     }
 
     public static void d(String msg, Object... params) {
-        log(Log.DEBUG, null, msg, params);
+        log(Log.DEBUG, 0, null, msg, params);
     }
 
     public static void d(String tag, String msg, Object... params) {
-        log(Log.DEBUG, tag, msg, params);
+        log(Log.DEBUG, 0, tag, msg, params);
     }
 
     public static void i(String msg, Object... params) {
-        log(Log.INFO, null, msg, params);
+        log(Log.INFO, 0, null, msg, params);
     }
 
     public static void i(String tag, String msg, Object... params) {
-        log(Log.INFO, tag, msg, params);
+        log(Log.INFO, 0, tag, msg, params);
     }
 
     public static void w(String msg, Object... params) {
-        log(Log.WARN, null, msg, params);
+        log(Log.WARN, 0, null, msg, params);
     }
 
     public static void w(String tag, String msg, Object... params) {
-        log(Log.WARN, tag, msg, params);
+        log(Log.WARN, 0, tag, msg, params);
     }
 
     public static void e(String msg, Object... params) {
-        log(Log.ERROR, null, msg, params);
+        log(Log.ERROR, 0, null, msg, params);
     }
 
     public static void e(String tag, String msg, Object... params) {
-        log(Log.ERROR, tag, msg, params);
+        log(Log.ERROR, 0, tag, msg, params);
     }
 
     /**
@@ -100,10 +100,31 @@ public final class PLog {
      */
     public static void empty() {
         int level = mConfig == null ? Log.DEBUG : mConfig.getEmptyMsgLevel();
-        log(level, null, null);
+        log(level, 0, null, null);
     }
 
-    private static void log(int level, String tag, String msg, Object... params) {
+    /**
+     * Use this method for skipping some middle methods, if necessary.
+     * <p><strong>Note: This method is often not recommend; v,d,i,w,e methods is enough for common
+     * use.</strong></p>
+     * @param level log level, MUST be one of
+     *              {@link Log#VERBOSE}, {@link Log#DEBUG}, {@link Log#INFO},
+     *              {@link Log#WARN}, {@link Log#ERROR}.
+     * @param stackOffset stack offset, often pass an non-negative integer, the default log is 0.
+     * @param tag log tag.
+     * @param msg log message.
+     * @param params log params, optional.
+     */
+    public static void logWithStackOffset(int level, int stackOffset, String tag, String msg,
+                                          Object... params){
+        //Just transfer to log() method, for keep same layer level with v,d,i,w,e methods.
+        log(level, stackOffset, tag, msg, params);
+    }
+
+    /**
+     * Core method : internal implementation.
+     */
+    private static void log(int level, int stackOffset, String tag, String msg, Object... params) {
         checkInitOrUseDefaultConfig();
 
         //When tag is empty, using global
@@ -117,7 +138,7 @@ public final class PLog {
 
         //If loggable, print it
         if (mConfig.getController().isLogEnabled(level, tag, msg)) {
-            String logContent = wrapLogStr(msg, params);
+            String logContent = wrapLogStr(stackOffset, msg, params);
             Logger logger = mConfig.getLogger();
             switch (level) {
                 case Log.VERBOSE:
@@ -145,10 +166,10 @@ public final class PLog {
         }
     }
 
-    private static String wrapLogStr(String msg, Object... params) {
+    private static String wrapLogStr(int stackOffset, String msg, Object... params) {
         String lineInfo = null;
         if (mConfig.isKeepLineNumber()) {
-            lineInfo = getLineNumAndMethodName();
+            lineInfo = getLineNumAndMethodName(stackOffset);
         }
         String content;
         if (TextUtils.isEmpty(msg)) {
@@ -162,12 +183,14 @@ public final class PLog {
         return content;
     }
 
-    private static String getLineNumAndMethodName() {
+    private static String getLineNumAndMethodName(int stackOffset) {
+        final int TARGET_STACK = STACK_TRACE_INDEX + stackOffset;
+
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        if (stackTrace == null || stackTrace.length < STACK_TRACE_INDEX) {
+        if (stackTrace == null || stackTrace.length < TARGET_STACK) {
             return null;
         }
-        StackTraceElement element = stackTrace[STACK_TRACE_INDEX];
+        StackTraceElement element = stackTrace[TARGET_STACK];
         String className = element.getClassName();
         //parse to simple name
         String pkgPath[] = className.split("\\.");
