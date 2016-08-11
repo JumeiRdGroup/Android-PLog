@@ -26,6 +26,34 @@ public class PLogConfig {
     private Logger logger;
     private LogController controller;
 
+    /**
+     * This method check whether a config is valid. This is very useful when importing new
+     * config items, and can prevent user's wrong usage.
+     * <p>If all condition check pass, then this method do nothing; otherwise it would throw a
+     * Runtime Exception.</p>
+     *
+     * @param config config object to detect
+     * @throws RuntimeException maybe any subclass of RuntimeException if any condition assert
+     *                          failed, though it usually be a {@link NullPointerException}.
+     */
+    public static void checkConfigSafe(PLogConfig config) throws RuntimeException {
+        if (config == null) {
+            throw new NullPointerException("Customized config cannot be null!");
+        }
+        if (config.getController() == null) {
+            throw new NullPointerException("Log controller cannot be null!");
+        }
+        if (config.getLogger() == null) {
+            throw new NullPointerException("Logger cannot be null!");
+        }
+        if (config.getEmptyMsg() == null) {
+            throw new NullPointerException("Empty msg cannot be null!");
+        }
+        if (config.getGlobalTag() == null) {
+            throw new NullPointerException("Global tag cannot be null!");
+        }
+    }
+
     public String getGlobalTag() {
         return globalTag;
     }
@@ -131,6 +159,10 @@ public class PLogConfig {
 
             if (TextUtils.isEmpty(emptyMsg)) {
                 emptyMsg = "Here executed.";
+            }
+
+            if (globalTag == null) {
+                globalTag = "GlobalTag";
             }
 
             if (logger == null) {

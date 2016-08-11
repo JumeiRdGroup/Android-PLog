@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         PLog.init(new PLogConfig.Builder()
-                .globalTag("GlobalTag")
+                .globalTag(null)
                 .forceConcatGlobalTag(true)
                 .keepInnerClass(true)
                 .keepLineNumber(true)

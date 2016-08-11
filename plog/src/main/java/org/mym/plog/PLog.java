@@ -9,6 +9,11 @@ import org.mym.plog.config.PLogConfig;
 /**
  * Entry class of log module, settings, and init configs are all here.
  *
+ * <p>You don't need to create this class since it is only an utility class, for configs,
+ * please use {@link #init(PLogConfig)}。 <br/>
+ * Also, it is strongly recommended to create config instance using
+ * {@link org.mym.plog.config.PLogConfig.Builder}, instead of directly call constructor.
+ * </p>
  * @author Muyangmin
  * @since 1.0.0
  */
@@ -28,8 +33,25 @@ public final class PLog {
 
     private static PLogConfig mConfig;
 
-    public static void init(PLogConfig config) {
+    //The constructor of this class is meaningless, so make it private
+    private PLog(){
+        //Empty
+    }
+
+    /**
+     * Check and set {@link #mConfig} field. this operation guarantee the reading of config for
+     * later operation is safe.
+     */
+    private static synchronized void safelySetConfig(PLogConfig config) throws RuntimeException {
+        PLogConfig.checkConfigSafe(config);
         mConfig = config;
+    }
+
+    /**
+     * Init PLog using customized config.
+     */
+    public static void init(PLogConfig config) {
+        safelySetConfig(config);
     }
 
     public static void v(String msg, Object... params) {
@@ -119,7 +141,7 @@ public final class PLog {
 
     private static void checkInitOrUseDefaultConfig() {
         if (mConfig == null) {
-            mConfig = new PLogConfig.Builder().build();
+            init(new PLogConfig.Builder().build());
         }
     }
 

@@ -7,9 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.MIN_SDK_VERSION as int
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
-        versionCode 1
-        versionName "1.0.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
