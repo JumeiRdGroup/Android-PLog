@@ -16,6 +16,9 @@ public class PLogConfig {
     private static final int DEFAULT_EMPTY_MSG_LEVEL = Log.DEBUG;
     private static final String DEFAULT_EMPTY_MSG = "Here executed.";
     private static final String DEFAULT_GLOBAL_TAG = "GlobalTag";
+    //In my test case, default logcat can display only 4048 characters per line, so we force
+    // print a new line when log is too long.
+    private static final int DEFAULT_MAX_LENGTH_PER_LINE = 4000;
     // -------------- DEFAULT FIELDS  END  --------------
 
     private String globalTag;
@@ -34,6 +37,11 @@ public class PLogConfig {
     private boolean keepInnerClass;
     private Logger logger;
     private LogController controller;
+    /**
+     * Max character count per line.
+     * @since 1.2.0
+     */
+    private int maxLengthPerLine;
 
     /**
      * This method check whether a config is valid. This is very useful when importing new
@@ -60,6 +68,9 @@ public class PLogConfig {
         }
         if (config.getGlobalTag() == null) {
             throw new NullPointerException("Global tag cannot be null!");
+        }
+        if (config.getMaxLengthPerLine() <= 0){
+            throw new IllegalArgumentException("Max length per line must be positive!");
         }
     }
 
@@ -95,7 +106,12 @@ public class PLogConfig {
         return controller;
     }
 
+    public int getMaxLengthPerLine() {
+        return maxLengthPerLine;
+    }
+
     private PLogConfig(Builder builder) {
+        controller = builder.controller;
         globalTag = builder.globalTag;
         forceConcatGlobalTag = builder.forceConcatGlobalTag;
         emptyMsg = builder.emptyMsg;
@@ -103,7 +119,7 @@ public class PLogConfig {
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
         logger = builder.logger;
-        controller = builder.controller;
+        maxLengthPerLine = builder.maxLengthPerLine;
     }
 
     /**
@@ -123,6 +139,7 @@ public class PLogConfig {
         private boolean keepLineNumber;
         private boolean keepInnerClass;
         private Logger logger;
+        private int maxLengthPerLine;
         private LogController controller;
 
         /**
@@ -195,6 +212,17 @@ public class PLogConfig {
         }
 
         /**
+         * Define a threshold value to tell logger to split log into multi lines when log length
+         * reaches this limitation.
+         * @param val any positive integer is now allowed. Default is {@value
+         * #DEFAULT_MAX_LENGTH_PER_LINE} (i.e. logcat max length) by test result.
+         */
+        public Builder maxLengthPerLine(int val) {
+            maxLengthPerLine = val;
+            return this;
+        }
+
+        /**
          * Customize log controller.
          */
         public Builder controller(LogController val) {
@@ -222,6 +250,12 @@ public class PLogConfig {
             if (controller == null) {
                 controller = new EasyLogController(true);
             }
+
+            //Assume all positive integers are acceptable
+            if (maxLengthPerLine <= 0) {
+                maxLengthPerLine = DEFAULT_MAX_LENGTH_PER_LINE;
+            }
+
             return new PLogConfig(this);
         }
     }

@@ -140,23 +140,42 @@ public final class PLog {
         if (mConfig.getController().isLogEnabled(level, tag, msg)) {
             String logContent = wrapLogStr(stackOffset, msg, params);
             Logger logger = mConfig.getLogger();
-            switch (level) {
-                case Log.VERBOSE:
-                    logger.v(tag, logContent);
-                    break;
-                case Log.DEBUG:
-                    logger.d(tag, logContent);
-                    break;
-                case Log.INFO:
-                    logger.i(tag, logContent);
-                    break;
-                case Log.WARN:
-                    logger.w(tag, logContent);
-                    break;
-                case Log.ERROR:
-                    logger.e(tag, logContent);
-                    break;
+
+            int maxLengthPerLine = mConfig.getMaxLengthPerLine();
+            int currentIndex = 0;
+            while (currentIndex < logContent.length()) {
+                //substring, if still over one line, preserve for next line
+                int currentLineLength = Math.min(mConfig.getMaxLengthPerLine(),
+                        logContent.length() - currentIndex);
+                String subLine = logContent.substring(currentIndex, currentIndex +
+                        currentLineLength);
+
+                //move cursor
+                currentIndex += currentLineLength;
+
+                //print CURRENT LINE
+                callLoggerPrint(level, tag, subLine, logger);
             }
+        }
+    }
+
+    private static void callLoggerPrint(int level, String tag, String logContent, Logger logger) {
+        switch (level) {
+            case Log.VERBOSE:
+                logger.v(tag, logContent);
+                break;
+            case Log.DEBUG:
+                logger.d(tag, logContent);
+                break;
+            case Log.INFO:
+                logger.i(tag, logContent);
+                break;
+            case Log.WARN:
+                logger.w(tag, logContent);
+                break;
+            case Log.ERROR:
+                logger.e(tag, logContent);
+                break;
         }
     }
 

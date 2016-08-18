@@ -17,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void localMeaningLessMethod(){
         PLog.empty();
+        StringBuilder sb = new StringBuilder("无限长字符串测试");
+        for (int i=0; i<100; i++){
+            sb.append("[").append(i).append("]");
+        }
+        PLog.d(sb.toString());
         PLog.logWithStackOffset(Log.INFO,
                 1,  //Skip this meaningless method
                 "MainActivity", "SampleMsg");
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 .forceConcatGlobalTag(true)
                 .keepInnerClass(true)
                 .keepLineNumber(true)
+                .maxLengthPerLine(160)
                 .build());
         localMeaningLessMethod();
 
