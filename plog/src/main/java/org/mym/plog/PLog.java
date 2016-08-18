@@ -122,6 +122,24 @@ public final class PLog {
     }
 
     /**
+     * A helper method useful when you just want to print objects using default format.
+     * The log level for this method is defined as {@link Log#INFO}.
+     * @param params objects to print.
+     */
+    public static void objects(Object... params){
+        log(Log.INFO, 0, null, null, params);
+    }
+
+    /**
+     * A helper method useful when you just want to print objects using default format.
+     * @param level log level.
+     * @param params objects to print.
+     */
+    public static void objects(int level, Object... params){
+        log(level, 0, null, null, params);
+    }
+
+    /**
      * Core method : internal implementation.
      */
     private static void log(int level, int stackOffset, String tag, String msg, Object... params) {
@@ -191,10 +209,29 @@ public final class PLog {
             lineInfo = getLineNumAndMethodName(stackOffset);
         }
         String content;
-        if (TextUtils.isEmpty(msg)) {
+        //Both msg and params is empty, using empty msg
+        if (TextUtils.isEmpty(msg) && (params == null || params.length == 0)) {
             content = mConfig.getEmptyMsg();
         } else {
-            content = String.format(msg, params);
+            //if msg is specified, use default format
+            if (!TextUtils.isEmpty(msg)) {
+                content = String.format(msg, params);
+            } else {
+                //No msg but objects, using concat mode
+                StringBuilder sb = new StringBuilder();
+                if (params.length > 1) {
+                    sb.append("\n");
+                }
+                for (int i = 0; i < params.length; i++) {
+                    sb.append("param[")
+                            .append(i)
+                            .append("]=")
+                            .append(params[i].toString())
+                            .append("\n")
+                    ;
+                }
+                content = sb.toString();
+            }
         }
         if (!TextUtils.isEmpty(lineInfo)) {
             content = lineInfo + content;

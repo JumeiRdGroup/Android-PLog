@@ -7,6 +7,9 @@ import android.util.Log;
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -48,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
         new InnerClass().innerLogTest();
+
+        PLog.d(null, (Object)"RxJava", "RxAndroid", "RxBinding", "RxBus");
+        //This is equivalent to above line
+        PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
+
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, "UniversalImageLoader", "Picasso", "Glide", "Fresco");
+        PLog.d("", list);
     }
 
     private class InnerClass{
