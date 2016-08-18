@@ -27,6 +27,11 @@ public class PLogConfig {
      * @since 1.0.0
      */
     private boolean forceConcatGlobalTag;
+    /**
+     * If set to true, then use class name as tag. The concat global tag config is still valid.
+     * @since 1.2.0
+     */
+    private boolean useAutoTag;
     private String emptyMsg;
     private int emptyMsgLevel;
     private boolean keepLineNumber;
@@ -110,15 +115,20 @@ public class PLogConfig {
         return maxLengthPerLine;
     }
 
+    public boolean isUseAutoTag() {
+        return useAutoTag;
+    }
+
     private PLogConfig(Builder builder) {
-        controller = builder.controller;
         globalTag = builder.globalTag;
         forceConcatGlobalTag = builder.forceConcatGlobalTag;
+        useAutoTag = builder.useAutoTag;
         emptyMsg = builder.emptyMsg;
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
         logger = builder.logger;
+        controller = builder.controller;
         maxLengthPerLine = builder.maxLengthPerLine;
     }
 
@@ -134,6 +144,7 @@ public class PLogConfig {
     public static final class Builder {
         private String globalTag;
         private boolean forceConcatGlobalTag;
+        private boolean useAutoTag;
         private int emptyMsgLevel;
         private String emptyMsg;
         private boolean keepLineNumber;
@@ -161,6 +172,15 @@ public class PLogConfig {
          */
         public Builder forceConcatGlobalTag(boolean val) {
             forceConcatGlobalTag = val;
+            return this;
+        }
+
+        /**
+         * If set to true, then use class name as tag. The concat global tag config is still valid.
+         * @since 1.2.0
+         */
+        public Builder useAutoTag(boolean val) {
+            useAutoTag = val;
             return this;
         }
 
@@ -214,8 +234,10 @@ public class PLogConfig {
         /**
          * Define a threshold value to tell logger to split log into multi lines when log length
          * reaches this limitation.
+         *
          * @param val any positive integer is now allowed. Default is {@value
-         * #DEFAULT_MAX_LENGTH_PER_LINE} (i.e. logcat max length) by test result.
+         *            #DEFAULT_MAX_LENGTH_PER_LINE} (i.e. logcat max length) by test result.
+         * @since 1.2.0
          */
         public Builder maxLengthPerLine(int val) {
             maxLengthPerLine = val;

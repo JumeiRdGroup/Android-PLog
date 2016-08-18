@@ -145,13 +145,17 @@ public final class PLog {
     private static void log(int level, int stackOffset, String tag, String msg, Object... params) {
         checkInitOrUseDefaultConfig();
 
-        //When tag is empty, using global
-        if (TextUtils.isEmpty(tag)) {
-            tag = mConfig.getGlobalTag();
+        //Checking for auto tag
+        if (TextUtils.isEmpty(tag) && mConfig.isUseAutoTag()) {
+            tag = getAutoTag(stackOffset);
         }
         //Only concat when tag is not empty and config is specified to true
-        else if (mConfig.isForceConcatGlobalTag()){
+        if ((!TextUtils.isEmpty(tag)) && mConfig.isForceConcatGlobalTag()) {
             tag = mConfig.getGlobalTag() + "-" + tag;
+        }
+        //If still empty, using global
+        else if (TextUtils.isEmpty(tag)) {
+            tag = mConfig.getGlobalTag();
         }
 
         //If loggable, print it
@@ -175,6 +179,37 @@ public final class PLog {
                 callLoggerPrint(level, tag, subLine, logger);
             }
         }
+    }
+
+    // Get class name for tag.
+    //
+    // Note: This implementation is quite similar to #getLineNumAndMethodName, but different:
+    // * stack level less 1 than #getLineNumAndMethodName
+    // * inner class name using only last inner class (if present)
+    // * if inner class unavailable, use full class name
+    private static String getAutoTag(int stackOffset) {
+        final int TARGET_STACK = STACK_TRACE_INDEX + stackOffset - 1;
+
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        if (stackTrace == null || stackTrace.length < TARGET_STACK) {
+            return null;
+        }
+        StackTraceElement element = stackTrace[TARGET_STACK];
+        String className = element.getClassName();
+        //parse to simple name
+        String pkgPath[] = className.split("\\.");
+        if (pkgPath.length > 0) {
+            className = pkgPath[pkgPath.length - 1];
+        }
+        int innerclassSymbolIndex = className.lastIndexOf("$");
+        //is inner class
+        String innerClassName = null;
+        if (innerclassSymbolIndex != -1) {
+            //skip the first symbol
+            innerClassName = className.substring(innerclassSymbolIndex + 1);
+        }
+
+        return TextUtils.isEmpty(innerClassName) ? className : innerClassName;
     }
 
     private static void callLoggerPrint(int level, String tag, String logContent, Logger logger) {
