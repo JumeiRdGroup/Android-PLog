@@ -34,15 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        PLog.init(new PLogConfig.Builder()
-                .globalTag(null)
-//                .emptyMsgLevel(Log.INFO)
-//                .forceConcatGlobalTag(true)
-                .keepInnerClass(true)
-                .keepLineNumber(true)
-                .useAutoTag(true)
-                .maxLengthPerLine(160)
-                .build());
         localMeaningLessMethod();
 
         PLog.empty();
