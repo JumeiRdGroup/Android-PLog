@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">PrettyLog</string>
+    <string name="plog_description"><![CDATA[
+    <h2>Welcome to use PLog!<h2>
+    <p>
+    This is a powerful, light-weight and active developed library. <br/>
+    Any contribution or material bonus are appreciated and welcome.
+    </p>
+    Basic and common usages are shown below. For more details, please checkout from GitHub or see Wiki.
+    ]]></string>
+
+    <string name="btn_basic_log">Basic usage</string>
+    <string name="btn_log_empty">Log without message</string>
+    <string name="btn_log_without_tag">Log without tag</string>
+    <string name="btn_log_long">Very long log</string>
+    <string name="btn_log_objects">Log any given objects</string>
+    <string name="btn_auto_tag">Use auto tag</string>
+    <string name="btn_tag_anonymous">Auto tag in anonymous class</string>
+    <string name="btn_tag_nested">Nested class and anonymous class</string>
+    <string name="btn_customize_logger">Use customized logger</string>
+    <string name="btn_stack_offset">Log with stack offset(Not recommended)</string>
+
+    <string name="console_emulated_log"><![CDATA[
+    The New Teacher\n
+    George comes from school on the first of September.\n
+    "George, how did you like your new teacher?" asked his mother.\n
+    "I didn't like her, Mother, because she said that three and three were six and then she said that two and four were six too…"\n \n
+
+    TOM\'S EXCUSE\n
+    Teacher: Tom, why are you late for school every day?\n
+    Tom: Every time I come to the corner, a sign says, "School-Go Slow".
+    ]]></string>
+    <string name="console_close_tip">Tap console TextView to backup logger.</string>
 </resources>

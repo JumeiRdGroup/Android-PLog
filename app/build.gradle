@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION as int
@@ -23,5 +24,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${rootProject.ext.APPCOMPAT_V7_VERSION as String}"
+    compile "com.jakewharton:butterknife:${rootProject.ext.BUTTERKNIFE_VERSION as String}"
+    apt "com.jakewharton:butterknife-compiler:${rootProject.ext.BUTTERKNIFE_VERSION as String}"
     compile project(':plog')
 }

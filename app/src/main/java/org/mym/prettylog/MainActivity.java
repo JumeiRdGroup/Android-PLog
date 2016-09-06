@@ -2,91 +2,225 @@ package org.mym.prettylog;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.mym.plog.PLog;
+import org.mym.plog.config.PLogConfig;
+import org.mym.plog.util.SinglePipeLogger;
 import org.mym.prettylog.data.User;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.main_tv_virtual_console)
+    TextView mTvConsole;
+    private TextViewLogger mTextViewLogger = new TextViewLogger();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    private void localMeaningLessMethod(){
-        PLog.empty();
-        StringBuilder sb = new StringBuilder("无限长字符串测试");
-        for (int i=0; i<100; i++){
-            sb.append("[").append(i).append("]");
-        }
-        PLog.d(sb.toString());
-        PLog.logWithStackOffset(Log.INFO,
-                1,  //Skip this meaningless method
-                "MainActivity", "SampleMsg");
+        ButterKnife.bind(this);
+        TextView tvDescription = ButterKnife.findById(this, R.id.main_tv_description);
+        //noinspection deprecation
+        tvDescription.setText(Html.fromHtml(getString(R.string.plog_description)));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mTextViewLogger.attach(mTvConsole);
+    }
 
-        localMeaningLessMethod();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTextViewLogger.detach();
+    }
 
-        PLog.empty();
+    @OnClick(R.id.btn_basic_usage)
+    void basicUsage() {
         PLog.v("This is a verbose log.");
         PLog.d("DebugTag", "This is a debug log.");
         PLog.i("InfoTag", "This is an info log.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
-        new InnerClass().innerLogTest();
+    }
 
+    @OnClick(R.id.btn_log_empty)
+    void logEmpty() {
+        PLog.empty();
+    }
+
+    @OnClick(R.id.btn_log_without_tag)
+    void logWithoutTag() {
+        PLog.i("I'm printing log without tag. Please check autoTag option.");
+    }
+
+    @OnClick(R.id.btn_log_long)
+    void logVeryLong() {
+        StringBuilder sb = new StringBuilder("无限长字符串测试");
+        for (int i = 0; i < 100; i++) {
+            sb.append("[").append(i).append("]");
+        }
+        PLog.d(sb.toString());
+    }
+
+    @OnClick(R.id.btn_log_objects)
+    void logObjects() {
+        /**
+         * User class is a data class without toString() method overridden.
+         */
         User normalObject = new User("PLog", " is ", " pretty.", 8888);
         PLog.objects(normalObject);
 
-        findViewById(R.id.main_tv_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PLog.i("This is a log in anonymous class.");
-                new ClassHasNameInAnonymous().call();
-            }
-
-            class ClassHasNameInAnonymous {
-                public void call(){
-                    PLog.i("This is a log in named class in anonymous class");
-                    new View.OnClickListener(){
-                        @Override
-                        public void onClick(View view) {
-                            PLog.i("This is a log in anonymous.named.anonymous");
-                        }
-                    }.onClick(null);
-                }
-            }
-        });
-
-        PLog.d(null, (Object)"RxJava", "RxAndroid", "RxBinding", "RxBus");
+        /**
+         * Log multi objects.
+         */
+        PLog.d(null, (Object) "RxJava", "RxAndroid", "RxBinding", "RxBus");
         //This is equivalent to above line
         PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
-
-        ArrayList<String> list = new ArrayList<>();
-        Collections.addAll(list, "UniversalImageLoader", "Picasso", "Glide", "Fresco");
-        PLog.d("", list);
     }
 
-    private class InnerClass{
-        void innerLogTest(){
-            PLog.i("This is a log in inner class.");
-            new NestedInnerClass().test();
+    @OnClick(R.id.btn_auto_tag)
+    void logWithAutoTag() {
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder(backup)
+                .useAutoTag(true)
+                .build());
+        PLog.empty();
+
+        PLog.init(backup);
+    }
+
+    @OnClick(R.id.btn_tag_anonymous)
+    void logInAnonymousClass() {
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder(backup)
+                .useAutoTag(true)
+                .build());
+        new Action0() {
+            @Override
+            public void call() {
+                PLog.i("This is a log in anonymous class.");
+            }
+        }.call();
+
+        PLog.init(backup);
+    }
+
+    @OnClick(R.id.btn_tag_nested)
+    void logInNestedClass() {
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder(backup)
+                .useAutoTag(true)
+                .build());
+
+        new Action0() {
+            @Override
+            public void call() {
+                new NamedNestedClass().call();
+            }
+
+            class NamedNestedClass implements Action0 {
+                @Override
+                public void call() {
+                    PLog.i("This is a log in nested class in anonymous class.");
+                }
+            }
+        }.call();
+
+        PLog.init(backup);
+    }
+
+    @OnClick(R.id.btn_customize_logger)
+    void logWithCustomizeLogger() {
+        final PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder(backup)
+                .useAutoTag(true)
+                .keepLineNumber(false)
+                .keepInnerClass(false)
+                .maxLengthPerLine(64)
+                .logger(mTextViewLogger)
+                .build());
+        mTextViewLogger.clear();
+        mTvConsole.setVisibility(View.VISIBLE);
+
+        String story = getString(R.string.console_emulated_log);
+        String[] pieces = story.split("\n");
+        int delay = 0;
+        for (final String line : pieces){
+            mTvConsole.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    PLog.i(line);
+                }
+            }, delay);
+            delay += 500;
         }
 
-        class NestedInnerClass{
-            void test(){
-                PLog.i("This is a log in nested inner class.");
+        Toast.makeText(this, R.string.console_close_tip, Toast.LENGTH_SHORT).show();
+        mTvConsole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTvConsole.setVisibility(View.INVISIBLE);
+                PLog.init(backup);
+                PLog.i("Customized logger has been disabled, and now backup to default.");
             }
+        });
+    }
+
+    @OnClick(R.id.btn_stack_offset)
+    void logStackOffset() {
+        methodToBeIgnored();
+    }
+
+    void methodToBeIgnored() {
+        //Normal call
+        PLog.empty();
+        //With Stack offset
+        PLog.logWithStackOffset(Log.INFO, 1, getClass().getSimpleName(), "This is a log testing " +
+                "stack offset.");
+    }
+
+    protected interface Action0 {
+        @SuppressWarnings("unused")
+        void call();
+    }
+
+    public static class TextViewLogger extends SinglePipeLogger {
+
+        private TextView mTextView;
+
+        @Override
+        protected void log(int level, String tag, String msg) {
+            if (mTextView != null) {
+                mTextView.append(msg);
+                mTextView.append("\n");
+            }
+        }
+
+        public void clear() {
+            mTextView.setText("");
+        }
+
+        public void attach(TextView textView) {
+            mTextView = textView;
+        }
+
+        public void detach() {
+            mTextView = null;
         }
     }
 }

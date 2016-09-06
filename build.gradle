@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,9 +25,10 @@ ext {
     MIN_SDK_VERSION = 14
     TARGET_SDK_VERSION = 24
     COMPILE_SDK_VERSION = 24
-    BUILD_TOOLS_VERSION = "24.0.1"
-    SUPPORT_V4_VERSION = "24.1.1"
-    APPCOMPAT_V7_VERSION = "24.1.1"
+    BUILD_TOOLS_VERSION = "24.0.2"
+    SUPPORT_V4_VERSION = "24.2.0"
+    APPCOMPAT_V7_VERSION = "24.2.0"
+    BUTTERKNIFE_VERSION = "8.4.0"
 }
 
 task clean(type: Delete) {
