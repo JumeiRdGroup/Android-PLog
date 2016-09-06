@@ -48,6 +48,19 @@ public class PLogConfig {
      */
     private int maxLengthPerLine;
 
+    private PLogConfig(Builder builder) {
+        globalTag = builder.globalTag;
+        forceConcatGlobalTag = builder.forceConcatGlobalTag;
+        useAutoTag = builder.useAutoTag;
+        emptyMsg = builder.emptyMsg;
+        emptyMsgLevel = builder.emptyMsgLevel;
+        keepLineNumber = builder.keepLineNumber;
+        keepInnerClass = builder.keepInnerClass;
+        logger = builder.logger;
+        controller = builder.controller;
+        maxLengthPerLine = builder.maxLengthPerLine;
+    }
+
     /**
      * This method check whether a config is valid. This is very useful when importing new
      * config items, and can prevent user's wrong usage.
@@ -77,6 +90,22 @@ public class PLogConfig {
         if (config.getMaxLengthPerLine() <= 0){
             throw new IllegalArgumentException("Max length per line must be positive!");
         }
+    }
+
+    /**
+     * @see Builder#Builder()
+     */
+    @SuppressWarnings("unused")
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    /**
+     * @see Builder#Builder(PLogConfig)
+     */
+    @SuppressWarnings("unused")
+    public static Builder newBuilder(PLogConfig copy) {
+        return new Builder(copy);
     }
 
     public String getGlobalTag() {
@@ -119,27 +148,6 @@ public class PLogConfig {
         return useAutoTag;
     }
 
-    private PLogConfig(Builder builder) {
-        globalTag = builder.globalTag;
-        forceConcatGlobalTag = builder.forceConcatGlobalTag;
-        useAutoTag = builder.useAutoTag;
-        emptyMsg = builder.emptyMsg;
-        emptyMsgLevel = builder.emptyMsgLevel;
-        keepLineNumber = builder.keepLineNumber;
-        keepInnerClass = builder.keepInnerClass;
-        logger = builder.logger;
-        controller = builder.controller;
-        maxLengthPerLine = builder.maxLengthPerLine;
-    }
-
-    /**
-     * Same as {@code new PLogConfig.Builder()}.
-     */
-    @SuppressWarnings("unused")
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
@@ -157,6 +165,19 @@ public class PLogConfig {
          * Create a builder, you can also use static method {@link #newBuilder()}.
          */
         public Builder() {
+        }
+
+        public Builder(PLogConfig copy) {
+            this.controller = copy.controller;
+            this.globalTag = copy.globalTag;
+            this.forceConcatGlobalTag = copy.forceConcatGlobalTag;
+            this.useAutoTag = copy.useAutoTag;
+            this.emptyMsg = copy.emptyMsg;
+            this.emptyMsgLevel = copy.emptyMsgLevel;
+            this.keepLineNumber = copy.keepLineNumber;
+            this.keepInnerClass = copy.keepInnerClass;
+            this.logger = copy.logger;
+            this.maxLengthPerLine = copy.maxLengthPerLine;
         }
 
         /**
