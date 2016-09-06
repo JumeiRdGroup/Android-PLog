@@ -22,7 +22,7 @@ public class PLogApplication extends Application {
         PLog.init(new PLogConfig.Builder()
                 .globalTag(null)
 //                .emptyMsgLevel(Log.INFO)
-//                .forceConcatGlobalTag(true)
+                .forceConcatGlobalTag(true)
                 .keepInnerClass(true)
                 .keepLineNumber(true)
                 .useAutoTag(true)

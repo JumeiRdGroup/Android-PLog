@@ -11,6 +11,7 @@
     tools:context="org.mym.prettylog.MainActivity">
 
     <TextView
+        android:id="@+id/main_tv_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>

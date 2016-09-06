@@ -3,9 +3,11 @@ package org.mym.prettylog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
+import org.mym.prettylog.data.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
         new InnerClass().innerLogTest();
+
+        User normalObject = new User("PLog", " is ", " pretty.", 8888);
+        PLog.objects(normalObject);
+
+        findViewById(R.id.main_tv_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PLog.i("This is a log in anonymous class.");
+            }
+        });
 
         PLog.d(null, (Object)"RxJava", "RxAndroid", "RxBinding", "RxBus");
         //This is equivalent to above line
