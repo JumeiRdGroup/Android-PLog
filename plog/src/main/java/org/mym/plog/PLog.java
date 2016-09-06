@@ -55,6 +55,18 @@ public final class PLog {
         safelySetConfig(config);
     }
 
+    /**
+     * Get current config; maybe this is useful for temporarily change config and backup then.
+     * Another scenario is to debug this library.
+     * @return Current config; or default config if {@link #init(PLogConfig)} is not called yet.
+     * @see #init(PLogConfig)
+     * @since 1.3.0
+     */
+    public static PLogConfig getCurrentConfig(){
+        checkInitOrUseDefaultConfig();
+        return mConfig;
+    }
+
     public static void v(String msg, Object... params) {
         log(Log.VERBOSE, 0, null, msg, params);
     }
