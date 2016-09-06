@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.mym.plog.config.Logger;
 import org.mym.plog.config.PLogConfig;
+import org.mym.plog.util.ObjectUtil;
 
 /**
  * Entry class of log module, settings, and init configs are all here.
@@ -261,7 +262,7 @@ public final class PLog {
                     sb.append("param[")
                             .append(i)
                             .append("]=")
-                            .append(params[i].toString())
+                            .append(ObjectUtil.objectToString(params[i]))
                             .append("\n")
                     ;
                 }
