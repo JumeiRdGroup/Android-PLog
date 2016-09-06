@@ -291,7 +291,7 @@ public class PLogConfig {
                 logger = new DefaultLogger();
             }
             if (controller == null) {
-                controller = new EasyLogController(true);
+                controller = new EasyLogController(true, true);
             }
 
             //Assume all positive integers are acceptable

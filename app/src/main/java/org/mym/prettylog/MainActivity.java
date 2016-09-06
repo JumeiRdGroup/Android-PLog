@@ -13,6 +13,8 @@ import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.SinglePipeLogger;
 import org.mym.prettylog.data.User;
 
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -87,6 +89,29 @@ public class MainActivity extends AppCompatActivity {
         PLog.d(null, (Object) "RxJava", "RxAndroid", "RxBinding", "RxBus");
         //This is equivalent to above line
         PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
+    }
+
+    @OnClick(R.id.btn_timing_logger)
+    void logTiming(){
+        PLog.resetTimingLogger();
+        PLog.addTimingSplit("Timing operation STARTED");
+
+        emulateTimeOperation();
+        PLog.addTimingSplit("Operation Step 1");
+
+        emulateTimeOperation();
+        PLog.addTimingSplit("Operation Step 2");
+
+        PLog.dumpTimingToLog();
+    }
+
+    private void emulateTimeOperation(){
+        Random random = new Random();
+        try{
+            Thread.sleep(random.nextInt(200));
+        }catch (InterruptedException ignored){
+
+        }
     }
 
     @OnClick(R.id.btn_auto_tag)

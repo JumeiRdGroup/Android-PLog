@@ -6,6 +6,7 @@ import android.util.Log;
 import org.mym.plog.config.Logger;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.ObjectUtil;
+import org.mym.plog.util.TimingLogger;
 
 /**
  * Entry class of log module, settings, and init configs are all here.
@@ -33,6 +34,7 @@ public final class PLog {
     private static final int STACK_TRACE_INDEX = 6;
 
     private static PLogConfig mConfig;
+    private static TimingLogger mTimingLogger;
 
     //The constructor of this class is meaningless, so make it private
     private PLog(){
@@ -65,6 +67,46 @@ public final class PLog {
     public static PLogConfig getCurrentConfig(){
         checkInitOrUseDefaultConfig();
         return mConfig;
+    }
+
+    /**
+     * Add timing split, the meaning of this operation is same as standard TimingLogger.
+     */
+    public static void addTimingSplit(String splitLabel) {
+        mTimingLogger.addSplit(splitLabel);
+    }
+
+    /**
+     * Dump timing log using current logger.
+     */
+    public static void dumpTimingToLog() {
+        mTimingLogger.dumpToLog();
+    }
+
+    /**
+     * Reset timing logger. A creation maybe needed if never called timing fucntion.
+     *
+     * @see android.util.TimingLogger
+     */
+    public static void resetTimingLogger(String tag, String label) {
+        if (mTimingLogger == null) {
+            mTimingLogger = createDefaultTimingLogger();
+        }
+        mTimingLogger.reset(tag, label);
+    }
+
+    /**
+     * Reset timing logger.
+     */
+    public static void resetTimingLogger() {
+        if (mTimingLogger == null) {
+            mTimingLogger = createDefaultTimingLogger();
+        }
+        mTimingLogger.reset();
+    }
+
+    private static TimingLogger createDefaultTimingLogger() {
+        return new TimingLogger("PLogTiming", "TimingLabel");
     }
 
     public static void v(String msg, Object... params) {

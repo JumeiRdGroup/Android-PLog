@@ -20,4 +20,10 @@ public interface LogController {
      * @see android.util.Log#ERROR
      */
     boolean isLogEnabled(int level, String tag, String msg);
+
+    /**
+     * Indicate whether allow dump timing log.
+     * @see org.mym.plog.util.TimingLogger
+     */
+    boolean isTimingLogEnabled();
 }
