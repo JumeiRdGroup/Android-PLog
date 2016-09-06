@@ -202,12 +202,36 @@ public final class PLog {
         if (pkgPath.length > 0) {
             className = pkgPath[pkgPath.length - 1];
         }
-        int innerclassSymbolIndex = className.lastIndexOf("$");
-        //is inner class
-        String innerClassName = null;
-        if (innerclassSymbolIndex != -1) {
-            //skip the first symbol
-            innerClassName = className.substring(innerclassSymbolIndex + 1);
+
+        //IMPORTANT:
+        // 因为Java语法允许在匿名类中继续包含具名的子类,因此必须逆序遍历,但是lastIndex方法没有endIndex参数。
+        // 所以只能反向遍历, 每次截取最后一段执行subString, 如果全是数字,则继续往前遍历。
+        // Since nested inner class in anonymous is allowed, here we must do reversal traverse
+        // for the string.
+        StringBuilder sbInnerClass = new StringBuilder();
+        int index;
+        String strLoop = className;
+        while ((index = strLoop.lastIndexOf("$")) != -1) {
+            String piece = strLoop.substring(index + 1); //skip dollar
+            sbInnerClass.insert(0, piece);
+            //Careful: if only judge 0-9, then A$1$2$3 case would get unexpected answer 2$3.
+            if (!piece.matches("[0-9$]+")) {
+                break;
+            }
+            //still anonymous class, continue loop
+            sbInnerClass.insert(0, "$");
+            //truncate last piece
+            strLoop = strLoop.substring(0, index);
+        }
+        //delete first leading dollar
+        if (sbInnerClass.length() > 0 && sbInnerClass.charAt(0) == '$') {
+            sbInnerClass.deleteCharAt(0);
+        }
+        String innerClassName = sbInnerClass.toString();
+        //This happens on class like MainActivity$1.
+        if (TextUtils.isDigitsOnly(innerClassName)) {
+            //Reset; use full name instead.
+            innerClassName = null;
         }
 
         return TextUtils.isEmpty(innerClassName) ? className : innerClassName;

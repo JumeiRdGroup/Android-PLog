@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 
 import org.mym.plog.PLog;
-import org.mym.plog.config.PLogConfig;
 import org.mym.prettylog.data.User;
 
 import java.util.ArrayList;
@@ -53,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PLog.i("This is a log in anonymous class.");
+                new ClassHasNameInAnonymous().call();
+            }
+
+            class ClassHasNameInAnonymous {
+                public void call(){
+                    PLog.i("This is a log in named class in anonymous class");
+                    new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view) {
+                            PLog.i("This is a log in anonymous.named.anonymous");
+                        }
+                    }.onClick(null);
+                }
             }
         });
 
