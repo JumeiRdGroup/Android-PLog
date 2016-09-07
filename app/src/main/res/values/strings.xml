@@ -14,6 +14,7 @@
     <string name="btn_log_without_tag">Log without tag</string>
     <string name="btn_log_long">Very long log</string>
     <string name="btn_log_objects">Log any given objects</string>
+    <string name="btn_log_throwable">Log a Throwable</string>
     <string name="btn_timing_logger">Timing logger</string>
     <string name="btn_auto_tag">Use auto tag</string>
     <string name="btn_tag_anonymous">Auto tag in anonymous class</string>

@@ -51,6 +51,11 @@
                 android:text="@string/btn_log_objects"/>
 
             <Button
+                android:id="@+id/btn_log_throwable"
+                style="@style/DemoButton"
+                android:text="@string/btn_log_throwable"/>
+
+            <Button
                 android:id="@+id/btn_timing_logger"
                 style="@style/DemoButton"
                 android:text="@string/btn_timing_logger"/>
