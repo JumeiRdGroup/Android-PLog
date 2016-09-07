@@ -220,6 +220,10 @@ public final class PLog {
 
             int maxLengthPerLine = mConfig.getMaxLengthPerLine();
             int currentIndex = 0;
+
+            //Use a StringBuilder to build multi line text but print only once, solve #6
+            StringBuilder sb = new StringBuilder(logContent.length()
+                    + logContent.length() / maxLengthPerLine); //plus \n symbol
             while (currentIndex < logContent.length()) {
                 //substring, if still over one line, preserve for next line
                 int currentLineLength = Math.min(mConfig.getMaxLengthPerLine(),
@@ -230,9 +234,10 @@ public final class PLog {
                 //move cursor
                 currentIndex += currentLineLength;
 
-                //print CURRENT LINE
-                callLoggerPrint(level, tag, subLine, logger);
+                //Not print yet, only append.
+                sb.append(subLine).append("\n");
             }
+            callLoggerPrint(level, tag, sb.toString(), logger);
         }
     }
 
