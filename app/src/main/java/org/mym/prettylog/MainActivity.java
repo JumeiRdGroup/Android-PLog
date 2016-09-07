@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_log_throwable)
     void logThrowable(){
         NullPointerException e = new NullPointerException("This is a sample exception!");
-        //Show normal print
-        PLog.objects(e);
         PLog.w("PLog can log exceptions in all levels, WARN and ERROR is recommended.", e);
     }
 
