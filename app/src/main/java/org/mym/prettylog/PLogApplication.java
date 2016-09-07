@@ -12,7 +12,7 @@ import org.mym.plog.config.PLogConfig;
  * Created by muyangmin on 9/1/16.
  *
  * @author muyangmin
- * @since V3.94
+ * @since V1.3.0
  */
 public class PLogApplication extends Application {
     @Override
@@ -20,7 +20,6 @@ public class PLogApplication extends Application {
         super.onCreate();
 
         PLog.init(new PLogConfig.Builder()
-                .globalTag(null)
 //                .emptyMsgLevel(Log.INFO)
                 .forceConcatGlobalTag(true)
                 .keepInnerClass(true)
