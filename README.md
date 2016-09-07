@@ -1,61 +1,28 @@
 #PLog  [ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)
 
-这个项目的灵感部分来源于开源项目[Logger](https://github.com/orhanobut/logger)和[KLog](https://github.com/ZhaoKaiQiang/KLog)。  
+这个项目的部分灵感来源于开源项目[Logger](https://github.com/orhanobut/logger)和[KLog](https://github.com/ZhaoKaiQiang/KLog)。
 但区别于前述两个项目，PLog的设计理念是**实用性**：回归Log本身，在保持强大功能的同时取消花哨的修饰，特别是行分割线和花边等功能。
 
 PLog追求极简，因此也在尽量避免冗余，目前还是**零依赖**状态。
 
 PLog在设计的时候还充分考虑实际项目中对功能的需求，提供丰富的设置项可供定制而无需修改库本身的实现。通过使用`Builder`模式，使用者无需任何设置也可以工作，在需要定制时也只用关心自己要修改的设置项即可。
 
-## Basic Usage
-1.Import via gradle:  
-```Groovy
-    compile 'org.mym.plog:android-plog:1.2.0'
-```
-2.Initialize PLog before any log**(Optional)**.
-  Typical usage:
-```Java
-        PLog.init(PLogConfig.newBuilder()
-                .useAutoTag(true)
-                .keepInnerClass(true)
-                .keepLineNumber(true)
-                .maxLengthPerLine(180)
-                .build());
-```  
-All settings are **optional**, and here just show a few part of options.Please see doc for 
-advanced usage.  
-3.Use `PLog` class to print log, via `v()`, `d()`, `i()` method, and so on. Sample:  
-```Java
-        PLog.empty();
-        PLog.v("This is a verbose log.");
-        PLog.d("DebugTag", "This is a debug log.");
-        PLog.i("InfoTag", "This is an info log.");
-        PLog.w("This is a warn log.");
-        PLog.e("This is an error log.");
-```
-
-For full change logs, please see [ChangeLog](./CHANGELOG.md) and/or [Releases](https://github
-.com/Muyangmin/Android-PLog/releases).
+请参阅[Wiki](https://github.com/Muyangmin/Android-PLog/wiki)以获取使用说明和高级特性, 欢迎完善Wiki、改进排版等。
 
 ## 功能特点
-* 支持JCenter依赖
-* 支持空消息打印（通常用于观察某处是否执行）
-* 支持变长参数和自动格式化，从此不用手动拼接参数
-* 支持精确的loggable控制，只要你愿意，甚至可以精确到每条Tag、每行Msg
-* 支持显示行号
-* 支持无Tag快捷打印
-* 支持设置全局Tag，同时支持每条日志指定Tag
-* **支持Android Studio控制台点击可跳转到源文件对应行, 还可以通过栈帧偏移控制跳转位置**
-* **支持自动设置Tag**
+* **支持JCenter, 轻巧零依赖**
+* **支持空消息打印（通常用于观察某处是否执行）**
+* **支持无Tag、全局/局部Tag、自动Tag打印**
+* **支持变长参数和自动格式化**
+* **可打印Throwable参数, 不影响过滤器**
+* **支持显示行号,Android Studio控制台点击可跳转到源文件对应行, 还可以通过栈帧偏移控制跳转位置**
+* **支持粒度可控的的loggable控制**
+* **支持重定向Logger（通常用于本地文件打印、第三方日志接入等）**
 * **无限长字符串打印, 同时支持自动换行**
-* **支持第三方日志接入（通常用于上传日志）**
-
-## 预备加入/正在考虑是否需要的功能
-* 保存日志到文件
 
 ## Contribution & Contact
-Thanks for using PLog, this library is still in active development, any feature request/bug
-report is welcome.
+Thanks for using PLog, this library is still in active development.**Any contribution or material
+bonus are appreciated and welcome.**
 Please feel free to contact me by using following way:
 
 **Email: muyangmin@foxmail.com**
