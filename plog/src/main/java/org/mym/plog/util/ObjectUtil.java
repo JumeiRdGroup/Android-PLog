@@ -25,7 +25,7 @@ public class ObjectUtil {
      * If the class of target object overrides {@link Object#toString()}, then this method
      * simply returns the return value of that method. Otherwise it would try to access
      * declared fields and append after class name and hashcode. In this case the final
-     * result maybe like this: <br/>
+     * result maybe like this: <br>
      * <code>
      *     org.mym.plog.Driver@23ac3874[mName=Tank, mAge=199, mCar=Benz S400]
      * </code>
