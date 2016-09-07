@@ -20,6 +20,9 @@ PLog在设计的时候还充分考虑实际项目中对功能的需求，提供�
 * **支持重定向Logger（通常用于本地文件打印、第三方日志接入等）**
 * **无限长字符串打印, 同时支持自动换行**
 
+## Sample Screen Shot
+![ScreenShot](./ScreenShot.png)
+
 ## Contribution & Contact
 Thanks for using PLog, this library is still in active development.**Any contribution or material
 bonus are appreciated and welcome.**
