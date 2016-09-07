@@ -237,6 +237,15 @@ public final class PLog {
                 //Not print yet, only append.
                 sb.append(subLine).append("\n");
             }
+            //IMPORTANT: if build throwable stack trace in string, it may be split into multi
+            // line and becomes very ugly. Another side, if throwable is only a part of params(
+            // e.g. total 3 params but only one throwable), it may flush other params into very
+            // later print.
+            for (Object p : params){
+                if (p instanceof Throwable){
+                    sb.append(Log.getStackTraceString((Throwable)p));
+                }
+            }
             callLoggerPrint(level, tag, sb.toString(), logger);
         }
     }
