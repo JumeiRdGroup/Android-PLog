@@ -225,14 +225,25 @@ public final class PLog {
             StringBuilder sb = new StringBuilder(logContent.length()
                     + logContent.length() / maxLengthPerLine); //plus \n symbol
             while (currentIndex < logContent.length()) {
-                //substring, if still over one line, preserve for next line
+                //compute max length of this line
                 int currentLineLength = Math.min(mConfig.getMaxLengthPerLine(),
                         logContent.length() - currentIndex);
-                String subLine = logContent.substring(currentIndex, currentIndex +
-                        currentLineLength);
 
-                //move cursor
-                currentIndex += currentLineLength;
+                //Force new line if \n appears, otherwise use our soft wrap.
+                String subLine;
+
+                int newlineIndex = logContent.indexOf("\n", currentIndex);
+                int thisLineEnd = currentIndex + currentLineLength;
+
+                //has \n in this line;
+                if (newlineIndex != -1 && newlineIndex < thisLineEnd){
+                    subLine = logContent.substring(currentIndex, newlineIndex);
+                    currentIndex = newlineIndex + 1;
+                }
+                else{
+                    subLine = logContent.substring(currentIndex, thisLineEnd);
+                    currentIndex = thisLineEnd;
+                }
 
                 //Not print yet, only append.
                 sb.append(subLine).append("\n");
