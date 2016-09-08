@@ -257,7 +257,8 @@ public final class PLog {
     // * inner class name using only last inner class (if present)
     // * if inner class unavailable, use full class name
     private static String getAutoTag(int stackOffset) {
-        final int TARGET_STACK = STACK_TRACE_INDEX + stackOffset - 1;
+        final int TARGET_STACK = STACK_TRACE_INDEX + mConfig.getGlobalStackOffset()
+                + stackOffset - 1;
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         if (stackTrace == null || stackTrace.length < TARGET_STACK) {
@@ -368,7 +369,7 @@ public final class PLog {
     }
 
     private static String getLineNumAndMethodName(int stackOffset) {
-        final int TARGET_STACK = STACK_TRACE_INDEX + stackOffset;
+        final int TARGET_STACK = STACK_TRACE_INDEX + mConfig.getGlobalStackOffset() + stackOffset;
 
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         if (stackTrace == null || stackTrace.length < TARGET_STACK) {

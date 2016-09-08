@@ -12,6 +12,7 @@ import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.SinglePipeLogger;
 import org.mym.prettylog.data.User;
+import org.mym.prettylog.wrapper.LogWrapper;
 
 import java.util.Random;
 
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         PLog.i("InfoTag", "This is an info log.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
+
+        PLogConfig backup = PLog.getCurrentConfig();
+        //Use wrapper would override globalOffset setting, so DO NOT USE AS MIXED!
+        LogWrapper.init(this);
+        LogWrapper.empty();
+        PLog.init(backup);
     }
 
     @OnClick(R.id.btn_log_empty)

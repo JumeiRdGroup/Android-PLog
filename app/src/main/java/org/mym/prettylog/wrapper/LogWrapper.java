@@ -125,6 +125,9 @@ public class LogWrapper {
         public void init(Context context) {
             PLog.init(PLogConfig.newBuilder()
                     .useAutoTag(true)
+                    //1 is wrapper layer level
+                    // while LogWrapper is 1 and PLogImpl is 2
+                    .globalStackOffset(2)
                     .keepLineNumber(true)
                     .keepInnerClass(true)
                     .forceConcatGlobalTag(true)

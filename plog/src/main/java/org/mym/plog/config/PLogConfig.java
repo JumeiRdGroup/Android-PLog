@@ -21,6 +21,13 @@ public class PLogConfig {
     private static final int DEFAULT_MAX_LENGTH_PER_LINE = 4000;
     // -------------- DEFAULT FIELDS  END  --------------
 
+    /**
+     * This is a very useful setting when user does NOT directly call `PLog.xxx` but called by
+     * `PLogWrapper.xxx`, etc.
+     * Without this setting, the keepLineNumber function would not work correctly.
+     * @since 1.4.0
+     */
+    private int globalStackOffset;
     private String globalTag;
     /**
      * If this config is set to true, then all tags would be appended after global tag.
@@ -49,6 +56,8 @@ public class PLogConfig {
     private int maxLengthPerLine;
 
     private PLogConfig(Builder builder) {
+        controller = builder.controller;
+        globalStackOffset = builder.globalStackOffset;
         globalTag = builder.globalTag;
         forceConcatGlobalTag = builder.forceConcatGlobalTag;
         useAutoTag = builder.useAutoTag;
@@ -57,7 +66,6 @@ public class PLogConfig {
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
         logger = builder.logger;
-        controller = builder.controller;
         maxLengthPerLine = builder.maxLengthPerLine;
     }
 
@@ -106,6 +114,10 @@ public class PLogConfig {
     @SuppressWarnings("unused")
     public static Builder newBuilder(PLogConfig copy) {
         return new Builder(copy);
+    }
+
+    public int getGlobalStackOffset() {
+        return globalStackOffset;
     }
 
     public String getGlobalTag() {
@@ -160,6 +172,7 @@ public class PLogConfig {
         private Logger logger;
         private int maxLengthPerLine;
         private LogController controller;
+        private int globalStackOffset;
 
         /**
          * Create a builder, you can also use static method {@link #newBuilder()}.
@@ -169,6 +182,7 @@ public class PLogConfig {
 
         public Builder(PLogConfig copy) {
             this.controller = copy.controller;
+            this.globalStackOffset = copy.globalStackOffset;
             this.globalTag = copy.globalTag;
             this.forceConcatGlobalTag = copy.forceConcatGlobalTag;
             this.useAutoTag = copy.useAutoTag;
@@ -198,6 +212,7 @@ public class PLogConfig {
 
         /**
          * If set to true, then use class name as tag. The concat global tag config is still valid.
+         *
          * @since 1.2.0
          */
         public Builder useAutoTag(boolean val) {
@@ -270,6 +285,11 @@ public class PLogConfig {
          */
         public Builder controller(LogController val) {
             controller = val;
+            return this;
+        }
+
+        public Builder globalStackOffset(int val) {
+            globalStackOffset = val;
             return this;
         }
 
