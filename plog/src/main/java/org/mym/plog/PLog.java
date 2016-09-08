@@ -211,7 +211,7 @@ public final class PLog {
     /**
      * Print exceptions in ERROR level.
      */
-    public static void wtf(Throwable params){
+    public static void wtf(Throwable... params){
         log(Log.ERROR, 0, null, null, params);
     }
 
