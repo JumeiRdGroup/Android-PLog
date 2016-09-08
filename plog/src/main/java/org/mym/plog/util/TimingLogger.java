@@ -91,7 +91,9 @@ public class TimingLogger {
 
     public void dumpToLog() {
         if (mDisabled) return;
-        callLogger(mTag, mLabel + ": begin");
+        StringBuilder sb = new StringBuilder();
+//        callLogger(mTag, mLabel + ": begin");
+        sb.append(mLabel).append(":begin").append("\n");
         final long first = mSplits.get(0);
         long now = first;
         for (int i = 1; i < mSplits.size(); i++) {
@@ -99,9 +101,15 @@ public class TimingLogger {
             final String splitLabel = mSplitLabels.get(i);
             final long prev = mSplits.get(i - 1);
 
-            callLogger(mTag, mLabel + ":      " + (now - prev) + " ms, " + splitLabel);
+//            callLogger(mTag, mLabel + ":      " + (now - prev) + " ms, " + splitLabel);
+            sb.append(mLabel).append(":      ").append(now - prev).append(" ms, ")
+                    .append(splitLabel)
+                    .append("\n");
         }
-        callLogger(mTag, mLabel + ": end, " + (now - first) + " ms");
+//        callLogger(mTag, mLabel + ": end, " + (now - first) + " ms");
+        sb.append(mLabel).append(": end, ").append(now - first).append(" ms")
+                .append("\n");
+        callLogger(mTag, sb.toString());
     }
 
     /**
