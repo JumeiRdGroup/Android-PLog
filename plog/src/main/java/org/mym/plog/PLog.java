@@ -195,6 +195,27 @@ public final class PLog {
     }
 
     /**
+     * Print exceptions in WARN level.
+     */
+    public static void exceptions(Throwable... params){
+        log(Log.WARN, 0, null, null, params);
+    }
+
+    /**
+     * Print exceptions in specified level.
+     */
+    public static void exceptions(int level, Throwable... params){
+        log(level, 0, null, null, params);
+    }
+
+    /**
+     * Print exceptions in ERROR level.
+     */
+    public static void wtf(Throwable params){
+        log(Log.ERROR, 0, null, null, params);
+    }
+
+    /**
      * Core method : internal implementation.
      */
     private static void log(int level, int stackOffset, String tag, String msg, Object... params) {
