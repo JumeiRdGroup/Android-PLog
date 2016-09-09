@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.mym.plog.formatter.Formatter;
 import org.mym.plog.formatter.JSONFormatter;
+import org.mym.plog.formatter.ThrowableFormatter;
 import org.mym.plog.logger.Logger;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.ObjectUtil;
@@ -221,8 +222,9 @@ public final class PLog {
     /**
      * Print exceptions in WARN level.
      */
-    public static void exceptions(Throwable... params){
-        log(Log.WARN, 0, null, null, params);
+    public static void exceptions(Throwable exception){
+//        log(Log.WARN, 0, null, null, params);
+        log(Log.WARN, 0, null, new ThrowableFormatter(), mConfig.getLogger(), null, exception);
     }
 
     /**
@@ -344,6 +346,7 @@ public final class PLog {
 
     /**
      * Core method : internal implementation.
+     * @deprecated no longer used ; will be removed soon.
      */
     private static void log(int level, int stackOffset, String tag, String msg, Object... params) {
         checkInitOrUseDefaultConfig();
