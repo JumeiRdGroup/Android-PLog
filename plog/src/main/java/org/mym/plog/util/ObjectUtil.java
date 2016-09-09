@@ -121,7 +121,7 @@ public class ObjectUtil {
             }
             //delete last ", "
             if (appended) {
-                sb.deleteCharAt(sb.length() - FIELD_CONCAT_SYMBOL.length());
+                sb.delete(sb.length() - FIELD_CONCAT_SYMBOL.length(), sb.length());
             }
             sb.append(OBJECT_VALUE_SYMBOL_RIGHT);
             return sb.toString();
