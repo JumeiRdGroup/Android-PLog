@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.mym.plog.formatter.Formatter;
 import org.mym.plog.formatter.JSONFormatter;
+import org.mym.plog.formatter.StringFormatter;
 import org.mym.plog.formatter.ThrowableFormatter;
 import org.mym.plog.logger.Logger;
 import org.mym.plog.config.PLogConfig;
@@ -126,7 +127,8 @@ public final class PLog {
     }
 
     public static void d(String tag, String msg, Object... params) {
-        log(Log.DEBUG, 0, tag, msg, params);
+//        log(Log.DEBUG, 0, tag, msg, params);
+        log(Log.DEBUG, 0, null, new StringFormatter(),mConfig.getLogger(), msg, params);
     }
 
     public static void i(String msg, Object... params) {

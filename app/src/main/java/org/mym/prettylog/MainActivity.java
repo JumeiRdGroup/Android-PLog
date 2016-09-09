@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_basic_usage)
     void basicUsage() {
         PLog.v("This is a verbose log.");
-        PLog.d("DebugTag", "This is a debug log.");
+        PLog.d("DebugTag", "This is a debug log. param is %d, %.2f and %s", 1, 2.413221, "Great");
         PLog.i("InfoTag", "This is an info log.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
