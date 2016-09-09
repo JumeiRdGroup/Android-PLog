@@ -1,4 +1,4 @@
-package org.mym.plog.config;
+package org.mym.plog.logger;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import android.util.Log;
  * This class can also be an adapter class : you can just override methods which you want.
  *
  * @author Muyangmin
- * @since 1.0.0
+ * @since 1.5.0
  */
 public class DefaultLogger implements Logger {
     @Override
@@ -35,8 +35,4 @@ public class DefaultLogger implements Logger {
         Log.e(tag, msg);
     }
 
-    @Override
-    public void wtf(String tag, String msg) {
-        Log.wtf(tag, msg);
-    }
 }

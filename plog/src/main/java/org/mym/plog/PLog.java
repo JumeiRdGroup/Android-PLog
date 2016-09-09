@@ -3,7 +3,7 @@ package org.mym.plog;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.mym.plog.config.Logger;
+import org.mym.plog.logger.Logger;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.ObjectUtil;
 import org.mym.plog.util.TimingLogger;

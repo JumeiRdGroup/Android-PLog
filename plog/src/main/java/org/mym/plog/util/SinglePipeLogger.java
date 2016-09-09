@@ -1,6 +1,6 @@
 package org.mym.plog.util;
 
-import org.mym.plog.config.Logger;
+import org.mym.plog.logger.Logger;
 
 import static android.util.Log.DEBUG;
 import static android.util.Log.ERROR;
@@ -42,11 +42,6 @@ public abstract class SinglePipeLogger implements Logger {
 
     @Override
     public void e(String tag, String msg) {
-        log(ERROR, tag, msg);
-    }
-
-    @Override
-    public void wtf(String tag, String msg) {
         log(ERROR, tag, msg);
     }
 

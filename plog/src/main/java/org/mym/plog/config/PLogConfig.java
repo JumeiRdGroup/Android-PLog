@@ -4,6 +4,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.mym.plog.PLog;
+import org.mym.plog.logger.DefaultLogger;
+import org.mym.plog.logger.Logger;
 
 /**
  * Class for config fields.
