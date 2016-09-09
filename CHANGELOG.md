@@ -1,3 +1,16 @@
+#### Version 1.4.0 *(2016-09-08)*
+* Improved soft wrap line rule.
+* Timing log is printed as single log now (#8)
+* **NEW**:`globalStackOffset` setting is provided to support wrapper usage(#7)
+
+#### Version 1.3.0 *(2016-09-07)*
+* **NEW** sample app redesigned (#3)
+* **NEW**: TimingLogger support (#4)
+* Better Objects and **Throwable support**(#2， #5)
+* Better wrap line strategy (#6)
+* Better support for inner classes (#1)
+
+
 #### Version 1.2.0 *(2016-08-19)*
 * New: unlimited length log and max length per line support.
 * New: convenient method for object params only.
