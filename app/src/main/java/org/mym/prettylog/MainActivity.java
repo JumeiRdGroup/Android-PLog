@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.SinglePipeLogger;
+import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
 import org.mym.prettylog.wrapper.LogWrapper;
 
@@ -66,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_log_empty)
     void logEmpty() {
         PLog.empty();
-        NullPointerException e = new NullPointerException("Test Exception!");
-//        PLog.wtf(e);
-        throw e;
     }
 
     @OnClick(R.id.btn_log_without_tag)
@@ -105,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
     void logThrowable(){
         NullPointerException e = new NullPointerException("This is a sample exception!");
         PLog.w("PLog can log exceptions in all levels, WARN and ERROR is recommended.", e);
+    }
+
+    @OnClick(R.id.btn_log_json)
+    void logJSON(){
+        PLog.json(JSONEntity.DATA);
     }
 
     @OnClick(R.id.btn_timing_logger)

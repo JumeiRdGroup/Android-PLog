@@ -1,5 +1,12 @@
 package org.mym.plog.util;
 
+import android.text.TextUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.mym.plog.BuildConfig;
+
 import java.lang.reflect.Field;
 
 /**
@@ -18,6 +25,13 @@ public class ObjectUtil {
      * a-zA-Z\. matches for class name, while 0-9a-fA-F matches hashcode.
      */
     private static final String REGEX_STANDARD_HASHCODE = "[a-zA-Z\\.]+@[0-9a-fA-F]+";
+
+    /**
+     * intent spaces for json format.
+     * @see JSONObject#toString(int)
+     * @see org.json.JSONArray#toString(int)
+     */
+    private static final int JSON_INDENT_SPACE = 4;
 
     /**
      * Format an object to a well-formed string.
@@ -41,6 +55,39 @@ public class ObjectUtil {
         String result = obj.toString();
         if (result.matches(REGEX_STANDARD_HASHCODE)) {
             result = parseObject(obj);
+        }
+        if (!TextUtils.isEmpty(result)){
+            //Guess JSONObject, use double check to improve accuracy
+            if ( result.startsWith("{") && result.endsWith("}")){
+                try{
+                    JSONObject jsonObject = new JSONObject(result);
+                    String fmtJson = jsonObject.toString(JSON_INDENT_SPACE);
+                    if (!TextUtils.isEmpty(fmtJson)){
+                        result = fmtJson;
+                    }
+                }catch (JSONException ignored){
+                    //This is PLog's BuildConfig; so this was automatically disabled in jcenter release
+                    if (BuildConfig.DEBUG){
+                        ignored.printStackTrace();
+                    }
+                }
+            }
+            //Guess JSONArray
+            else if (result.startsWith("[") && result.endsWith("]") && result.indexOf('{') != -1
+                    && result.indexOf('}') != -1) {
+                try{
+                    JSONArray jsonArray = new JSONArray(result);
+                    String fmtJson = jsonArray.toString(JSON_INDENT_SPACE);
+                    if (!TextUtils.isEmpty(fmtJson)){
+                        result = fmtJson;
+                    }
+                }catch (JSONException ignored){
+                    //This is PLog's BuildConfig; so this was automatically disabled in jcenter release
+                    if (BuildConfig.DEBUG){
+                        ignored.printStackTrace();
+                    }
+                }
+            }
         }
         return result;
     }

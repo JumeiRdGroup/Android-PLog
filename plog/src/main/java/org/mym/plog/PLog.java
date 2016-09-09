@@ -195,6 +195,30 @@ public final class PLog {
     }
 
     /**
+     * Print json string. <br>
+     * NOTE: It is strongly recommended to call
+     * {@link #json(int, String...)} or this method instead of objects, because the internal
+     * implementation may be changed in later versions, and cannot promise compatibility of JSON
+     * usage.
+     * @since 1.5.0
+     */
+    public static void json(String... params) {
+        log(Log.DEBUG, 0, null, null, params);
+    }
+
+    /**
+     * Print json string. <br>
+     * NOTE: It is strongly recommended to call
+     * {@link #json(String...)} or this method instead of objects, because the internal
+     * implementation may be changed in later versions, and cannot promise compatibility of JSON
+     * usage.
+     * @since 1.5.0
+     */
+    public static void json(int level, String... params) {
+        log(level, 0, null, null, params);
+    }
+
+    /**
      * Print exceptions in WARN level.
      */
     public static void exceptions(Throwable... params){
