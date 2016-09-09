@@ -3,9 +3,12 @@ package org.mym.plog;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.mym.plog.formatter.Formatter;
+import org.mym.plog.formatter.JSONFormatter;
 import org.mym.plog.logger.Logger;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.ObjectUtil;
+import org.mym.plog.util.StackTraceUtil;
 import org.mym.plog.util.TimingLogger;
 
 /**
@@ -196,20 +199,17 @@ public final class PLog {
 
     /**
      * Print json string. <br>
-     * NOTE: It is strongly recommended to call
-     * {@link #json(int, String...)} or this method instead of objects, because the internal
-     * implementation may be changed in later versions, and cannot promise compatibility of JSON
-     * usage.
+     * NOTE: Only one json string is allowed on each call.
      * @since 1.5.0
      */
-    public static void json(String... params) {
-        log(Log.DEBUG, 0, null, null, params);
+    public static void json(String msg) {
+//        log(Log.DEBUG, 0, null, null, params);
+        log(Log.DEBUG, 0, null, new JSONFormatter(), mConfig.getLogger(), msg);
     }
 
     /**
      * Print json string. <br>
-     * NOTE: It is strongly recommended to call
-     * {@link #json(String...)} or this method instead of objects, because the internal
+     * NOTE: It is strongly recommended to call this method instead of objects, because the internal
      * implementation may be changed in later versions, and cannot promise compatibility of JSON
      * usage.
      * @since 1.5.0
@@ -237,6 +237,109 @@ public final class PLog {
      */
     public static void wtf(Throwable... params){
         log(Log.ERROR, 0, null, null, params);
+    }
+
+
+    /**
+     * Core Implementation.
+     * If this log is considered as loggable by controller, then wrap log content by config and
+     * print log using specified formatter and logger.
+     *
+     * @param level       log level
+     * @param stackOffset how many level PLog class is wrapped
+     * @param tag         log tag
+     * @param formatter   formatter to decide how to wrap line and helper strings, not null
+     * @param logger      logger to decide where to write, not null
+     * @param msg         original log message, may be null
+     * @param params      original params for format; may be empty
+     */
+    private static void log(int level, int stackOffset, String tag,
+                            Formatter formatter, Logger logger,
+                            String msg, Object... params) {
+        //Keep safe
+        checkInitOrUseDefaultConfig();
+
+        //Checking for auto tag
+        if (TextUtils.isEmpty(tag) && mConfig.isUseAutoTag()) {
+            int offset = STACK_TRACE_INDEX + mConfig.getGlobalStackOffset() + stackOffset;
+            tag = StackTraceUtil.generateAutoTag(offset);
+        }
+        //Only concat when tag is not empty and config is specified to true
+        if ((!TextUtils.isEmpty(tag)) && mConfig.isForceConcatGlobalTag()) {
+            tag = mConfig.getGlobalTag() + "-" + tag;
+        }
+        //If still empty, using global
+        else if (TextUtils.isEmpty(tag)) {
+            tag = mConfig.getGlobalTag();
+        }
+
+        //Call controller
+        if (!mConfig.getController().isLogEnabled(level, tag, msg)) {
+            return;
+        }
+
+        //Format log content
+        String logContent;
+        boolean isFormattedCorrectly = false;
+        try {
+            logContent = formatter.format(msg, params);
+            isFormattedCorrectly = true;
+        } catch (Exception ignored) {
+            logContent = msg;
+        }
+
+        //wrap line
+        if ((!isFormattedCorrectly) || (!formatter.isPreWrappedFormat())) {
+            logContent = wrapLine(logContent, mConfig.getMaxLengthPerLine());
+        }
+
+        //insert line number if allowed
+        String lineInfo = null;
+        if (mConfig.isKeepLineNumber()) {
+            int offsetFromZero = STACK_TRACE_INDEX + mConfig.getGlobalStackOffset() + stackOffset;
+            lineInfo = StackTraceUtil.generateStackInfo(mConfig.isKeepInnerClass(),
+                    offsetFromZero);
+        }
+        if (lineInfo != null) {
+            if (logContent.indexOf('\n') != -1) {
+                //Assume multi line
+                logContent = lineInfo + "\n" + logContent;
+            } else {
+                logContent = lineInfo + logContent;
+            }
+        }
+        callLoggerPrint(level, tag, logContent, logger);
+    }
+
+    private static String wrapLine(String logContent, int maxLengthPerLine) {
+        int currentIndex = 0;
+        //Use a StringBuilder to build multi line text but print only once, solve #6
+        StringBuilder sb = new StringBuilder(logContent.length()
+                + logContent.length() / maxLengthPerLine); //plus \n symbol
+        while (currentIndex < logContent.length()) {
+            //compute max length of this line
+            int currentLineLength = Math.min(mConfig.getMaxLengthPerLine(),
+                    logContent.length() - currentIndex);
+
+            //Force new line if \n appears, otherwise use our soft wrap.
+            String subLine;
+
+            int newlineIndex = logContent.indexOf("\n", currentIndex);
+            int thisLineEnd = currentIndex + currentLineLength;
+
+            //has \n in this line;
+            if (newlineIndex != -1 && newlineIndex < thisLineEnd) {
+                subLine = logContent.substring(currentIndex, newlineIndex);
+                currentIndex = newlineIndex + 1;
+            } else {
+                subLine = logContent.substring(currentIndex, thisLineEnd);
+                currentIndex = thisLineEnd;
+            }
+
+            //Not print yet, only append.
+            sb.append(subLine).append("\n");
+        }
+        return sb.toString();
     }
 
     /**

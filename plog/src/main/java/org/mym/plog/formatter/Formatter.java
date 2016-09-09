@@ -10,11 +10,16 @@ package org.mym.plog.formatter;
 public interface Formatter {
     /**
      * Format msg with params and return.
-     *
+     * <p>
+     * NOTE VERY IMPORTANT: Sub implementation can decide whether discard one or more arguments,
+     * so make sure you are using right Formatter in right usage.
+     *</p>
      * @param msg    msg to be formatted. If this is null or empty but params provided, params
      *               still should be formatted.
      * @param params params to format msg. maybe empty.
      * @return formatted msg.
+     * @throws Exception any type of Exception can be thrown by implementation when
+     *                   format failed.
      */
     String format(String msg, Object... params) throws Exception;
 
