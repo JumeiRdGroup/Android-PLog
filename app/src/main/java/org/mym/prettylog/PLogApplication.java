@@ -4,6 +4,7 @@ import android.app.Application;
 
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
+import org.mym.prettylog.util.CrashHandler;
 
 /**
  * <p>
@@ -27,5 +28,7 @@ public class PLogApplication extends Application {
                 .useAutoTag(true)
                 .maxLengthPerLine(160)
                 .build());
+
+        CrashHandler.getInstance().init();
     }
 }

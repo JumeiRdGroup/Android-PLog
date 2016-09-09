@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_log_empty)
     void logEmpty() {
         PLog.empty();
+        NullPointerException e = new NullPointerException("Test Exception!");
+//        PLog.wtf(e);
+        throw e;
     }
 
     @OnClick(R.id.btn_log_without_tag)
