@@ -1,3 +1,8 @@
+#### Version 1.5.0 *(2016-09-09)*
+* **Refactored library! more extensible and flexible.**
+* **NEW:JSON Support**
+* Fix a redundant space when formatting a normal object.
+
 #### Version 1.4.0 *(2016-09-08)*
 * Improved soft wrap line rule.
 * Timing log is printed as single log now (#8)

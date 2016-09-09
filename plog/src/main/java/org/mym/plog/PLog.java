@@ -15,7 +15,6 @@ import org.mym.plog.util.TimingLogger;
 
 /**
  * Entry class of log module, settings, and init configs are all here.
- * <p/>
  * <p>You don't need to create this class since it is only an utility class, for configs,
  * please use {@link #init(PLogConfig)}. <br>
  * Also, it is strongly recommended to create config instance using
@@ -338,7 +337,7 @@ public final class PLog {
         }
         //But lineInfo maybe null if user disabled keepLineNumber feature.
         //So call to logger cannot be put in the if block above.
-        if (logContent != null){
+        if (logContent != null) {
             callLoggerPrint(level, tag, logContent, logger);
         }
     }
