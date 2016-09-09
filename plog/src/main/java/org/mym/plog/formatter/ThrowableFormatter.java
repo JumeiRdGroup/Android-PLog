@@ -21,7 +21,7 @@ public class ThrowableFormatter implements Formatter {
      */
     @Override
     public String format(String msg, Object... params) throws Exception {
-        if (params.length < 1 || (!(params[0] instanceof Throwable))) {
+        if (TextUtils.isEmpty(msg) && params.length < 1 || (!(params[0] instanceof Throwable))) {
             throw new IllegalArgumentException("Throwable argument not found!");
         }
         Throwable tr = (Throwable) params[0];

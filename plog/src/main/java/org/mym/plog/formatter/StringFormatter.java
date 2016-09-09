@@ -18,13 +18,17 @@ public class StringFormatter implements Formatter {
 
     @Override
     public String format(String msg, Object... params) throws Exception {
-        if (TextUtils.isEmpty(msg)){
+        if (TextUtils.isEmpty(msg)) {
+            if (params == null || params.length == 0) {
+                throw new IllegalArgumentException("Neither msg nor params provided!");
+            }
             return FMT_OBJECT.format(msg, params);
         }
         Object[] objects = new Object[params.length];
         for (int i = 0; i < params.length; i++) {
             Object obj = params[i];
-            //Wrapper classes
+            //Wrapper classes shouldn't change to String, because maybe we need format numbers;
+            // e.g %.2f
             if (obj instanceof Boolean || obj instanceof Byte || obj instanceof Short
                     || obj instanceof Integer || obj instanceof Long || obj instanceof Float
                     || obj instanceof Double) { //Void is useless

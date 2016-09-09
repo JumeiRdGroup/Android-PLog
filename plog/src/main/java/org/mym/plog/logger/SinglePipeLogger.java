@@ -1,6 +1,4 @@
-package org.mym.plog.util;
-
-import org.mym.plog.logger.Logger;
+package org.mym.plog.logger;
 
 import static android.util.Log.DEBUG;
 import static android.util.Log.ERROR;

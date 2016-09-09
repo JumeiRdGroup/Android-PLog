@@ -95,7 +95,7 @@ public final class PLog {
     }
 
     /**
-     * Reset timing logger. A creation maybe needed if never called timing fucntion.
+     * Reset timing logger. A creation maybe needed if never called timing function.
      *
      * @see android.util.TimingLogger
      */
@@ -335,6 +335,10 @@ public final class PLog {
             } else {
                 logContent = lineInfo + logContent;
             }
+        }
+        //But lineInfo maybe null if user disabled keepLineNumber feature.
+        //So call to logger cannot be put in the if block above.
+        if (logContent != null){
             callLoggerPrint(level, tag, logContent, logger);
         }
     }

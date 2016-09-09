@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
-import org.mym.plog.util.SinglePipeLogger;
+import org.mym.plog.logger.SinglePipeLogger;
 import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
 import org.mym.prettylog.wrapper.LogWrapper;
