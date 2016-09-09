@@ -1,5 +1,6 @@
 package org.mym.plog.formatter;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -24,8 +25,12 @@ public class ThrowableFormatter implements Formatter {
             throw new IllegalArgumentException("Throwable argument not found!");
         }
         Throwable tr = (Throwable) params[0];
-        msg = Log.getStackTraceString(tr);
-        return msg;
+        String stackTrace = Log.getStackTraceString(tr);
+        if (TextUtils.isEmpty(msg)) {
+            return stackTrace;
+        } else {
+            return msg + "\n" + stackTrace;
+        }
     }
 
     @Override
