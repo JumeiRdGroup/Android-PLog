@@ -339,7 +339,11 @@ public final class PLog {
             }
 
             //Not print yet, only append.
-            sb.append(subLine).append("\n");
+            sb.append(subLine);
+            //Has more chars
+            if (currentIndex < logContent.length()) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }
