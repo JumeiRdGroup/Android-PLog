@@ -182,7 +182,7 @@ public final class PLog {
      * @param params objects to print.
      */
     public static void objects(Object... params){
-        log(Log.INFO, 0, null, null, params);
+        log(Log.DEBUG, 0, null, null, params);
     }
 
     /**
