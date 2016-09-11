@@ -21,6 +21,10 @@ android {
     }
     packagingOptions {
         exclude 'LICENSE.txt'
+        exclude 'NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
