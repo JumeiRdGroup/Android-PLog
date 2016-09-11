@@ -1,4 +1,4 @@
-#PLog  [ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)<a href="http://www.methodscount.com/?lib=org.mym.plog%3Aandroid-plog%3A1.5.0"><img src="https://img.shields.io/badge/Methods and size-201 | 20 KB-e91e63.svg"/></a>
+#PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)<a href="http://www.methodscount.com/?lib=org.mym.plog%3Aandroid-plog%3A1.5.0"><img src="https://img.shields.io/badge/Methods and size-201 | 20 KB-e91e63.svg"/></a>
 
 这个项目的部分灵感来源于开源项目[Logger](https://github.com/orhanobut/logger)和[KLog](https://github.com/ZhaoKaiQiang/KLog)。
 但区别于前述两个项目，PLog的设计理念是**实用性**：回归Log本身，在保持强大功能的同时取消花哨的修饰，特别是行分割线和花边等功能。
@@ -9,7 +9,7 @@ PLog在设计的时候还充分考虑实际项目中对功能的需求，提供�
 
 请参阅[Wiki](https://github.com/Muyangmin/Android-PLog/wiki)以获取使用说明和高级特性, 欢迎完善Wiki、改进排版等。
 对于只需要依赖字符串的同学请复制:
-```
+```Groovy
     compile 'org.mym.plog:android-plog:${latestVersion}'
 ```
 
