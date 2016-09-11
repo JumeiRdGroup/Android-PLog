@@ -1,0 +1,25 @@
+# https://docs.travis-ci.com/user/languages/android
+language: android
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-24.0.2
+    - android-22
+    - android-24
+    - sys-img-armeabi-v7a-android-22
+    - extra-android-m2repository
+#Only CI for master & dev
+branches:
+  only:
+    - master
+    - dev
+
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+    directories:
+      - $HOME/.gradle/caches/
+      - $HOME/.gradle/wrapper/
+script:
+    - ./gradlew clean build assembleDebugAndroidTest assembleRelease

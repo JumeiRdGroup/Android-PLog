@@ -21,7 +21,8 @@
     <string name="btn_tag_anonymous">Auto tag in anonymous class</string>
     <string name="btn_tag_nested">Nested class and anonymous class</string>
     <string name="btn_customize_logger">Use customized logger</string>
-    <string name="btn_stack_offset">Log with stack offset(Not recommended)</string>
+    <string name="btn_stack_offset">Log with stack offset</string>
+    <string name="btn_log_using_wrapper_class">Log using wrapper class</string>
 
     <string name="console_emulated_log"><![CDATA[
     The New Teacher\n

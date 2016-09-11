@@ -55,9 +55,10 @@
                 style="@style/DemoButton"
                 android:text="@string/btn_log_throwable"/>
 
-            <Button android:id="@+id/btn_log_json"
-                    style="@style/DemoButton"
-                    android:text="@string/btn_log_json" />
+            <Button
+                android:id="@+id/btn_log_json"
+                style="@style/DemoButton"
+                android:text="@string/btn_log_json"/>
 
             <Button
                 android:id="@+id/btn_timing_logger"
@@ -83,10 +84,16 @@
                 android:id="@+id/btn_customize_logger"
                 style="@style/DemoButton"
                 android:text="@string/btn_customize_logger"/>
+
             <Button
                 android:id="@+id/btn_stack_offset"
                 style="@style/DemoButton"
                 android:text="@string/btn_stack_offset"/>
+
+            <Button
+                android:id="@+id/btn_log_using_wrapper_class"
+                style="@style/DemoButton"
+                android:text="@string/btn_log_using_wrapper_class"/>
         </LinearLayout>
     </ScrollView>
 
