@@ -5,10 +5,13 @@ android:
     - platform-tools
     - tools
     - build-tools-24.0.2
-    - android-22
     - android-24
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-24
     - extra-android-m2repository
+
+#compileSdkVersion 'android-24' requires JDK 1.8 or later to compile.
+jdk:
+    - oraclejdk8
 #Only CI for master & dev
 branches:
   only:
