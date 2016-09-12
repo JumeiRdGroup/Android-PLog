@@ -7,6 +7,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.MIN_SDK_VERSION as int
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -25,7 +26,11 @@ android {
 }
 
 dependencies {
-    //Empty
+    //Empty But test dependencies
+    testCompile rootProject.ext.TEST_JUNIT as String
+    androidTestCompile rootProject.ext.TEST_SUPPORT_ANNOTATION as String
+    androidTestCompile rootProject.ext.TEST_RUNNER as String
+    androidTestCompile rootProject.ext.TEST_RULES as String
 }
 
 apply from: rootProject.file('gradle/android-artifacts.gradle')
