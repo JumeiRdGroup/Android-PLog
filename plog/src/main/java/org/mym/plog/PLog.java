@@ -304,6 +304,9 @@ public final class PLog {
         }
 
         //Format log content
+        /**
+         * IMPORTANT: Formatter can accept empty msg argument, see doc in {@link Formatter}.
+         */
         String logContent;
         boolean isFormattedCorrectly = false;
         try {
@@ -314,7 +317,13 @@ public final class PLog {
         }
 
         //wrap line
-        if ((!isFormattedCorrectly) || (!formatter.isPreWrappedFormat())) {
+        /**
+         * IMPORTANT: If formatted string is empty, it shouldn't do soft wrap line operation;
+         * doing that would lead to a NullPointerException.
+         * so do a check before call of wrapLine().
+         */
+        if ((logContent != null)
+                && ((!isFormattedCorrectly) || (!formatter.isPreWrappedFormat()))) {
             logContent = wrapLine(logContent, mConfig.getMaxLengthPerLine());
         }
 
@@ -345,11 +354,18 @@ public final class PLog {
     /**
      * Soft wrap line rule implementation.
      *
-     * @param logContent       log to be printed
+     * @param logContent       log to be printed, NOT NULL
      * @param maxLengthPerLine max length
      * @return wrapped log
      */
     private static String wrapLine(String logContent, int maxLengthPerLine) {
+        //Safety Check
+        assert logContent != null;
+
+        if (logContent.isEmpty()) { // Not need to to StringBuilder and while loop
+            return logContent;
+        }
+
         int currentIndex = 0;
         //Use a StringBuilder to build multi line text but print only once, solve #6
         StringBuilder sb = new StringBuilder(logContent.length()
