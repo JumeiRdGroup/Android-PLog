@@ -125,12 +125,21 @@ public class PLogTest {
     }
 
     /**
-     * If msg is null, then empty msg should be printed.
+     * If msg is null, then empty msg should be printed in empty level.
      */
     @Test
     public void testLogMsgNull() {
         PLog.i(null);
-        assertLogInfo(INFO, null, EMPTY_MSG);
+        assertLogInfo(EMPTY_LEVEL, null, EMPTY_MSG);
+    }
+
+    /**
+     * If msg is empty, then empty msg should be printed in empty level.
+     */
+    @Test
+    public void testLogMsgEmpty() {
+        PLog.i("");
+        assertLogInfo(EMPTY_LEVEL, null, EMPTY_MSG);
     }
 
     @Test
@@ -167,6 +176,7 @@ public class PLogTest {
 
         @Override
         protected void log(int level, String tag, String msg) {
+            callDefaultLogger(level, tag, msg);
             mLastLevel = level;
             mLastTag = tag;
             mLastMsg = msg;

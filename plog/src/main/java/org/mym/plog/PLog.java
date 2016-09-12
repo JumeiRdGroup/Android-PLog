@@ -283,6 +283,13 @@ public final class PLog {
         if (logger == null) {
             logger = mConfig.getLogger();
         }
+        //Checking null calls
+        if (TextUtils.isEmpty(msg) && params.length == 0) {
+            PLog.w("You're logging with empty msg and arguments, output would be force change to " +
+                    "empty msg in empty msg level !!");
+            level = mConfig.getEmptyMsgLevel();
+            msg = mConfig.getEmptyMsg();
+        }
 
         //Checking for auto tag
         if (TextUtils.isEmpty(tag) && mConfig.isUseAutoTag()) {
