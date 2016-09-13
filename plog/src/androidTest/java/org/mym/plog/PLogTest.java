@@ -1,5 +1,6 @@
 package org.mym.plog;
 
+import android.graphics.Point;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Assert;
@@ -26,6 +27,9 @@ public class PLogTest {
 
     private static final String EMPTY_MSG = "EmptyMsg";
     private static final int EMPTY_LEVEL = DEBUG;
+
+    private static final int OBJECT_LEVEL = DEBUG;
+    private static final int JSON_LEVEL = DEBUG;
 
     private MemoryLogger mMockLogger;
 
@@ -155,6 +159,141 @@ public class PLogTest {
         assertLogInfo(EMPTY_LEVEL, null, EMPTY_MSG);
     }
 
+    /**
+     * test formatting a standard object that overrides toString properly.
+     */
+    @Test
+    public void testVariableParamStandard() {
+        String testStr = "Test %s";
+        Point point = new Point(3, 4);
+        PLog.d(testStr, point);
+        assertLevel(DEBUG);
+        assertMsgContains("Point");
+    }
+
+    @Test
+    public void testVariableParamOrdinary() {
+        String testStr = "Test %s";
+        PLog.v(testStr, new User());
+        assertLevel(VERBOSE);
+        assertMsgContains("User");
+    }
+
+    /**
+     * Test case that given arguments to format msg is not totally match.
+     */
+    @Test
+    public void testVariableParamNotMatch() {
+        String testStr = "Test %d";
+        try {
+            PLog.d(testStr, 4.3D); //DOUBLE IS NOT INTEGER!
+            Assert.fail("formatting with not match type should fail!");
+        } catch (Exception expected) {
+            //Ignored
+        }
+    }
+
+    /**
+     * If msg is null or empty but arguments still specified, they should be formatted as well.
+     */
+    @Test
+    public void testVariableParamWithNullMsg() {
+        Point point = new Point(3, 4);
+        PLog.d(null, point);
+        assertLevel(DEBUG);
+        assertMsgContains("Point");
+    }
+
+    /**
+     * Print null object should be printed as P{}
+     */
+    @Test
+    public void testObjectNull() {
+        PLog.objects((Object) null);
+    }
+
+    @Test
+    public void testObjectSingle() {
+        User user = new User("Rose");
+        PLog.objects(user);
+        assertLevel(OBJECT_LEVEL);
+        assertMsgContains("User", "Rose");
+    }
+
+    @Test
+    public void testObjectMulti() {
+        User user = new User("Rose");
+        Point point = new Point(100, 128);
+        PLog.objects(user, point);
+        assertLevel(OBJECT_LEVEL);
+        assertMsgContains("User", "Rose", "Point", "100", "128");
+    }
+
+    @Test
+    public void testObjectPrimitive() {
+        Long millisecond = System.currentTimeMillis();
+        Double pi = Math.PI;
+        Integer integer = 233;
+        PLog.objects(millisecond, integer, pi);
+        assertLevel(OBJECT_LEVEL);
+        assertMsgContains("233", "3.14");
+    }
+
+    @Test
+    public void testJsonNull() throws Exception {
+        try {
+            PLog.json(null);
+            Assert.fail("Print null json should throw an exception!");
+        } catch (Exception expected) {
+            //Ignored
+        }
+    }
+
+    @Test
+    public void testJsonEmpty() throws Exception {
+        try {
+            PLog.json("");
+            Assert.fail("Print empty json should throw an exception!");
+        } catch (Exception expected) {
+            //Ignored
+        }
+    }
+
+    @Test
+    public void testJsonWellFormed() {
+        String jsonStr = "{\"array\":[1,2,3],\"boolean\":true,\"null\":null," +
+                "\"number\":123,\"object\":{\"a\":\"b\",\"c\":\"d\",\"e\":\"f\"}," +
+                "\"string\":\"Hello " +
+                "World\"}";
+        PLog.json(jsonStr);
+        assertLevel(JSON_LEVEL);
+        assertMsgContains("array", "\n"); //assume contains all
+    }
+
+    @Test
+    public void testJsonMalFormed() {
+        String json = "JSON_MAL_FORMED";
+        try {
+            PLog.json(json);
+            Assert.fail("Print malformed json should throw an exception!");
+        } catch (Exception expected) {
+            //Ignored
+        }
+    }
+
+    private void assertLevel(int level) {
+        Assert.assertTrue(mMockLogger.getLastLogLevel() == level);
+    }
+
+    private void assertMsgContains(String... keys) {
+        String lastLog = mMockLogger.getLastLog();
+        for (String content : keys) {
+            String failMsg = String.format("Expected contains %s but content is %s",
+                    content, lastLog);
+            Assert.assertTrue(failMsg, lastLog.contains(content));
+        }
+    }
+
     private void assertLogInfo(int level, String tag, String msg) {
         if (level > 0) {
             Assert.assertEquals(level, mMockLogger.getLastLogLevel());
@@ -197,5 +336,12 @@ public class PLogTest {
 
     private static class User {
         protected String mName;
+
+        public User() {
+        }
+
+        public User(String mName) {
+            this.mName = mName;
+        }
     }
 }
