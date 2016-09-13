@@ -23,8 +23,9 @@ public class ObjectUtil {
     private static final String STR_OBJECT_EMPTY = "[null object]";
     /**
      * a-zA-Z\. matches for class name, while 0-9a-fA-F matches hashcode.
+     * Use $ to match inner classes.
      */
-    private static final String REGEX_STANDARD_HASHCODE = "[a-zA-Z\\.]+@[0-9a-fA-F]+";
+    private static final String REGEX_STANDARD_HASHCODE = "[a-zA-Z\\.$]+@[0-9a-fA-F]+";
 
     /**
      * intent spaces for json format.
