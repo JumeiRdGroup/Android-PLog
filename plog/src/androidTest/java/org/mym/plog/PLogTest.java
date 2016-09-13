@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.logger.SinglePipeLogger;
+import org.mym.plog.util.ObjectUtil;
 
 import static android.util.Log.DEBUG;
 import static android.util.Log.ERROR;
@@ -205,11 +206,13 @@ public class PLogTest {
     }
 
     /**
-     * Print null object should be printed as P{}
+     * Print null object should be printed as {@link org.mym.plog.util.ObjectUtil#STR_OBJECT_EMPTY}.
      */
     @Test
     public void testObjectNull() {
         PLog.objects((Object) null);
+        assertLevel(OBJECT_LEVEL);
+        assertMsgContains(ObjectUtil.STR_OBJECT_EMPTY);
     }
 
     @Test

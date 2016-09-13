@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
  */
 public class ObjectUtil {
 
-    private static final String STR_OBJECT_EMPTY = "[null object]";
+    public static final String STR_OBJECT_EMPTY = "[null object]";
     /**
      * a-zA-Z\. matches for class name, while 0-9a-fA-F matches hashcode.
      * Use $ to match inner classes.
