@@ -10,6 +10,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.WindowManager;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 @LargeTest
 public class PLogTest {
 
-    Activity activity = null;
-
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+    Activity activity = null;
 
     @Before
     public void setUp() {
@@ -58,6 +58,7 @@ public class PLogTest {
     }
 
     @Test
+    @Ignore
     public void testAllSampleCase(){
         //Use scrollTo() before click() to avoid click button not visible at least 90%.
         //Please see http://stackoverflow.com/a/28836033/4944176
