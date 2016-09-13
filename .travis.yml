@@ -25,4 +25,4 @@ cache:
       - $HOME/.gradle/caches/
       - $HOME/.gradle/wrapper/
 script:
-    - ./gradlew clean assembleDebugAndroidTest assembleRelease
+    - ./gradlew clean connectAndroidTest assembleRelease --stacktrace
