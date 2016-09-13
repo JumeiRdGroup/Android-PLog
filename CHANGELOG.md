@@ -1,3 +1,6 @@
+#### Version 1.5.0 *(2016-09-13)*
+Some bug fixes. (#11, #12, #13)
+
 #### Version 1.5.0 *(2016-09-09)*
 * **Refactored library! more extensible and flexible.**
 * **NEW:JSON Support**
