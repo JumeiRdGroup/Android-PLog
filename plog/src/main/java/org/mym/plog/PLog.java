@@ -173,6 +173,17 @@ public final class PLog {
     }
 
     /**
+     * Print {@link PLogConfig#getEmptyMsg()}, using DEBUG Level and specified stackOffset,
+     * or {@link PLogConfig#getEmptyMsgLevel()} if specified.
+     * see https://github.com/Muyangmin/Android-PLog/issues/14 for more details.
+     * @param stackOffset offset for stack
+     */
+    public static void empty(int stackOffset) {
+        log(mConfig.getEmptyMsgLevel(), stackOffset, null, new StringFormatter(), null,
+                mConfig.getEmptyMsg());
+    }
+
+    /**
      * Use this method for skipping some middle methods, if necessary.
      * <p><strong>Note: This method is often not recommend; v,d,i,w,e methods is enough for common
      * use.</strong></p>
