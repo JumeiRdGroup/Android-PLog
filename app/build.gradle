@@ -34,6 +34,7 @@ dependencies {
     compile rootProject.ext.BUTTERKNIFE as String
     apt rootProject.ext.BUTTERKNIFE_APT as String
     compile project(':plog')
+//    compile 'org.mym.plog:android-plog:1.6.0'
 
     testCompile rootProject.ext.TEST_JUNIT as String
     androidTestCompile rootProject.ext.TEST_SUPPORT_ANNOTATION as String

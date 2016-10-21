@@ -1,3 +1,8 @@
+#### Version 1.6.0 *(2016-10-21)*
+* Empty method with stack offset param #14
+* Enhanced object format for List #15
+* Configurable timing logger #16
+
 #### Version 1.5.0 *(2016-09-13)*
 Some bug fixes. (#11, #12, #13)
 
