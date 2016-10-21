@@ -57,6 +57,14 @@ public final class PLog {
     private static synchronized void safelySetConfig(PLogConfig config) throws RuntimeException {
         PLogConfig.checkConfigSafe(config);
         mConfig = config;
+        //If timing logger config is not null, means user may user timing function.
+        // create timing logger and save it.
+        if (mConfig.getTimingLogger() != null) {
+            if (mTimingLogger == null) {
+                mTimingLogger = createDefaultTimingLogger();
+            }
+            mTimingLogger.setLogger(mConfig.getTimingLogger());
+        }
     }
 
     /**
@@ -116,7 +124,7 @@ public final class PLog {
     }
 
     private static TimingLogger createDefaultTimingLogger() {
-        return new TimingLogger("PLogTiming", "TimingLabel");
+        return new TimingLogger(mConfig.getTimingLogger(), "PLogTiming", "TimingLabel");
     }
 
     public static void v(String msg, Object... params) {

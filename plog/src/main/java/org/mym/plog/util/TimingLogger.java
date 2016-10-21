@@ -1,11 +1,11 @@
 package org.mym.plog.util;
 
-import java.util.ArrayList;
-
 import android.os.SystemClock;
-import android.util.Log;
 
 import org.mym.plog.PLog;
+import org.mym.plog.logger.Logger;
+
+import java.util.ArrayList;
 
 /**
  * A utility class to help log timings splits throughout a method call.
@@ -37,9 +37,9 @@ import org.mym.plog.PLog;
 public class TimingLogger {
 
     /** Stores the time of each split. */
-    ArrayList<Long> mSplits;
+    private ArrayList<Long> mSplits;
     /** Stores the labels for each split. */
-    ArrayList<String> mSplitLabels;
+    private ArrayList<String> mSplitLabels;
     /**
      * The Log tag to use for checking Log.isLoggable and for
      * logging the timings.
@@ -50,6 +50,8 @@ public class TimingLogger {
     /** Used to track whether LogController#isTimingLogEnabled was enabled at reset time. */
     private boolean mDisabled;
 
+    private Logger mLogger;
+
     /**
      * Create and initialize a TimingLogger object that will log using
      * the specific tag. If the Log.isLoggable is not enabled to at
@@ -58,7 +60,8 @@ public class TimingLogger {
      * @param tag the log tag to use while logging the timings
      * @param label a string to be displayed with each log
      */
-    public TimingLogger(String tag, String label) {
+    public TimingLogger(Logger logger, String tag, String label) {
+        mLogger = logger;
         reset(tag, label);
     }
 
@@ -66,6 +69,10 @@ public class TimingLogger {
         mTag = tag;
         mLabel = label;
         reset();
+    }
+
+    public void setLogger(Logger logger) {
+        this.mLogger = logger;
     }
 
     public void reset() {
@@ -112,13 +119,8 @@ public class TimingLogger {
         callLogger(mTag, sb.toString());
     }
 
-    /**
-     * Why offset 3?
-     * PLog#dumpTimingToLog
-     * #callLogger
-     * #dumpToLog
-     */
     private void callLogger(String tag, String msg){
-        PLog.logWithStackOffset(Log.DEBUG, 3, tag, msg);
+//        PLog.logWithStackOffset(Log.DEBUG, 3, tag, msg);
+        mLogger.d(tag, msg);
     }
 }

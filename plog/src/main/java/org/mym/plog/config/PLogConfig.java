@@ -6,6 +6,7 @@ import android.util.Log;
 import org.mym.plog.PLog;
 import org.mym.plog.logger.DefaultLogger;
 import org.mym.plog.logger.Logger;
+import org.mym.plog.logger.SinglePipeLogger;
 
 /**
  * Class for config fields.
@@ -50,6 +51,7 @@ public class PLogConfig {
      */
     private boolean keepInnerClass;
     private Logger logger;
+    private Logger timingLogger;
     private LogController controller;
     /**
      * Max character count per line.
@@ -68,6 +70,7 @@ public class PLogConfig {
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
         logger = builder.logger;
+        timingLogger = builder.timingLogger;
         maxLengthPerLine = builder.maxLengthPerLine;
     }
 
@@ -150,6 +153,10 @@ public class PLogConfig {
         return logger;
     }
 
+    public Logger getTimingLogger() {
+        return timingLogger;
+    }
+
     public LogController getController() {
         return controller;
     }
@@ -173,6 +180,7 @@ public class PLogConfig {
         private boolean keepInnerClass;
         private Logger logger;
         private int maxLengthPerLine;
+        private Logger timingLogger;
         private LogController controller;
         private int globalStackOffset;
 
@@ -193,6 +201,7 @@ public class PLogConfig {
             this.keepLineNumber = copy.keepLineNumber;
             this.keepInnerClass = copy.keepInnerClass;
             this.logger = copy.logger;
+            this.timingLogger = copy.timingLogger;
             this.maxLengthPerLine = copy.maxLengthPerLine;
         }
 
@@ -283,6 +292,15 @@ public class PLogConfig {
         }
 
         /**
+         * Customize logger for timing. Timing logger is still be controller by
+         * {@link #controller(LogController)}.
+         */
+        public Builder timingLogger(Logger logger) {
+            timingLogger = logger;
+            return this;
+        }
+
+        /**
          * Customize log controller.
          */
         public Builder controller(LogController val) {
@@ -314,6 +332,21 @@ public class PLogConfig {
             }
             if (controller == null) {
                 controller = new EasyLogController(true, true);
+            }
+
+            if (timingLogger == null) {
+                timingLogger = new SinglePipeLogger() {
+                    @Override
+                    protected void log(int level, String tag, String msg) {
+                        /**
+                         * Why offset 3?
+                         * PLog#dumpTimingToLog
+                         * #callLogger
+                         * #dumpToLog
+                         */
+                        PLog.logWithStackOffset(Log.DEBUG, 3, tag, msg);
+                    }
+                };
             }
 
             //Assume all positive integers are acceptable

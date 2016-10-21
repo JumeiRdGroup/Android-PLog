@@ -120,6 +120,24 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_timing_logger)
     void logTiming(){
+        timingLogExample();
+
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder().timingLogger(new SinglePipeLogger() {
+            @Override
+            protected void log(int level, String tag, String msg) {
+                Log.i(tag, msg + "--------");
+            }
+        }).build());
+
+        PLog.resetTimingLogger("INFO level logger", "TimingLabel");
+        timingLogExample();
+
+        PLog.init(backup);
+    }
+
+    private void timingLogExample() {
         PLog.resetTimingLogger();
         PLog.addTimingSplit("Timing operation STARTED");
 
@@ -130,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         PLog.addTimingSplit("Operation Step 2");
 
         PLog.dumpTimingToLog();
+
     }
 
     private void emulateTimeOperation(){
