@@ -15,6 +15,9 @@ import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
 import org.mym.prettylog.wrapper.LogWrapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -91,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
         PLog.d(null, (Object) "RxJava", "RxAndroid", "RxBinding", "RxBus");
         //This is equivalent to above line
         PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
+
+        List<User> list = new ArrayList<>();
+
+        Collections.addAll(list, new User("This", "Crash", "Fixed", 2333),
+                new User("This", "Issue", "Fixed", 9900),
+                new User("This", "Feature", "Implemented", 4321));
+        PLog.objects(list);
+
     }
 
     @OnClick(R.id.btn_log_throwable)

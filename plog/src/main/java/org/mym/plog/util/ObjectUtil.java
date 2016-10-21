@@ -8,6 +8,10 @@ import org.json.JSONObject;
 import org.mym.plog.BuildConfig;
 
 import java.lang.reflect.Field;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>
@@ -57,7 +61,14 @@ public class ObjectUtil {
         if (result.matches(REGEX_STANDARD_HASHCODE)) {
             result = parseObject(obj);
         }
-        if (!TextUtils.isEmpty(result)){
+        if (obj instanceof AbstractList && ((AbstractList) obj).size() > 0) {
+            //Assume all objects in list are same type, that is, **TYPE SAFE**
+            Object flagObject = ((AbstractList) obj).get(0);
+            //If this is not formatted class, recursively format
+            if (flagObject.toString().matches(REGEX_STANDARD_HASHCODE)) {
+                result = formatNormalList((List<? extends Object>) obj);
+            }
+        } else if (!TextUtils.isEmpty(result)) {
             //Guess JSONObject, use double check to improve accuracy
             if ( result.startsWith("{") && result.endsWith("}")){
                 try{
@@ -91,6 +102,25 @@ public class ObjectUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * This method is a copy of {@link AbstractCollection#toString()} but changes its parameter!
+     */
+    private static <E> String formatNormalList(List<E> list) {
+        Iterator<E> it = list.iterator();
+        if (!it.hasNext())
+            return "[]";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (; ; ) {
+            E e = it.next();
+            sb.append(e == list ? "(this Collection)" : objectToString(e));
+            if (!it.hasNext())
+                return sb.append(']').toString();
+            sb.append(',').append(' ');
+        }
     }
 
     private static String parseObject(Object obj) {
