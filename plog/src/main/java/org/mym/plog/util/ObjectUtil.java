@@ -29,7 +29,8 @@ public class ObjectUtil {
      * a-zA-Z\. matches for class name, while 0-9a-fA-F matches hashcode.
      * Use $ to match inner classes.
      */
-    private static final String REGEX_STANDARD_HASHCODE = "[a-zA-Z\\.$]+@[0-9a-fA-F]+";
+    //Sample complicated class name: AnimalFactory$CatFactory2$CatImpl
+    private static final String REGEX_STANDARD_HASHCODE = "[a-zA-Z0-9\\.\\$]+@[0-9a-fA-F]+";
 
     /**
      * intent spaces for json format.

@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         PLog.i("InfoTag", "This is an info log using specified tag.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
+
+        Cat2 tom = new Cat2("Tom", "Blue");
+        Cat2 jerry = new Cat2("Jerry", "brown");
+
+        PLog.i("I have 2 cats, %s and %s", tom, jerry);
     }
 
     @OnClick(R.id.btn_log_empty)
@@ -301,6 +306,16 @@ public class MainActivity extends AppCompatActivity {
 
         public void detach() {
             mTextView = null;
+        }
+    }
+
+    private class Cat2 {
+        String name;
+        String color;
+
+        public Cat2(String name, String color) {
+            this.name = name;
+            this.color = color;
         }
     }
 }
