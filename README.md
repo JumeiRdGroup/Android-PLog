@@ -1,3 +1,4 @@
+![logo](./app/src/main/res/mipmap-xxhdpi/ic_launcher.png)
 #Android-PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)<a href="http://www.methodscount.com/?lib=org.mym.plog%3Aandroid-plog%3A1.5.0"><img src="https://img.shields.io/badge/Methods and size-201 | 20 KB-e91e63.svg"/></a>
 
 [English Version](README_EN.md)
@@ -27,7 +28,6 @@ PLog是一个Android专用的日志封装库，遵从以下的设计哲学：
     PLog.v("This is a verbose log.");
     PLog.d("DebugTag", "This is a debug log.");
     PLog.e("This is an error log.");
-
 ```
 请参阅[Wiki](https://github.com/Muyangmin/Android-PLog/wiki)以获取详细的使用说明和高级特性。
 
@@ -38,22 +38,18 @@ PLog是一个Android专用的日志封装库，遵从以下的设计哲学：
 * **支持变长参数和自动格式化**
 * **支持JSON格式化打印**
 * **支持Throwable格式化打印**
+* **任意类智能格式化打印**
 * **支持打点计时日志(TimingLog)**
 * **支持显示行号,Android Studio控制台点击可跳转到源文件对应行, 还可以通过栈帧偏移控制跳转位置**
 * **支持粒度可控的的loggable控制**
 * **支持重定向Logger（通常用于本地文件打印、第三方日志接入等）**
-* **无限长字符串打印, 同时支持自动换行**
+* **无限长字符串打印, 支持自动换行(Soft Wrap)**
 
 ## Sample Screen Shot
 ![ScreenShot](./ScreenShot.png)
 
-## Thanks
-* [Logger](https://github.com/orhanobut/logger)
-* [KLog](https://github.com/ZhaoKaiQiang/KLog)
-
 ## Contribution & Contact
-Thanks for using PLog, this library is still in active development.**Any contribution or material
-bonus are appreciated and welcome.**
+Thanks for using PLog, this library is still in active development.
 Please feel free to contact me by using following way:
 
 **Email: muyangmin@foxmail.com**
