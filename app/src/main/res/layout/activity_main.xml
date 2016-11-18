@@ -36,7 +36,7 @@
                 android:text="@string/btn_log_empty"/>
 
             <Button
-                android:id="@+id/btn_log_without_tag"
+                android:id="@+id/btn_log_tags"
                 style="@style/DemoButton"
                 android:text="@string/btn_log_without_tag"/>
 
@@ -64,16 +64,6 @@
                 android:id="@+id/btn_timing_logger"
                 style="@style/DemoButton"
                 android:text="@string/btn_timing_logger"/>
-
-            <Button
-                android:id="@+id/btn_auto_tag"
-                style="@style/DemoButton"
-                android:text="@string/btn_auto_tag"/>
-
-            <Button
-                android:id="@+id/btn_tag_anonymous"
-                style="@style/DemoButton"
-                android:text="@string/btn_tag_anonymous"/>
 
             <Button
                 android:id="@+id/btn_tag_nested"

@@ -71,9 +71,19 @@ public class MainActivity extends AppCompatActivity {
         PLog.empty();
     }
 
-    @OnClick(R.id.btn_log_without_tag)
-    void logWithoutTag() {
+    @OnClick(R.id.btn_log_tags)
+    void logTags() {
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        PLog.init(PLogConfig.newBuilder(backup)
+                .useAutoTag(true)
+//                .globalTag("SampleApp")
+//                .forceConcatGlobalTag(true)
+                .build());
+        PLog.empty();
         PLog.i("I'm printing log without tag. Please check autoTag option.");
+
+        PLog.init(backup);
     }
 
     @OnClick(R.id.btn_log_long)
@@ -165,20 +175,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btn_auto_tag)
-    void logWithAutoTag() {
-        PLogConfig backup = PLog.getCurrentConfig();
-
-        PLog.init(PLogConfig.newBuilder(backup)
-                .useAutoTag(true)
-                .build());
-        PLog.empty();
-
-        PLog.init(backup);
-    }
-
-    @OnClick(R.id.btn_tag_anonymous)
-    void logInAnonymousClass() {
+    @OnClick(R.id.btn_tag_nested)
+    void logInComplicatedClasses() {
         PLogConfig backup = PLog.getCurrentConfig();
 
         PLog.init(PLogConfig.newBuilder(backup)
@@ -190,17 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 PLog.i("This is a log in anonymous class.");
             }
         }.call();
-
-        PLog.init(backup);
-    }
-
-    @OnClick(R.id.btn_tag_nested)
-    void logInNestedClass() {
-        PLogConfig backup = PLog.getCurrentConfig();
-
-        PLog.init(PLogConfig.newBuilder(backup)
-                .useAutoTag(true)
-                .build());
 
         new Action0() {
             @Override

@@ -4,25 +4,22 @@
     <h2>Welcome to use PLog!<h2>
     <p>
     This is a powerful, light-weight and active developed library. <br/>
-    Any contribution or material bonus are appreciated and welcome.
     </p>
     Basic and common usages are shown below. For more details, please checkout from GitHub or see Wiki.
     ]]></string>
 
     <string name="btn_basic_log">Basic usage</string>
     <string name="btn_log_empty">Log without message</string>
-    <string name="btn_log_without_tag">Log without tag</string>
+    <string name="btn_log_without_tag">Auto tag/GlobalTag</string>
     <string name="btn_log_long">Very long log</string>
-    <string name="btn_log_objects">Log any given objects</string>
-    <string name="btn_log_throwable">Log a Throwable</string>
-    <string name="btn_log_json">Log a JSON</string>
+    <string name="btn_log_objects">Objects</string>
+    <string name="btn_log_throwable">Throwable</string>
+    <string name="btn_log_json">JSON</string>
     <string name="btn_timing_logger">Timing logger</string>
-    <string name="btn_auto_tag">Use auto tag</string>
-    <string name="btn_tag_anonymous">Auto tag in anonymous class</string>
-    <string name="btn_tag_nested">Nested class and anonymous class</string>
-    <string name="btn_customize_logger">Use customized logger</string>
-    <string name="btn_stack_offset">Log with stack offset</string>
-    <string name="btn_log_using_wrapper_class">Log using wrapper class</string>
+    <string name="btn_tag_nested">Nested and anonymous class</string>
+    <string name="btn_customize_logger">Customized logger</string>
+    <string name="btn_stack_offset">Stack offset</string>
+    <string name="btn_log_using_wrapper_class">Wrapper class</string>
 
     <string name="console_emulated_log"><![CDATA[
     The New Teacher\n

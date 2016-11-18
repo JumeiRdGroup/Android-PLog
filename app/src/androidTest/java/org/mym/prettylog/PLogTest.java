@@ -1,9 +1,6 @@
 package org.mym.prettylog;
 
 import android.app.Activity;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -65,7 +62,7 @@ public class PLogTest {
 
         onView(withId(R.id.btn_basic_usage)).perform(scrollTo(), click());
         onView(withId(R.id.btn_log_empty)).perform(scrollTo(), click());
-        onView(withId(R.id.btn_log_without_tag)).perform(scrollTo(), click());
+        onView(withId(R.id.btn_log_tags)).perform(scrollTo(), click());
         onView(withId(R.id.btn_log_long)).perform(scrollTo(), click());
         onView(withId(R.id.btn_log_objects)).perform(scrollTo(), click());
         onView(withId(R.id.btn_log_throwable)).perform(scrollTo(), click());
