@@ -9,12 +9,12 @@
     ]]></string>
 
     <string name="btn_basic_log">Basic usage</string>
-    <string name="btn_log_empty">Log without message</string>
     <string name="btn_log_without_tag">Auto tag/GlobalTag</string>
     <string name="btn_log_long">Very long log</string>
     <string name="btn_log_objects">Objects</string>
     <string name="btn_log_throwable">Throwable</string>
     <string name="btn_log_json">JSON</string>
+    <string name="btn_file_logger">File Logger</string>
     <string name="btn_timing_logger">Timing logger</string>
     <string name="btn_tag_nested">Nested and anonymous class</string>
     <string name="btn_customize_logger">Customized logger</string>
@@ -32,4 +32,5 @@
     Tom: Every time I come to the corner, a sign says, "School-Go Slow".
     ]]></string>
     <string name="console_close_tip">Tap console TextView to backup logger.</string>
+    <string name="file_logger_tip">Log file saved on path: %s</string>
 </resources>

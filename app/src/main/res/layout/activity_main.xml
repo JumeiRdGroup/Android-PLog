@@ -31,11 +31,6 @@
                 android:text="@string/btn_basic_log"/>
 
             <Button
-                android:id="@+id/btn_log_empty"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_empty"/>
-
-            <Button
                 android:id="@+id/btn_log_tags"
                 style="@style/DemoButton"
                 android:text="@string/btn_log_without_tag"/>
@@ -61,19 +56,25 @@
                 android:text="@string/btn_log_json"/>
 
             <Button
+                android:id="@+id/btn_file_logger"
+                style="@style/DemoButton"
+                android:text="@string/btn_file_logger"
+                />
+
+            <Button
                 android:id="@+id/btn_timing_logger"
                 style="@style/DemoButton"
                 android:text="@string/btn_timing_logger"/>
 
             <Button
-                android:id="@+id/btn_tag_nested"
-                style="@style/DemoButton"
-                android:text="@string/btn_tag_nested"/>
-
-            <Button
                 android:id="@+id/btn_customize_logger"
                 style="@style/DemoButton"
                 android:text="@string/btn_customize_logger"/>
+
+            <Button
+                android:id="@+id/btn_tag_nested"
+                style="@style/DemoButton"
+                android:text="@string/btn_tag_nested"/>
 
             <Button
                 android:id="@+id/btn_stack_offset"

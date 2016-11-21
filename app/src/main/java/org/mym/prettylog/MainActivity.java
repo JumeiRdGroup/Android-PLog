@@ -1,6 +1,7 @@
 package org.mym.prettylog;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
+import org.mym.plog.logger.FileLogger;
+import org.mym.plog.logger.Logger;
 import org.mym.plog.logger.SinglePipeLogger;
 import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_basic_usage)
     void basicUsage() {
+        PLog.empty();
+
         PLog.v("This is a verbose log.");
         PLog.d("This is a debug log. param is %d, %.2f and %s", 1, 2.413221, "Great");
         PLog.i("InfoTag", "This is an info log using specified tag.");
@@ -64,11 +69,6 @@ public class MainActivity extends AppCompatActivity {
         Cat2 jerry = new Cat2("Jerry", "brown");
 
         PLog.i("I have 2 cats, %s and %s", tom, jerry);
-    }
-
-    @OnClick(R.id.btn_log_empty)
-    void logEmpty() {
-        PLog.empty();
     }
 
     @OnClick(R.id.btn_log_tags)
@@ -131,6 +131,30 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_log_json)
     void logJSON(){
         PLog.json(JSONEntity.DATA);
+    }
+
+    @OnClick(R.id.btn_file_logger)
+    void logWithFileLogger() {
+        PLogConfig backup = PLog.getCurrentConfig();
+
+        final FileLogger fileLogger = new FileLogger(this);
+        PLog.init(PLogConfig.newBuilder(backup)
+                .logger(fileLogger)
+                .build());
+        PLog.i("This is the first line of file log.");
+
+        String story = getString(R.string.console_emulated_log);
+        PLog.v(story);
+
+        PLog.i("This is the last line of file log.");
+
+        Toast.makeText(MainActivity.this, getString(R.string.file_logger_tip,
+                fileLogger.getLogFilePath()), Toast.LENGTH_SHORT).show();
+
+        //Close file logger set previously to release resources
+        fileLogger.close();
+
+        PLog.init(backup);
     }
 
     @OnClick(R.id.btn_timing_logger)
