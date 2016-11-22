@@ -1,3 +1,7 @@
+#### Version 1.7.0 *(Coming soon)*
+**File logger is available now!**
+Fixed #19.
+
 #### Version 1.6.0 *(2016-10-21)*
 * Empty method with stack offset param #14
 * Enhanced object format for List #15

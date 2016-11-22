@@ -44,7 +44,8 @@ features.
 * **Timing log support**
 * **Line number and stackOffset support**
 * **Loggable controller with different level**
-* **Logger redirect support（useful for printing to local file, adapt a 3-party logging, etc）**
+* **Local file logger is available**
+* **Logger redirect support（useful for adapt a 3-party logging, etc）**
 * **Very long log content support, either auto line wrap(soft wrap)**
 
 ## Sample Screen Shot
