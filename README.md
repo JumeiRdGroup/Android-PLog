@@ -3,6 +3,9 @@
 
 [English Version](README_EN.md)
 
+## 2.0版本预告/讨论请点这里：[#21](https://github.com/Muyangmin/Android-PLog/issues/21)
+
+
 ## Summary
 PLog是一个Android专用的日志封装库，遵从以下的设计哲学：
 #### 追求实用性
