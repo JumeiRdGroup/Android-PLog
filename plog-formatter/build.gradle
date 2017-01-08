@@ -8,14 +8,12 @@ android {
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
     }
 
-    dependencies {
-//    compile 'org.mym.plog:android-plog:${VERSION_NAME}'
-
-        //For develop only
-        provided project(':plog')
-    }
 }
 
 dependencies {
+//    compile 'org.mym.plog:android-plog:${VERSION_NAME}'
+
+    //For develop only
+    provided project(':plog')
     provided "com.android.support:support-annotations:${rootProject.ext.SUPPORT_VERSION as String}"
 }
