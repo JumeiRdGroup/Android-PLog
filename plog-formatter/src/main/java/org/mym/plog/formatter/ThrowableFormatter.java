@@ -14,7 +14,7 @@ public class ThrowableFormatter implements Formatter {
 
     /**
      * @param msg    msg to be formatted at the 1st line. This is likely
-     *               with{@link android.util.Log#e(String, String, Throwable)}, etc.
+     *               with{@link Log#e(String, String, Throwable)}, etc.
      * @param params params to format msg. the 1st argument must be a Throwable instance, and others
      *               are ignored.
      * @throws IllegalArgumentException when argument do not contain a Throwable at 1st position.

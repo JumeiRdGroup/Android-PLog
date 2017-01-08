@@ -1,1 +1,1 @@
-include ':app', ':plog'
+include ':app', ':plog', ':plog-formatter'

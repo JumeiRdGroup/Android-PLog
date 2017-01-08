@@ -5,10 +5,7 @@ import android.util.Log;
 
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.formatter.Formatter;
-import org.mym.plog.formatter.JSONFormatter;
-import org.mym.plog.formatter.ObjectFormatter;
 import org.mym.plog.formatter.StringFormatter;
-import org.mym.plog.formatter.ThrowableFormatter;
 import org.mym.plog.logger.Logger;
 import org.mym.plog.util.StackTraceUtil;
 import org.mym.plog.util.TimingLogger;

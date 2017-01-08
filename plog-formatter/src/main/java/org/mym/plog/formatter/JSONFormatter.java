@@ -44,7 +44,7 @@ public class JSONFormatter implements Formatter {
      * Indicate how many spaces should be used to intent.
      *
      * @see JSONObject#toString(int)
-     * @see org.json.JSONArray#toString(int)
+     * @see JSONArray#toString(int)
      */
     protected int getIntentSpaces() {
         return INTENT_SPACES;

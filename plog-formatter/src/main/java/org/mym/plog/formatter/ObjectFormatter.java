@@ -1,6 +1,6 @@
 package org.mym.plog.formatter;
 
-import org.mym.plog.util.ObjectUtil;
+import org.mym.plog.formatter.util.ObjectUtil;
 
 /**
  * This class JUST format pure OBJECTS.
