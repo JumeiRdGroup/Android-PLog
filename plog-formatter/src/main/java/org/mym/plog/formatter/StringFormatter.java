@@ -39,9 +39,9 @@ public class StringFormatter implements Formatter {
         }
         return String.format(msg, objects);
     }
-
-    @Override
-    public boolean isPreWrappedFormat() {
-        return false;
-    }
+//
+//    @Override
+//    public boolean isPreWrappedFormat() {
+//        return false;
+//    }
 }

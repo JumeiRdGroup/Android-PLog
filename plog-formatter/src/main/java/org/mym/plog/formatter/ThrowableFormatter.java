@@ -32,9 +32,9 @@ public class ThrowableFormatter implements Formatter {
             return msg + "\n" + stackTrace;
         }
     }
-
-    @Override
-    public boolean isPreWrappedFormat() {
-        return true;
-    }
+//
+//    @Override
+//    public boolean isPreWrappedFormat() {
+//        return true;
+//    }
 }

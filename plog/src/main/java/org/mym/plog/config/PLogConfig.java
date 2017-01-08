@@ -4,9 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.mym.plog.PLog;
-import org.mym.plog.logger.DefaultLogger;
-import org.mym.plog.logger.Logger;
-import org.mym.plog.logger.SinglePipeLogger;
+import org.mym.plog.PrintLevel;
 
 /**
  * Class for config fields.
@@ -50,17 +48,14 @@ public class PLogConfig {
      * @since 1.0.0
      */
     private boolean keepInnerClass;
-    private Logger logger;
-    private Logger timingLogger;
-    private LogController controller;
-    /**
+
+     /**
      * Max character count per line.
      * @since 1.2.0
      */
     private int maxLengthPerLine;
 
     private PLogConfig(Builder builder) {
-        controller = builder.controller;
         globalStackOffset = builder.globalStackOffset;
         globalTag = builder.globalTag;
         forceConcatGlobalTag = builder.forceConcatGlobalTag;
@@ -69,8 +64,6 @@ public class PLogConfig {
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
-        logger = builder.logger;
-        timingLogger = builder.timingLogger;
         maxLengthPerLine = builder.maxLengthPerLine;
     }
 
@@ -87,12 +80,6 @@ public class PLogConfig {
     public static void checkConfigSafe(PLogConfig config) throws RuntimeException {
         if (config == null) {
             throw new NullPointerException("Customized config cannot be null!");
-        }
-        if (config.getController() == null) {
-            throw new NullPointerException("Log controller cannot be null!");
-        }
-        if (config.getLogger() == null) {
-            throw new NullPointerException("Logger cannot be null!");
         }
         if (config.getEmptyMsg() == null) {
             throw new NullPointerException("Empty msg cannot be null!");
@@ -133,6 +120,7 @@ public class PLogConfig {
         return emptyMsg;
     }
 
+    @PrintLevel
     public int getEmptyMsgLevel() {
         return emptyMsgLevel;
     }
@@ -147,18 +135,6 @@ public class PLogConfig {
 
     public boolean isKeepInnerClass() {
         return keepInnerClass;
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public Logger getTimingLogger() {
-        return timingLogger;
-    }
-
-    public LogController getController() {
-        return controller;
     }
 
     public int getMaxLengthPerLine() {
@@ -178,10 +154,7 @@ public class PLogConfig {
         private String emptyMsg;
         private boolean keepLineNumber;
         private boolean keepInnerClass;
-        private Logger logger;
         private int maxLengthPerLine;
-        private Logger timingLogger;
-        private LogController controller;
         private int globalStackOffset;
 
         /**
@@ -191,7 +164,6 @@ public class PLogConfig {
         }
 
         public Builder(PLogConfig copy) {
-            this.controller = copy.controller;
             this.globalStackOffset = copy.globalStackOffset;
             this.globalTag = copy.globalTag;
             this.forceConcatGlobalTag = copy.forceConcatGlobalTag;
@@ -200,8 +172,6 @@ public class PLogConfig {
             this.emptyMsgLevel = copy.emptyMsgLevel;
             this.keepLineNumber = copy.keepLineNumber;
             this.keepInnerClass = copy.keepInnerClass;
-            this.logger = copy.logger;
-            this.timingLogger = copy.timingLogger;
             this.maxLengthPerLine = copy.maxLengthPerLine;
         }
 
@@ -271,14 +241,6 @@ public class PLogConfig {
         }
 
         /**
-         * Customize logger.
-         */
-        public Builder logger(Logger val) {
-            logger = val;
-            return this;
-        }
-
-        /**
          * Define a threshold value to tell logger to split log into multi lines when log length
          * reaches this limitation.
          *
@@ -290,24 +252,6 @@ public class PLogConfig {
             maxLengthPerLine = val;
             return this;
         }
-
-        /**
-         * Customize logger for timing. Timing logger is still be controller by
-         * {@link #controller(LogController)}.
-         */
-        public Builder timingLogger(Logger logger) {
-            timingLogger = logger;
-            return this;
-        }
-
-        /**
-         * Customize log controller.
-         */
-        public Builder controller(LogController val) {
-            controller = val;
-            return this;
-        }
-
         public Builder globalStackOffset(int val) {
             globalStackOffset = val;
             return this;
@@ -325,28 +269,6 @@ public class PLogConfig {
 
             if (globalTag == null) {
                 globalTag = DEFAULT_GLOBAL_TAG;
-            }
-
-            if (logger == null) {
-                logger = new DefaultLogger();
-            }
-            if (controller == null) {
-                controller = new EasyLogController(true, true);
-            }
-
-            if (timingLogger == null) {
-                timingLogger = new SinglePipeLogger() {
-                    @Override
-                    protected void log(int level, String tag, String msg) {
-                        /**
-                         * Why offset 3?
-                         * PLog#dumpTimingToLog
-                         * #callLogger
-                         * #dumpToLog
-                         */
-                        PLog.logWithStackOffset(Log.DEBUG, 3, tag, msg);
-                    }
-                };
             }
 
             //Assume all positive integers are acceptable

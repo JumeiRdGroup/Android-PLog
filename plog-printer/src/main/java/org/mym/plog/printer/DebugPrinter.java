@@ -7,6 +7,7 @@ import android.util.Log;
 import org.mym.plog.Category;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
+import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 import org.mym.plog.formatter.Formatter;
 
@@ -19,8 +20,8 @@ import org.mym.plog.formatter.Formatter;
 @SuppressWarnings("unused")
 public class DebugPrinter implements Printer {
     @Override
-    public boolean intercept(@PrintLevel int level, @Nullable Category category, @NonNull String
-            msg) {
+    public boolean intercept(@PrintLevel int level, @NonNull String tag,
+                             @Nullable Category category, @NonNull String msg) {
         //Intercept none
         return false;
     }
@@ -36,6 +37,12 @@ public class DebugPrinter implements Printer {
             //If formatter module is not included, use null formatter.
             return null;
         }
+    }
+
+    @Nullable
+    @Override
+    public Style getStyle() {
+        return null;
     }
 
     @Override

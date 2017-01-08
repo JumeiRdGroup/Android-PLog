@@ -34,11 +34,11 @@ public class JSONFormatter implements Formatter {
         }
         return msg;
     }
-
-    @Override
-    public boolean isPreWrappedFormat() {
-        return true;
-    }
+//
+//    @Override
+//    public boolean isPreWrappedFormat() {
+//        return true;
+//    }
 
     /**
      * Indicate how many spaces should be used to intent.

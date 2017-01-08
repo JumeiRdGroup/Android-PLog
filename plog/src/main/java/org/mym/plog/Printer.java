@@ -24,7 +24,8 @@ public interface Printer {
      * @return if returns true, this log won't be printed and just be ignored. Otherwise it would
      * be formatted and printed as usual.
      */
-    boolean intercept(@PrintLevel int level, @Nullable Category category, @NonNull String msg);
+    boolean intercept(@PrintLevel int level, @NonNull String tag,
+                      @Nullable Category category, @NonNull String msg);
 
     /**
      * Specify the formatter of this printer.
@@ -32,6 +33,9 @@ public interface Printer {
      */
     @Nullable
     Formatter getFormatter();
+
+    @Nullable
+    Style getStyle();
 
     /**
      * Specify soft wrap setting.

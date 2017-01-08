@@ -16,6 +16,7 @@ import org.mym.plog.Category;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
+import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 import org.mym.plog.formatter.Formatter;
 
@@ -98,10 +99,9 @@ public class FilePrinter implements Printer {
         return context.getFilesDir().getAbsolutePath() + File.separatorChar + "plog";
     }
 
-
     @Override
-    public boolean intercept(@PrintLevel int level, @Nullable Category category, @NonNull String
-            msg) {
+    public boolean intercept(@PrintLevel int level, @NonNull String tag,
+                      @Nullable Category category, @NonNull String msg) {
         return false;
     }
 
@@ -116,6 +116,12 @@ public class FilePrinter implements Printer {
             //If formatter module is not included, use null formatter.
             return null;
         }
+    }
+
+    @Nullable
+    @Override
+    public Style getStyle() {
+        return null;
     }
 
     @Override

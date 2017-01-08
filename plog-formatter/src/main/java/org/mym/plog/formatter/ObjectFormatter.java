@@ -33,9 +33,9 @@ public class ObjectFormatter implements Formatter {
         }
         return sb.toString();
     }
-
-    @Override
-    public boolean isPreWrappedFormat() {
-        return false;
-    }
+//
+//    @Override
+//    public boolean isPreWrappedFormat() {
+//        return false;
+//    }
 }
