@@ -44,5 +44,5 @@ public interface Printer {
      * @param level    print level of this log.
      * @param msg      content of this log(already formatted and soft wrapped, if needed).
      */
-    void print(@PrintLevel int level, @NonNull String msg);
+    void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg);
 }
