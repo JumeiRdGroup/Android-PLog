@@ -3,6 +3,8 @@ package org.mym.plog.formatter;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.mym.plog.Formatter;
+
 /**
  * This class can format Throwable into standard trace strings.
  * Created by muyangmin on Sep 09, 2016.

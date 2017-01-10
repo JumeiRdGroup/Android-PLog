@@ -2,6 +2,7 @@ package org.mym.plog.formatter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.mym.plog.Formatter;
 
 /**
  * Created by muyangmin on Sep 09, 2016.

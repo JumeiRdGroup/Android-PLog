@@ -1,5 +1,7 @@
 package org.mym.plog.formatter;
 
+import org.mym.plog.Formatter;
+
 /**
  * TODO What does this class to do?
  *

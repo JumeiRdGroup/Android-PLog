@@ -3,8 +3,6 @@ package org.mym.plog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.mym.plog.formatter.Formatter;
-
 /**
  * This interface and its subclasses define the intercept and output rules.
  * Please consider it as compose of logger and controller in PLog 1.x version;

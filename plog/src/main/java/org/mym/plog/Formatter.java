@@ -1,4 +1,4 @@
-package org.mym.plog.formatter;
+package org.mym.plog;
 
 /**
  * This interface defines how to format log msg.

@@ -1,15 +1,13 @@
 package org.mym.plog;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONObject;
 import org.mym.plog.config.PLogConfig;
-import org.mym.plog.formatter.Formatter;
 //import org.mym.plog.formatter.StringFormatter;
 //import org.mym.plog.logger.Logger;
-import org.mym.plog.util.StackTraceUtil;
+
 
 /**
  * Entry class of log module, settings, and init configs are all here.

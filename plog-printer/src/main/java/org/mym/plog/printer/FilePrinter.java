@@ -18,7 +18,7 @@ import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
 import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
-import org.mym.plog.formatter.Formatter;
+import org.mym.plog.Formatter;
 
 import java.io.File;
 import java.io.FileOutputStream;

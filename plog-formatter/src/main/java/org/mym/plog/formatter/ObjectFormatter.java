@@ -1,5 +1,6 @@
 package org.mym.plog.formatter;
 
+import org.mym.plog.Formatter;
 import org.mym.plog.formatter.util.ObjectUtil;
 
 /**

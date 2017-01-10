@@ -2,6 +2,7 @@ package org.mym.plog.formatter;
 
 import android.text.TextUtils;
 
+import org.mym.plog.Formatter;
 import org.mym.plog.util.ObjectUtil;
 
 /**
