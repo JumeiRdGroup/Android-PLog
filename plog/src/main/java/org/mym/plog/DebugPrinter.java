@@ -1,15 +1,8 @@
-package org.mym.plog.printer;
+package org.mym.plog;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import org.mym.plog.Category;
-import org.mym.plog.PrintLevel;
-import org.mym.plog.Printer;
-import org.mym.plog.Style;
-import org.mym.plog.formatter.DefaultFormatter;
-import org.mym.plog.Formatter;
 
 /**
  * Print all message to logcat.
@@ -17,23 +10,32 @@ import org.mym.plog.Formatter;
  * @author Muyangmin
  * @since 2.0.0
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DebugPrinter implements Printer {
+
+    private boolean isDebug;
+
+    public DebugPrinter(boolean isDebug) {
+        this.isDebug = isDebug;
+    }
+
     @Override
     public boolean intercept(@PrintLevel int level, @NonNull String tag,
                              @Nullable Category category, @NonNull String msg) {
         //Intercept none
-        return false;
+        return isDebug;
     }
 
     @Nullable
     @Override
     public Formatter getFormatter() {
         try {
-            Class.forName("org.mym.plog.formatter.DefaultFormatter");
+            //noinspection unchecked
+            Class<? extends Formatter> clz = ((Class<? extends Formatter>)
+                    Class.forName("org.mym.plog.formatter.DefaultFormatter"));
             //Only create a instance for provided dependency
-            return new DefaultFormatter();
-        }catch (ClassNotFoundException e){
+            return clz.newInstance();
+        } catch (Exception e) {
             //If formatter module is not included, use null formatter.
             return null;
         }

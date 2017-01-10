@@ -23,6 +23,8 @@ import java.util.List;
 final class LogEngine {
     private static final int STACK_TRACE_INDEX = 6;
 
+    private static boolean HAS_WARN_NO_PRINTERS = false;
+
     private static List<Printer> mPrinters = new ArrayList<>();
 
     /*package*/ static void setPrinters(Printer... printers) {
@@ -33,6 +35,12 @@ final class LogEngine {
     }
 
     /*package*/ static void handleLogRequest(LogRequest request) {
+        if (mPrinters.isEmpty() && !HAS_WARN_NO_PRINTERS){
+            mPrinters.add(new DebugPrinter(true));
+            PLog.e("No printer prepared, did you forgot it?");
+            HAS_WARN_NO_PRINTERS = true;
+        }
+
         Log.i("Stub!", ObjectUtil.objectToString(request));
 
         //Check tag

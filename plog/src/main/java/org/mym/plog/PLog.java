@@ -61,7 +61,18 @@ public final class PLog {
         safelySetConfig(config);
     }
 
-    public void setPrinters(Printer... printers){
+    /**
+     * Prepare printers; this method should always be called on application start because you should
+     * set your own intercept logic using {@link Printer} interface.
+     * <p>
+     * Sample usage: <br>
+     * <code>
+     *     PLog.prepare(new DebugPrinter(BuildConfig.DEBUG));
+     * </code>
+     * </p>
+     * @param printers printers to print logs; they are parallel from each other.
+     */
+    public void prepare(Printer... printers){
         LogEngine.setPrinters(printers);
     }
 
