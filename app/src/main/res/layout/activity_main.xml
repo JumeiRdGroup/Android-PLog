@@ -6,98 +6,135 @@
     android:layout_height="match_parent"
     tools:context="org.mym.prettylog.MainActivity">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/main_rl_configuration"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+        <Switch style="@style/DemoSwitch" android:text="AutoTag" android:id="@+id/main_switch_auto_tag"
+                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+        <Switch style="@style/DemoSwitch" android:text="concatGlobalTag" android:id="@+id/main_switch_concat_tag"
+                android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
+        <Switch style="@style/DemoSwitch" android:text="keepLineInfo" android:id="@+id/main_switch_line_info"
+                android:layout_alignParentStart="true" android:layout_alignParentLeft="true" android:layout_below="@id/main_switch_auto_tag" android:layout_marginTop="10dp"/>
+        <Switch style="@style/DemoSwitch" android:text="keepInnerClass" android:id="@+id/main_switch_inner_class"
+                android:layout_alignParentEnd="true" android:layout_alignParentRight="true" android:layout_alignTop="@id/main_switch_line_info"
+            />
+        <EditText
+            android:id="@+id/main_edt_global_tag"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/main_switch_line_info"
+            android:text="PrettyLog"
+            android:hint="GlobalTag"/>
 
-            <TextView
-                android:id="@+id/main_tv_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                tools:text="@string/plog_description"
-                />
+        <EditText
+            android:id="@+id/main_edt_max_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="MaxLengthPerLine"
+            android:text="160"
+            android:layout_alignBaseline="@+id/main_edt_global_tag"
+            android:layout_alignBottom="@+id/main_edt_global_tag"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
-            <Button
-                android:id="@+id/btn_basic_usage"
-                style="@style/DemoButton"
-                android:text="@string/btn_basic_log"/>
+    </RelativeLayout>
 
-            <Button
-                android:id="@+id/btn_log_tags"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_without_tag"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/main_rl_configuration"
+        android:id="@+id/main_recycler_usage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btn_log_long"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_long"/>
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/main_rl_configuration">-->
 
-            <Button
-                android:id="@+id/btn_log_objects"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_objects"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
 
-            <Button
-                android:id="@+id/btn_log_throwable"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_throwable"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_basic_usage"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_basic_log"/>-->
 
-            <Button
-                android:id="@+id/btn_log_json"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_json"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_tags"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_without_tag"/>-->
 
-            <Button
-                android:id="@+id/btn_file_logger"
-                style="@style/DemoButton"
-                android:text="@string/btn_file_logger"
-                />
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_long"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_long"/>-->
 
-            <Button
-                android:id="@+id/btn_timing_logger"
-                style="@style/DemoButton"
-                android:text="@string/btn_timing_logger"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_objects"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_objects"/>-->
 
-            <Button
-                android:id="@+id/btn_customize_logger"
-                style="@style/DemoButton"
-                android:text="@string/btn_customize_logger"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_throwable"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_throwable"/>-->
 
-            <Button
-                android:id="@+id/btn_tag_nested"
-                style="@style/DemoButton"
-                android:text="@string/btn_tag_nested"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_json"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_json"/>-->
 
-            <Button
-                android:id="@+id/btn_stack_offset"
-                style="@style/DemoButton"
-                android:text="@string/btn_stack_offset"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_file_logger"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_file_logger"-->
+                <!--/>-->
 
-            <Button
-                android:id="@+id/btn_log_using_wrapper_class"
-                style="@style/DemoButton"
-                android:text="@string/btn_log_using_wrapper_class"/>
-        </LinearLayout>
-    </ScrollView>
+            <!--<Button-->
+                <!--android:id="@+id/btn_timing_logger"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_timing_logger"/>-->
 
-    <TextView
-        android:id="@+id/main_tv_virtual_console"
-        android:layout_width="240dp"
-        android:layout_height="380dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/bkg_virtual_console"
-        android:padding="10dp"
-        android:textColor="@color/text_virtual_console"
-        android:visibility="invisible"
-        tools:text="com.android.support:(200) log on single line"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_customize_logger"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_customize_logger"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_tag_nested"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_tag_nested"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_stack_offset"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_stack_offset"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_log_using_wrapper_class"-->
+                <!--style="@style/DemoButton"-->
+                <!--android:text="@string/btn_log_using_wrapper_class"/>-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/main_tv_virtual_console"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="380dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:background="@color/bkg_virtual_console"-->
+        <!--android:padding="10dp"-->
+        <!--android:textColor="@color/text_virtual_console"-->
+        <!--android:visibility="invisible"-->
+        <!--tools:text="com.android.support:(200) log on single line"/>-->
 </RelativeLayout>

@@ -8,6 +8,16 @@
     Basic and common usages are shown below. For more details, please checkout from GitHub or see Wiki.
     ]]></string>
 
+    <string-array name="usage_cases">
+        <item>Basic usage</item>
+        <item>Long Log</item>
+        <item>File</item>
+        <item>JSON</item>
+        <item>Throwable</item>
+        <item>POJO</item>
+        <item>Timing</item>
+    </string-array>
+
     <string name="btn_basic_log">Basic usage</string>
     <string name="btn_log_without_tag">Auto tag/GlobalTag</string>
     <string name="btn_log_long">Very long log</string>

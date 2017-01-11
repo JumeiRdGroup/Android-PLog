@@ -3,7 +3,6 @@ package org.mym.prettylog;
 import android.app.Application;
 
 import org.mym.plog.PLog;
-import org.mym.plog.config.EasyLogController;
 import org.mym.plog.config.PLogConfig;
 import org.mym.prettylog.util.CrashHandler;
 
@@ -29,7 +28,7 @@ public class PLogApplication extends Application {
                 .useAutoTag(true)
                 .maxLengthPerLine(160)
                 //Auto disable log in release version
-                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
+//                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
 
         CrashHandler.getInstance().init();
