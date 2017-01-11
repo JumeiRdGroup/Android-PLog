@@ -29,21 +29,16 @@ ext {
     BUILD_TOOLS_VERSION = "25.0.2"
 
     //DEV DEPENDENCIES
-    SUPPORT_VERSION = "24.2.0"
+    SUPPORT_VERSION = "25.1.0"
     BUTTERKNIFE_VERSION = "8.4.0"
 
     APPCOMPAT_V7 = "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    DESIGN = "com.android.support:design:${SUPPORT_VERSION}"
+    SUPPORT_ANNOTATION = "com.android.support:support-annotations:${SUPPORT_VERSION}"
+    MD_COLOR_PALETTE = "org.mym.material:md-colors:1.0.0"
+
     BUTTERKNIFE = "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
     BUTTERKNIFE_APT = "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
-
-    //TEST DEPENDENCIES
-    JUNIT_VERSION = "4.12"
-
-    TEST_JUNIT = "junit:junit:${JUNIT_VERSION}"
-    TEST_SUPPORT_ANNOTATION = "com.android.support:support-annotations:24.2.0"
-    TEST_RUNNER = "com.android.support.test:runner:0.5"
-    TEST_RULES = "com.android.support.test:rules:0.5"
-    TEST_ESPRESSO = "com.android.support.test.espresso:espresso-core:2.2.1"
 
 }
 

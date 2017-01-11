@@ -30,15 +30,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile rootProject.ext.APPCOMPAT_V7 as String
-    compile rootProject.ext.BUTTERKNIFE as String
-    apt rootProject.ext.BUTTERKNIFE_APT as String
-//    compile project(':plog')
-    compile 'org.mym.plog:android-plog:1.7.0'
+    compile (rootProject.ext.APPCOMPAT_V7 as String)
+    compile (rootProject.ext.DESIGN as String)
+    compile (rootProject.ext.BUTTERKNIFE as String)
+    compile (rootProject.ext.MD_COLOR_PALETTE as String)
 
-    testCompile rootProject.ext.TEST_JUNIT as String
-    androidTestCompile rootProject.ext.TEST_SUPPORT_ANNOTATION as String
-    androidTestCompile rootProject.ext.TEST_RUNNER as String
-    androidTestCompile rootProject.ext.TEST_RULES as String
-    androidTestCompile rootProject.ext.TEST_ESPRESSO as String
+    apt (rootProject.ext.BUTTERKNIFE_APT as String)
+
+    compile project(':plog')
+//    compile 'org.mym.plog:android-plog:1.7.0'
+
 }

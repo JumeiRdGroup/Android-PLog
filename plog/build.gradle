@@ -26,13 +26,7 @@ android {
 }
 
 dependencies {
-    provided "com.android.support:support-annotations:${rootProject.ext.SUPPORT_VERSION as String}"
-
-    //Empty But test dependencies
-    testCompile rootProject.ext.TEST_JUNIT as String
-    androidTestCompile rootProject.ext.TEST_SUPPORT_ANNOTATION as String
-    androidTestCompile rootProject.ext.TEST_RUNNER as String
-    androidTestCompile rootProject.ext.TEST_RULES as String
+    provided "${rootProject.ext.SUPPORT_ANNOTATION as String}"
 }
 
 apply from: rootProject.file('gradle/android-artifacts.gradle')
