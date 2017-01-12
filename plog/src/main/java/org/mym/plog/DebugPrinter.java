@@ -1,5 +1,6 @@
 package org.mym.plog;
 
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,6 +20,7 @@ public class DebugPrinter implements Printer {
         this.isDebug = isDebug;
     }
 
+    @CheckResult
     @Override
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
                                @Nullable Category category, @NonNull String msg) {
@@ -47,6 +49,7 @@ public class DebugPrinter implements Printer {
         return null;
     }
 
+    @CheckResult
     @Override
     public boolean isSoftWrapDisallowed() {
         return false;

@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -99,6 +100,7 @@ public class FilePrinter implements Printer {
         return context.getFilesDir().getAbsolutePath() + File.separatorChar + "plog";
     }
 
+    @CheckResult
     @Override
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
                                @Nullable Category category, @NonNull String msg) {
@@ -124,6 +126,7 @@ public class FilePrinter implements Printer {
         return null;
     }
 
+    @CheckResult
     @Override
     public boolean isSoftWrapDisallowed() {
         return true;
