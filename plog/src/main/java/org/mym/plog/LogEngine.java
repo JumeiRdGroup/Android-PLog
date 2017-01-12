@@ -3,10 +3,8 @@ package org.mym.plog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.mym.plog.config.PLogConfig;
-import org.mym.plog.util.ObjectUtil;
 import org.mym.plog.util.StackTraceUtil;
 
 import java.util.ArrayList;
@@ -44,8 +42,6 @@ final class LogEngine {
             PLog.e("No printer prepared, did you forgot it?");
             HAS_WARN_NO_PRINTERS = true;
         }
-
-        Log.i("Stub!", ObjectUtil.objectToString(request));
 
         //Check tag
         PLogConfig config = PLog.getCurrentConfig();

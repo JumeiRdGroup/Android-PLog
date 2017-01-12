@@ -3,7 +3,8 @@ package org.mym.plog.formatter;
 import android.text.TextUtils;
 
 import org.mym.plog.Formatter;
-import org.mym.plog.util.ObjectUtil;
+import org.mym.plog.formatter.util.ObjectUtil;
+
 
 /**
  * This class just formats msg
