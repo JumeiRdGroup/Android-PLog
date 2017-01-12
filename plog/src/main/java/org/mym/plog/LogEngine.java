@@ -10,7 +10,7 @@ import org.mym.plog.util.ObjectUtil;
 import org.mym.plog.util.StackTraceUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,8 +29,12 @@ final class LogEngine {
 
     /*package*/ static void setPrinters(Printer... printers) {
         if (printers != null && printers.length > 0) {
-            mPrinters.clear();
-            mPrinters = Arrays.asList(printers);
+            if (!mPrinters.isEmpty()) {
+                mPrinters.clear();
+            }
+            //Arrays.ArrayList cannot support remove operation thus cannot clear.
+//            mPrinters = Arrays.asList(printers);
+            Collections.addAll(mPrinters, printers);
         }
     }
 
