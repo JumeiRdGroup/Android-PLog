@@ -327,7 +327,7 @@ public final class PLog {
      *
      * @param printers printers to print logs; they are parallel from each other.
      */
-    public void prepare(Printer... printers) {
+    public static void prepare(Printer... printers) {
         LogEngine.setPrinters(printers);
     }
 }
