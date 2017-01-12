@@ -1,5 +1,7 @@
 package org.mym.prettylog.data;
 
+import java.util.List;
+
 /**
  *
  * @author muyangmin
@@ -7,18 +9,25 @@ package org.mym.prettylog.data;
  */
 public class User {
 
-    private String mPrivateField;
-    protected String mProtectedField;
-    String mPackageField;
-    public int mPublicField;
+    private String name;
+    private int age;
+    private List<Cat> cats;
 
-    public User(String mPackageField, String mPrivateField, String mProtectedField, int
-            mPublicField) {
-        this.mPackageField = mPackageField;
-        this.mPrivateField = mPrivateField;
-        this.mProtectedField = mProtectedField;
-        this.mPublicField = mPublicField;
+    public User(String name, int age, List<Cat> cats) {
+        this.name = name;
+        this.age = age;
+        this.cats = cats;
     }
 
     //toString method is not overridden
+
+    public static final class Cat {
+        public String name;
+        public String color;
+
+        public Cat(String name, String color) {
+            this.name = name;
+            this.color = color;
+        }
+    }
 }

@@ -38,6 +38,8 @@ dependencies {
     apt (rootProject.ext.BUTTERKNIFE_APT as String)
 
     compile project(':plog')
+    compile project(':plog-printer')
+    compile project(':plog-timing')
 //    compile 'org.mym.plog:android-plog:1.7.0'
 
 }

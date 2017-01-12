@@ -6,7 +6,7 @@ package org.mym.prettylog.data;
  * @author muyangmin
  */
 public class JSONEntity {
-    public static final String DATA = "{\"array\":[1,2,3],\"boolean\":true,\"null\":null," +
-            "\"number\":123,\"object\":{\"a\":\"b\",\"c\":\"d\",\"e\":\"f\"},\"string\":\"Hello " +
-            "World\"}";
+    public static final String DATA = "{\"favSites\":[{\"name\":\"google\",\"domain\":\"https:www" +
+            ".google.com\"},{\"name\":\"facebook\",\"domain\":\"https:www.facebook.com\"}]," +
+            "\"user\":{\"name\":\"Lari\",\"address\":null,\"cert\":true,\"preserved\":{}}}";
 }
