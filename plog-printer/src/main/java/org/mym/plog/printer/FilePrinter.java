@@ -21,6 +21,7 @@ import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 import org.mym.plog.Formatter;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -37,7 +38,7 @@ import java.util.Locale;
  * @since 2.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class FilePrinter implements Printer {
+public class FilePrinter implements Printer, Closeable {
 
     /**
      * File size limit.
@@ -211,6 +212,15 @@ public class FilePrinter implements Printer {
         return file;
     }
 
+    /**
+     * Close associated files, etc.
+     */
+    @Override
+    public void close() {
+        if (mPrintHandler != null) {
+            mPrintHandler.sendEmptyMessage(PrintHandler.MSG_CLOSE_FILE);
+        }
+    }
 
     /**
      * The interface to generate new log file.
