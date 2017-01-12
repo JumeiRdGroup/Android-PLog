@@ -20,8 +20,8 @@ public class DebugPrinter implements Printer {
     }
 
     @Override
-    public boolean intercept(@PrintLevel int level, @NonNull String tag,
-                             @Nullable Category category, @NonNull String msg) {
+    public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
+                               @Nullable Category category, @NonNull String msg) {
         //Intercept none
         return isDebug;
     }
@@ -48,7 +48,7 @@ public class DebugPrinter implements Printer {
     }
 
     @Override
-    public boolean disallowSoftWrap() {
+    public boolean isSoftWrapDisallowed() {
         return false;
     }
 

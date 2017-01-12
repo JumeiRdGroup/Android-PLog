@@ -100,8 +100,8 @@ public class FilePrinter implements Printer {
     }
 
     @Override
-    public boolean intercept(@PrintLevel int level, @NonNull String tag,
-                      @Nullable Category category, @NonNull String msg) {
+    public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
+                               @Nullable Category category, @NonNull String msg) {
         return false;
     }
 
@@ -125,7 +125,7 @@ public class FilePrinter implements Printer {
     }
 
     @Override
-    public boolean disallowSoftWrap() {
+    public boolean isSoftWrapDisallowed() {
         return true;
     }
 

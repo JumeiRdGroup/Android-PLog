@@ -63,8 +63,8 @@ final class LogEngine {
 
         for (Printer printer : mPrinters) {
 
-            //Check ignore
-            if (printer.intercept(request.getLevel(), tag, request.getCategory(),
+            //Check intercept result
+            if (printer.onIntercept(request.getLevel(), tag, request.getCategory(),
                     request.getMsg())) {
                 //Skip and ignore this log
                 continue;
@@ -86,7 +86,7 @@ final class LogEngine {
             }
 
             //SoftWrap if allowed
-            if (!printer.disallowSoftWrap()) {
+            if (!printer.isSoftWrapDisallowed()) {
                 content = wrapLine(content, config.getMaxLengthPerLine(), style);
             }
 

@@ -62,21 +62,6 @@ public final class PLog {
     }
 
     /**
-     * Prepare printers; this method should always be called on application start because you should
-     * set your own intercept logic using {@link Printer} interface.
-     * <p>
-     * Sample usage: <br>
-     * <code>
-     *     PLog.prepare(new DebugPrinter(BuildConfig.DEBUG));
-     * </code>
-     * </p>
-     * @param printers printers to print logs; they are parallel from each other.
-     */
-    public void prepare(Printer... printers){
-        LogEngine.setPrinters(printers);
-    }
-
-    /**
      * Get current config; maybe this is useful for temporarily change config and backup then.
      * Another scenario is to debug this library.
      *
@@ -156,6 +141,12 @@ public final class PLog {
      */
     public static void wtf(Throwable throwable) {
         new LogRequest().level(Log.ERROR).params(throwable).execute();
+    }
+
+    private static void checkInitOrUseDefaultConfig() {
+        if (mConfig == null) {
+            init(new PLogConfig.Builder().build());
+        }
     }
 //
 //    /**
@@ -324,9 +315,19 @@ public final class PLog {
 //        }
 //    }
 
-    private static void checkInitOrUseDefaultConfig() {
-        if (mConfig == null) {
-            init(new PLogConfig.Builder().build());
-        }
+    /**
+     * Prepare printers; this method should always be called on application start because you should
+     * set your own onIntercept logic using {@link Printer} interface.
+     * <p>
+     * Sample usage: <br>
+     * <code>
+     * PLog.prepare(new DebugPrinter(BuildConfig.DEBUG));
+     * </code>
+     * </p>
+     *
+     * @param printers printers to print logs; they are parallel from each other.
+     */
+    public void prepare(Printer... printers) {
+        LogEngine.setPrinters(printers);
     }
 }

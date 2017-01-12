@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * This interface and its subclasses define the intercept and output rules.
+ * This interface and its subclasses define the onIntercept and output rules.
  * Please consider it as compose of logger and controller in PLog 1.x version;
  * or just like the "Tree" concept of Timber library.
  *
@@ -22,8 +22,8 @@ public interface Printer {
      * @return if returns true, this log won't be printed and just be ignored. Otherwise it would
      * be formatted and printed as usual.
      */
-    boolean intercept(@PrintLevel int level, @NonNull String tag,
-                      @Nullable Category category, @NonNull String msg);
+    boolean onIntercept(@PrintLevel int level, @NonNull String tag,
+                        @Nullable Category category, @NonNull String msg);
 
     /**
      * Specify the formatter of this printer.
@@ -39,7 +39,7 @@ public interface Printer {
      * Specify soft wrap setting.
      * @return If returns true, soft wrap feature for this printer will be disabled.
      */
-    boolean disallowSoftWrap();
+    boolean isSoftWrapDisallowed();
 
     /**
      * Do the real output operation, e.g. call Log.x(), or write to file.
