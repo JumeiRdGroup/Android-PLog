@@ -87,6 +87,6 @@ public class TimingLogger {
     }
 
     private void callLogger(String tag, String msg){
-        PLog.level(Log.DEBUG).tag(tag).msg(msg).execute();
+        PLog.level(Log.DEBUG).tag(tag).msg(msg).stackOffset(2).execute();
     }
 }
