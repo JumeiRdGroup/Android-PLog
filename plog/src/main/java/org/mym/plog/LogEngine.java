@@ -162,7 +162,9 @@ final class LogEngine {
     }
 
     private static String generateLineInfo(@NonNull StackTraceElement element){
-        return String.format("[(%s:%s):%s]", element.getFileName(), element.getLineNumber(),
+        return String.format("[(%s:%s):%s]",
+                TextUtils.isEmpty(element.getFileName()) ? "Unknown Source" : element.getFileName(),
+                element.getLineNumber(),
                 element.getMethodName());
     }
 
