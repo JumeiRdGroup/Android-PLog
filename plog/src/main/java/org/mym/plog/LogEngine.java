@@ -81,6 +81,22 @@ final class LogEngine {
 
             //Format if allowed
             String content = request.getMsg();
+            //If no formatter specified but has param, just toString.
+            if (printer.getFormatter() == null && content == null) {
+                StringBuilder sb = new StringBuilder();
+                Object[] params = request.getParams();
+                for (int i = 0; i < params.length; i++) {
+                    sb.append("param[")
+                            .append(i)
+                            .append("]=")
+                            .append(params[i])
+                            .append("\n")
+                    ;
+                }
+                content = sb.toString();
+            }
+
+            //Else: assume formatter can handle all cases
             if (printer.getFormatter() != null) {
                 try {
                     content = printer.getFormatter().format(request.getMsg(), request.getParams());
