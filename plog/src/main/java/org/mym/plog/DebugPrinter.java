@@ -24,8 +24,8 @@ public class DebugPrinter implements Printer {
     @Override
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
                                @Nullable Category category, @NonNull String msg) {
-        //Intercept none
-        return isDebug;
+        //Intercept all logs if not in debug
+        return !isDebug;
     }
 
     @Nullable
