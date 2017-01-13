@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.mym.plog.config.PLogConfig;
-import org.mym.plog.util.StackTraceUtil;
 import org.mym.plog.util.WordUtil;
 
-import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.List;
  * @since 2.0.0
  */
 final class LogEngine {
-    private static final int STACK_TRACE_INDEX = 6;
+    private static final int STACK_TRACE_INDEX = 5;
 
     private static boolean HAS_WARN_NO_PRINTERS = false;
 
@@ -158,7 +156,40 @@ final class LogEngine {
         if (pkgPath.length > 0) {
             className = pkgPath[pkgPath.length - 1];
         }
-        return className;
+
+
+        //IMPORTANT:
+        // 因为Java语法允许在匿名类中继续包含具名的子类,因此必须逆序遍历,但是lastIndex方法没有endIndex参数。
+        // 所以只能反向遍历, 每次截取最后一段执行subString, 如果全是数字,则继续往前遍历。
+        // Since nested inner class in anonymous is allowed, here we must do reversal traverse
+        // for the string.
+        StringBuilder sbInnerClass = new StringBuilder();
+        int index;
+        String strLoop = className;
+        while ((index = strLoop.lastIndexOf("$")) != -1) {
+            String piece = strLoop.substring(index + 1); //skip dollar
+            sbInnerClass.insert(0, piece);
+            //Careful: if only judge 0-9, then A$1$2$3 case would get unexpected answer 2$3.
+            if (!piece.matches("[0-9$]+")) {
+                break;
+            }
+            //still anonymous class, continue loop
+            sbInnerClass.insert(0, "$");
+            //truncate last piece
+            strLoop = strLoop.substring(0, index);
+        }
+        //delete first leading dollar
+        if (sbInnerClass.length() > 0 && sbInnerClass.charAt(0) == '$') {
+            sbInnerClass.deleteCharAt(0);
+        }
+        String innerClassName = sbInnerClass.toString();
+        //This happens on class like MainActivity$1.
+        if (TextUtils.isDigitsOnly(innerClassName)) {
+            //Reset; use full name instead.
+            innerClassName = null;
+        }
+
+        return TextUtils.isEmpty(innerClassName) ? className : innerClassName;
     }
 
     private static String generateLineInfo(@NonNull StackTraceElement element){
