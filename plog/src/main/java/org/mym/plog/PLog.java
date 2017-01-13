@@ -108,7 +108,9 @@ public final class PLog {
      * or {@link PLogConfig#getEmptyMsgLevel()} if specified.
      */
     public static void empty() {
-        new LogRequest().level(mConfig.getEmptyMsgLevel()).execute();
+        new LogRequest().level(getCurrentConfig().getEmptyMsgLevel())
+                .msg(getCurrentConfig().getEmptyMsg())
+                .execute();
     }
 
     /**
