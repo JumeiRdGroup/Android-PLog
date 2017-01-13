@@ -102,23 +102,31 @@ final class LogEngine {
                 content = WordUtil.wrap(content, config.getMaxLengthPerLine());
             }
 
-            if (!TextUtils.isEmpty(style.msgPrefix())) {
-                content = style.msgPrefix() + content;
+            StringBuilder outputSb = new StringBuilder(content.length() * 2);
+            if (config.isKeepLineNumber() && element!=null) {
+                outputSb.append(generateLineInfo(element));
             }
+
+            if (!TextUtils.isEmpty(style.msgPrefix())) {
+//                content = style.msgPrefix() + content;
+                outputSb.append(style.msgPrefix());
+            }
+            outputSb.append(content);
             if (!TextUtils.isEmpty(style.msgSuffix())) {
-                content = content + style.msgSuffix();
+//                content = content + style.msgSuffix();
+                outputSb.append(style.msgSuffix());
             }
 
             //call printer at last
-            printer.print(request.getLevel(), tag, content);
+            printer.print(request.getLevel(), tag, outputSb.toString());
         }
     }
 
     @NonNull
-    private static String prepareFinalTag(PLogConfig config, String explicitTag, StackTraceElement element) {
+    private static String prepareFinalTag(PLogConfig config, String explicitTag, @Nullable StackTraceElement element) {
         String tag = explicitTag;
         //Checking for auto tag
-        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
+        if (TextUtils.isEmpty(tag) && config.isUseAutoTag() && element != null) {
             tag = generateAutoTag(element);
         }
         //Only concat when tag is not empty and config is specified to true
@@ -154,7 +162,7 @@ final class LogEngine {
     }
 
     private static String generateLineInfo(@NonNull StackTraceElement element){
-        return String.format("(%s:%s):%s", element.getFileName(), element.getLineNumber(),
+        return String.format("[(%s:%s):%s]", element.getFileName(), element.getLineNumber(),
                 element.getMethodName());
     }
 
