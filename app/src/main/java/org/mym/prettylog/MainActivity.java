@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void logLong() {
+        PLog.i("Here is one line of text that is going to be wrapped after 20 columns.Here is one" +
+                " line of text that is going to be wrapped after 20 columns.Here is one line of " +
+                "text that is going to be wrapped after 20 columns.");
+
         StringBuilder sb = new StringBuilder("无限长字符串测试");
         for (int i = 0; i < 100; i++) {
             sb.append("[").append(i).append("]");

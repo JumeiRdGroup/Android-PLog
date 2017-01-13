@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.StackTraceUtil;
+import org.mym.plog.util.WordUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,7 +93,8 @@ final class LogEngine {
 
             //SoftWrap if allowed
             if (!printer.isSoftWrapDisallowed()) {
-                content = wrapLine(content, config.getMaxLengthPerLine(), style);
+//                content = wrapLine(content, config.getMaxLengthPerLine(), style);
+                content = WordUtil.wrap(content, config.getMaxLengthPerLine());
             }
 
             if (!TextUtils.isEmpty(style.msgPrefix())) {
