@@ -37,6 +37,11 @@ final class LogEngine {
     }
 
     /*package*/ static void handleLogRequest(LogRequest request) {
+        if (request == null || (TextUtils.isEmpty(request.getMsg())
+                && (request.getParams() == null || request.getParams().length == 0))) {
+            throw new IllegalArgumentException("Bad request: both msg and param are null/empty!");
+        }
+
         if (mPrinters.isEmpty() && !HAS_WARN_NO_PRINTERS){
             mPrinters.add(new DebugPrinter(true));
             PLog.e("No printer prepared, did you forgot it?");
