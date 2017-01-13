@@ -13,6 +13,7 @@ public class StackTraceUtil {
 
     /**
      * Generate auto tag for logs.
+     *
      * @param stackOffset stack offset, started from 0.
      * @return auto tag
      */
@@ -62,9 +63,10 @@ public class StackTraceUtil {
 
     /**
      * Generate stack information by current stackOffset.
+     *
      * @param keepInnerClass if set to true, then inner class information is inserted between line
      *                       number and method name.
-     * @param stackOffset stack offset, started from 0.
+     * @param stackOffset    stack offset, started from 0.
      * @return see the descriptions of params.
      */
     public static String generateStackInfo(boolean keepInnerClass, int stackOffset) {
@@ -99,6 +101,24 @@ public class StackTraceUtil {
         }
 
         return String.format("[(%s.java:%s)%s]", className, lineNum, methodName);
+    }
+
+    public static StackTraceElement getLogStackElement(int stackOffset){
+        StackTraceElement[] currentStack = getCurrentStack();
+        if (stackOffset >= currentStack.length || currentStack[stackOffset]==null) {
+            return null;
+        }
+
+        StackTraceElement element = currentStack[stackOffset];
+        String className = element.getClassName();
+        //parse to simple name
+        String pkgPath[] = className.split("\\.");
+        if (pkgPath.length > 0) {
+            className = pkgPath[pkgPath.length - 1];
+        }
+        StackTraceElement parsed = new StackTraceElement(className,
+                element.getMethodName(), element.getFileName(), element.getLineNumber());
+        return parsed;
     }
 
     private static StackTraceElement[] getCurrentStack() {

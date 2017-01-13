@@ -84,23 +84,23 @@ public final class PLog {
 
     public static void v(String msg, Object... params) {
         //TODO implement a pool of logRequest
-        new LogRequest().level(Log.VERBOSE).msg(msg).params(params).execute();
+        new LogRequest().level(Log.VERBOSE).msg(msg).params(params).stackOffset(1).execute();
     }
 
     public static void d(String msg, Object... params) {
-        new LogRequest().level(Log.DEBUG).msg(msg).params(params).execute();
+        new LogRequest().level(Log.DEBUG).msg(msg).params(params).stackOffset(1).execute();
     }
 
     public static void i(String msg, Object... params) {
-        new LogRequest().level(Log.INFO).msg(msg).params(params).execute();
+        new LogRequest().level(Log.INFO).msg(msg).params(params).stackOffset(1).execute();
     }
 
     public static void w(String msg, Object... params) {
-        new LogRequest().level(Log.WARN).msg(msg).params(params).execute();
+        new LogRequest().level(Log.WARN).msg(msg).params(params).stackOffset(1).execute();
     }
 
     public static void e(String msg, Object... params) {
-        new LogRequest().level(Log.ERROR).msg(msg).params(params).execute();
+        new LogRequest().level(Log.ERROR).msg(msg).params(params).stackOffset(1).execute();
     }
 
     /**
@@ -110,7 +110,7 @@ public final class PLog {
     public static void empty() {
         new LogRequest().level(getCurrentConfig().getEmptyMsgLevel())
                 .msg(getCurrentConfig().getEmptyMsg())
-                .execute();
+                .stackOffset(1).execute();
     }
 
     /**
@@ -120,7 +120,7 @@ public final class PLog {
      * @param params objects to print.
      */
     public static void objects(Object... params) {
-        new LogRequest().level(Log.DEBUG).params(params).execute();
+        new LogRequest().level(Log.DEBUG).params(params).stackOffset(1).execute();
     }
 
     /**
@@ -128,21 +128,21 @@ public final class PLog {
      * @since 2.0.0
      */
     public static void json(JSONObject jsonObject) {
-        new LogRequest().level(Log.DEBUG).params(jsonObject).execute();
+        new LogRequest().level(Log.DEBUG).params(jsonObject).stackOffset(1).execute();
     }
 
     /**
      * Print exceptions in WARN level.
      */
     public static void throwable(Throwable throwable) {
-        new LogRequest().level(Log.WARN).params(throwable).execute();
+        new LogRequest().level(Log.WARN).params(throwable).stackOffset(1).execute();
     }
 
     /**
      * What a Terrible Failure: Report an exception that should never happen.
      */
     public static void wtf(Throwable throwable) {
-        new LogRequest().level(Log.ERROR).params(throwable).execute();
+        new LogRequest().level(Log.ERROR).params(throwable).stackOffset(1).execute();
     }
 
     private static void checkInitOrUseDefaultConfig() {

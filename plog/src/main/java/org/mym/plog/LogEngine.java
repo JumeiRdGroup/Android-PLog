@@ -8,6 +8,7 @@ import org.mym.plog.config.PLogConfig;
 import org.mym.plog.util.StackTraceUtil;
 import org.mym.plog.util.WordUtil;
 
+import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,21 +52,25 @@ final class LogEngine {
 
         //Check tag
         PLogConfig config = PLog.getCurrentConfig();
-        String tag = request.getTag();
-        //Checking for auto tag
-        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
-            int offset = STACK_TRACE_INDEX + config.getGlobalStackOffset() + request
-                    .getStackOffset();
-            tag = StackTraceUtil.generateAutoTag(offset);
-        }
-        //Only concat when tag is not empty and config is specified to true
-        if ((!TextUtils.isEmpty(tag)) && config.isForceConcatGlobalTag()) {
-            tag = config.getGlobalTag() + "-" + tag;
-        }
-        //If still empty, using global
-        else if (TextUtils.isEmpty(tag)) {
-            tag = config.getGlobalTag();
-        }
+
+        int offset = STACK_TRACE_INDEX + config.getGlobalStackOffset() + request
+                .getStackOffset();
+        StackTraceElement element = getLogStackElement(offset);
+        String tag = prepareFinalTag(config, request.getTag(), element);
+
+//        String tag = request.getTag();
+//        //Checking for auto tag
+//        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
+//            tag = StackTraceUtil.generateAutoTag(offset);
+//        }
+//        //Only concat when tag is not empty and config is specified to true
+//        if ((!TextUtils.isEmpty(tag)) && config.isForceConcatGlobalTag()) {
+//            tag = config.getGlobalTag() + "-" + tag;
+//        }
+//        //If still empty, using global
+//        else if (TextUtils.isEmpty(tag)) {
+//            tag = config.getGlobalTag();
+//        }
 
         for (Printer printer : mPrinters) {
 
@@ -107,6 +112,50 @@ final class LogEngine {
             //call printer at last
             printer.print(request.getLevel(), tag, content);
         }
+    }
+
+    @NonNull
+    private static String prepareFinalTag(PLogConfig config, String explicitTag, StackTraceElement element) {
+        String tag = explicitTag;
+        //Checking for auto tag
+        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
+            tag = generateAutoTag(element);
+        }
+        //Only concat when tag is not empty and config is specified to true
+        if ((!TextUtils.isEmpty(tag)) && config.isForceConcatGlobalTag()) {
+            tag = config.getGlobalTag() + "-" + tag;
+        }
+        //If still empty, using global
+        else if (TextUtils.isEmpty(tag)) {
+            tag = config.getGlobalTag();
+        }
+        return tag;
+    }
+
+    @Nullable
+    private static StackTraceElement getLogStackElement(int offset) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        //VMStack->ThreadStack->getLogStack->handleLogRequest->LogRequest.execute()
+        //->CallerCode.
+        if (stack==null || stack.length <= offset){
+            return null;
+        }
+        return stack[offset];
+    }
+
+    private static String generateAutoTag(@NonNull StackTraceElement element){
+        String className = element.getClassName();
+        //parse to simple name
+        String pkgPath[] = className.split("\\.");
+        if (pkgPath.length > 0) {
+            className = pkgPath[pkgPath.length - 1];
+        }
+        return className;
+    }
+
+    private static String generateLineInfo(@NonNull StackTraceElement element){
+        return String.format("(%s:%s):%s", element.getFileName(), element.getLineNumber(),
+                element.getMethodName());
     }
 
     /**
