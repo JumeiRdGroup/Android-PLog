@@ -19,7 +19,7 @@ public class WordUtil {
     private static final String LINE_SEPARATOR = getSystemProperty("line.separator");
 
     public static String wrap(final String str, int wrapLength) {
-        return wrap(str, wrapLength, null, false, null);
+        return wrap(str, wrapLength, null, false, "[\\s\\n]+");
     }
 
     /**
