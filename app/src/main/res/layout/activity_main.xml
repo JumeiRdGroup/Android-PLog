@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="org.mym.prettylog.MainActivity"
-    tools:ignore="RtlHardcoded">
+    tools:ignore="RtlHardcoded, HardcodedText">
 
     <RelativeLayout
         android:id="@+id/main_rl_configuration"
@@ -22,7 +24,7 @@
             style="@style/DemoSwitch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:checked="true"
+            android:checked="@bool/cfg_auto_tag"
             android:text="AutoTag"/>
 
         <Switch
@@ -30,7 +32,7 @@
             style="@style/DemoSwitch"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:checked="true"
+            android:checked="@bool/cfg_concat_tag"
             android:text="concatGlobalTag"/>
 
         <Switch
@@ -40,7 +42,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@id/main_switch_auto_tag"
             android:layout_marginTop="10dp"
-            android:checked="true"
+            android:checked="@bool/cfg_line_info"
             android:text="keepLineInfo"/>
 
         <Switch
@@ -49,7 +51,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/main_switch_line_info"
-            android:checked="true"
+            android:checked="@bool/cfg_inner_class"
             android:text="keepInnerClass"
             />
 
@@ -62,7 +64,7 @@
             android:layout_below="@id/main_switch_line_info"
             android:layout_marginTop="10dp"
             android:hint="GlobalTag"
-            android:text="PrettyLog"
+            android:text="@string/cfg_global_tag"
             android:textSize="16sp"/>
 
         <EditText

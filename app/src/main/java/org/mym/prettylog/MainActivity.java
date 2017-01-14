@@ -1,6 +1,7 @@
 package org.mym.prettylog;
 
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -94,7 +95,16 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.main_btn_apply_config)
     void applyConfig(){
 
-        int maxLength = Integer.parseInt(mEdtMaxLength.getText().toString().trim());
+        String lenStr = mEdtMaxLength.getText().toString().trim();
+
+        int maxLength;
+        if (TextUtils.isEmpty(lenStr)){
+            maxLength = getResources().getInteger(R.integer.cfg_max_length);
+        }
+        else{
+            maxLength  = Integer.parseInt(lenStr);
+        }
+
         if (maxLength > 4000){
             toastMsg(R.string.max_length_too_long_limit);
         }
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         String newGlobalTag = mEdtGlobalTag.getText().toString().trim();
 
         if (TextUtils.isEmpty(newGlobalTag)){
-            newGlobalTag = getString(R.string.app_name);
+            newGlobalTag = getString(R.string.cfg_global_tag);
         }
 
         PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
@@ -235,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
      * </p>
      */
     void logTiming() {
-        TimingLogger logger = new TimingLogger("TimingTag", "OperationName");
+        TimingLogger logger = new TimingLogger("TimingTag", "TimingLabel");
 
         logger.addSplit("Operation Step1");
         emulateTimeOperation();
@@ -266,6 +276,9 @@ public class MainActivity extends AppCompatActivity {
 
     private class UsageAdapter extends RecyclerView.Adapter<UsageHolder> {
 
+        @ColorRes
+        private int[] mItemColorPalette;
+
         private String[] mTexts;
         @UsageCase
         private int[] mActions;
@@ -278,6 +291,12 @@ public class MainActivity extends AppCompatActivity {
             }
             this.mActions = actions;
             this.mTexts = texts;
+            this.mItemColorPalette = new int[]{
+                    R.color.md_blue_300, R.color.md_light_blue_500, R.color.md_blue_500,
+                    R.color.md_blue_800, R.color.md_light_blue_A100
+//                    R.color.colorPrimary, R.color.md_blue_300,
+//                    R.color.md_blue_A100, R.color.colorPrimaryDark
+            };
             mItemCount = actions.length;
         }
 
@@ -291,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final UsageHolder holder, final int position) {
             holder.displayData(mTexts[position]);
+            holder.itemView.setBackgroundResource(mItemColorPalette[position % mItemColorPalette.length]);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

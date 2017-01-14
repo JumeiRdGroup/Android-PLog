@@ -9,7 +9,7 @@
     ]]></string>
 
     <string-array name="usage_cases">
-        <item>Basic usage</item>
+        <item>Basic Log</item>
         <item>Long Log</item>
         <item>File</item>
         <item>JSON</item>
