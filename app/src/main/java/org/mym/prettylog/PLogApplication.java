@@ -2,6 +2,7 @@ package org.mym.prettylog;
 
 import android.app.Application;
 
+import org.mym.plog.DebugPrinter;
 import org.mym.plog.PLog;
 import org.mym.plog.config.PLogConfig;
 import org.mym.prettylog.util.CrashHandler;
@@ -31,6 +32,8 @@ public class PLogApplication extends Application {
                 //Auto disable log in release version
 //                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
+
+        PLog.prepare(new DebugPrinter(true));
 
         CrashHandler.getInstance().init();
     }

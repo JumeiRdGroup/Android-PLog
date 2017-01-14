@@ -99,6 +99,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_rl_configuration"/>
+    <TextView
+        android:id="@+id/main_tv_printer"
+        android:layout_below="@id/main_recycler_usage"
+        android:gravity="left|top"
+        android:textSize="14sp"
+        android:textColor="@color/md_green_500"
+        android:background="@color/md_light_blue_50"
+        tools:text="ViewPrinter(just for fun)"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <!--<ScrollView-->
     <!--android:layout_width="match_parent"-->

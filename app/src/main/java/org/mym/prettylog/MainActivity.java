@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_recycler_usage)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.main_tv_printer)
+    TextView mTvPrinter;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //TODO add action button
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 LOG_JSON, LOG_POJO, LOG_THROWABLE,
                 LOG_TIMING
         }, getResources().getStringArray(R.array.usage_cases)));
+
+        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter));
     }
 
 
@@ -233,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
         //RESET printers
         printer.close();
-        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG));
+        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG), new TextViewPrinter(mTvPrinter));
     }
 
     /**
