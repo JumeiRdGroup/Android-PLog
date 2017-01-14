@@ -101,7 +101,8 @@ final class LogEngine {
                 try {
                     content = printer.getFormatter().format(request.getMsg(), request.getParams());
                 } catch (Exception ignored) {
-
+                    //TODO consider remove this on release version
+                    ignored.printStackTrace();
                 }
             }
 

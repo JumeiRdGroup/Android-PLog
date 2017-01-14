@@ -13,8 +13,8 @@
         <item>Long Log</item>
         <item>File</item>
         <item>JSON</item>
-        <item>Throwable</item>
         <item>POJO</item>
+        <item>Throwable</item>
         <item>Timing</item>
     </string-array>
 
@@ -31,6 +31,8 @@
     <string name="btn_stack_offset">Stack offset</string>
     <string name="btn_log_using_wrapper_class">Wrapper class</string>
 
+    <string name="btn_apply_config">Apply</string>
+
     <string name="console_emulated_log"><![CDATA[
     The New Teacher\n
     George comes from school on the first of September.\n
@@ -43,4 +45,5 @@
     ]]></string>
     <string name="console_close_tip">Tap console TextView to backup logger.</string>
     <string name="file_logger_tip">Log file saved on path: %s</string>
+    <string name="max_length_too_long_limit">TIPS: Max length over 4K is unnecessary.</string>
 </resources>

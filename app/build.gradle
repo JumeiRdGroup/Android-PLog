@@ -40,6 +40,7 @@ dependencies {
     compile project(':plog')
     compile project(':plog-printer')
     compile project(':plog-timing')
+    compile project(':plog-formatter')
 //    compile 'org.mym.plog:android-plog:1.7.0'
 
 }

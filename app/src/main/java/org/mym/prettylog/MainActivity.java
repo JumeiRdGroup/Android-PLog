@@ -2,14 +2,18 @@ package org.mym.prettylog;
 
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.mym.plog.DebugPrinter;
 import org.mym.plog.PLog;
+import org.mym.plog.config.PLogConfig;
 import org.mym.plog.printer.FilePrinter;
 import org.mym.plog.timing.TimingLogger;
 import org.mym.prettylog.data.JSONEntity;
@@ -29,6 +34,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +45,24 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOG_THROWABLE = LOG_JSON + 1;
     private static final int LOG_POJO = LOG_THROWABLE + 1;
     private static final int LOG_TIMING = LOG_POJO + 1;
+
+    @BindView(R.id.main_switch_inner_class)
+    Switch mSwitchInnerClass;
+
+    @BindView(R.id.main_switch_line_info)
+    Switch mSwitchLineInfo;
+
+    @BindView(R.id.main_switch_auto_tag)
+    Switch mSwitchAutoTag;
+
+    @BindView(R.id.main_switch_concat_tag)
+    Switch mSwitchConcatTag;
+
+    @BindView(R.id.main_edt_global_tag)
+    EditText mEdtGlobalTag;
+    @BindView(R.id.main_edt_max_length)
+    EditText mEdtMaxLength;
+
     @BindView(R.id.main_recycler_usage)
     RecyclerView mRecyclerView;
 
@@ -60,6 +84,37 @@ public class MainActivity extends AppCompatActivity {
                 LOG_JSON, LOG_POJO, LOG_THROWABLE,
                 LOG_TIMING
         }, getResources().getStringArray(R.array.usage_cases)));
+    }
+
+
+    private void toastMsg(@StringRes int msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.main_btn_apply_config)
+    void applyConfig(){
+
+        int maxLength = Integer.parseInt(mEdtMaxLength.getText().toString().trim());
+        if (maxLength > 4000){
+            toastMsg(R.string.max_length_too_long_limit);
+        }
+
+        String newGlobalTag = mEdtGlobalTag.getText().toString().trim();
+
+        if (TextUtils.isEmpty(newGlobalTag)){
+            newGlobalTag = getString(R.string.app_name);
+        }
+
+        PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
+                .keepInnerClass(mSwitchInnerClass.isChecked())
+                .keepLineNumber(mSwitchLineInfo.isChecked())
+                .useAutoTag(mSwitchAutoTag.isChecked())
+                .forceConcatGlobalTag(mSwitchConcatTag.isChecked())
+                .maxLengthPerLine(maxLength)
+                .globalTag(newGlobalTag)
+                .build();
+        PLog.init(config);
+
     }
 
     private void performClick(@UsageCase int action) {
@@ -239,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    PLog.empty();
                     performClick(mActions[holder.getAdapterPosition()]);
                 }
             });

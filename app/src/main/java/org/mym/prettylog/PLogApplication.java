@@ -27,6 +27,7 @@ public class PLogApplication extends Application {
                 .keepLineNumber(true)
                 .useAutoTag(true)
                 .maxLengthPerLine(160)
+                .globalTag(getString(R.string.app_name))
                 //Auto disable log in release version
 //                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
