@@ -2,6 +2,7 @@ package org.mym.plog.formatter;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -113,7 +114,7 @@ public class DefaultFormatter implements Formatter {
         if (params == null || params.length == 0) {
             return msg;
         }
-        String[] formattedParam = new String[params.length];
+        Object[] formattedParam = new Object[params.length];
         for (int i = 0; i < params.length; i++) {
             Object param = params[i];
             boolean formatted = false;
@@ -124,11 +125,29 @@ public class DefaultFormatter implements Formatter {
                     break;
                 }
             }
-            if (!formatted){
-                formattedParam[i] = param.toString();
+            if (!formatted) {
+                formattedParam[i] = param;
             }
         }
-        return String.format(msg, (Object[]) formattedParam);
+//        return String.format(msg, (Object[]) formattedParam);
+        String formatResult;
+        if (!TextUtils.isEmpty(msg)) {
+            formatResult = String.format(msg, (Object[]) formattedParam);
+        } else if (formattedParam.length == 1) {
+            formatResult = formattedParam[0].toString();
+        } else {
+            StringBuilder sb = new StringBuilder("");
+            for (int i = 0; i < params.length; i++) {
+                sb.append("param[")
+                        .append(i)
+                        .append("]=")
+                        .append(formattedParam[i])
+                        .append("\n")
+                ;
+            }
+            formatResult = sb.toString();
+        }
+        return formatResult;
     }
 
     private boolean isFormatterAvailable(@FormatFlag int flag, @NonNull Object param,
@@ -138,6 +157,10 @@ public class DefaultFormatter implements Formatter {
             return false;
         }
         Class<?> paramClz = param.getClass();
+        //Primitive type is not allowed to format, since we may using %d, %f, and other format.
+        if (isPrimitiveWrapperClass(paramClz)) {
+            return false;
+        }
         for (Class<?> clz : types) {
             //if clz is equal or super class, the format operation is safe.
             if (clz.isAssignableFrom(paramClz)) {
@@ -146,6 +169,20 @@ public class DefaultFormatter implements Formatter {
         }
         //all formatter in sparse array iterated, but still not found.
         return false;
+    }
+
+    /**
+     * Determine whether param class is a standard wrapper class of primitive classes.
+     * NOTE that class in Object[] would never be primitive class, but can be wrapper class.see:
+     * http://stackoverflow.com/questions/709961/determining-if-an-object-is-of-primitive-type.
+     *
+     * @return true if is wrapper of primitive class, false otherwise.
+     */
+    private boolean isPrimitiveWrapperClass(@NonNull Class<?> clz) {
+        return clz.equals(Boolean.class) || clz.equals(Byte.class)
+                || clz.equals(Short.class) || clz.equals(Integer.class)
+                || clz.equals(Long.class) || clz.equals(Float.class)
+                || clz.equals(Double.class);
     }
 
     private class FormatterImpl implements Comparable<FormatterImpl> {
