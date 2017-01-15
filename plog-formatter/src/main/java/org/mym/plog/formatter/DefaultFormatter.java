@@ -186,9 +186,9 @@ public class DefaultFormatter implements Formatter {
 
     private class FormatterImpl implements Comparable<FormatterImpl> {
 
-        private static final int PRIORITY_LOW = 1;
+        private static final int PRIORITY_LOW = 3;
         private static final int PRIORITY_NORMAL = 2;
-        private static final int PRIORITY_HIGH = 3;
+        private static final int PRIORITY_HIGH = 1;
 
         /**
          * Priority to decide use which formatter is preferred.
