@@ -27,10 +27,8 @@ public class DefaultFormatter implements Formatter {
     public static final int FLAG_FMT_JSON = 1 << 1;
     public static final int FLAG_FMT_POJO = 1 << 2;
     public static final int FLAG_FMT_THROWABLE = 1 << 3;
-    public static final int FLAG_FMT_COLLECTION = 1 << 4;
 
-    @IntDef(value = {FLAG_FMT_JSON, FLAG_FMT_POJO, FLAG_FMT_THROWABLE, FLAG_FMT_COLLECTION}, flag
-            = true)
+    @IntDef(flag = true, value = {FLAG_FMT_JSON, FLAG_FMT_POJO, FLAG_FMT_THROWABLE})
     public @interface FormatFlag {
 
     }
@@ -76,12 +74,6 @@ public class DefaultFormatter implements Formatter {
      * Initialize formatter map using type flag passed in constructor.
      */
     private void initFormatter() {
-        if (isEnabled(FLAG_FMT_COLLECTION)) {
-            mFormatterImpls.add(new FormatterImpl(FormatterImpl.PRIORITY_NORMAL,
-                    new CollectionFormatter(), FLAG_FMT_COLLECTION, new Class[]{
-                    SparseArray.class, ArrayList.class, HashMap.class
-            }));
-        }
         if (isEnabled(FLAG_FMT_JSON)) {
             mFormatterImpls.add(new FormatterImpl(FormatterImpl.PRIORITY_NORMAL,
                     new JSONFormatter(), FLAG_FMT_JSON, new Class[]{
@@ -136,18 +128,25 @@ public class DefaultFormatter implements Formatter {
         } else if (formattedParam.length == 1) {
             formatResult = formattedParam[0].toString();
         } else {
-            StringBuilder sb = new StringBuilder("");
-            for (int i = 0; i < params.length; i++) {
-                sb.append("param[")
-                        .append(i)
-                        .append("]=")
-                        .append(formattedParam[i])
-                        .append("\n")
-                ;
-            }
-            formatResult = sb.toString();
+            formatResult = arrayToString(formattedParam);
         }
         return formatResult;
+    }
+
+    /**
+     * concat array content to string using a consistent format.
+     */
+    /*package*/ static String arrayToString(@NonNull Object[] params){
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < params.length; i++) {
+            sb.append("param[")
+                    .append(i)
+                    .append("]=")
+                    .append(params[i])
+                    .append("\n")
+            ;
+        }
+        return sb.toString();
     }
 
     private boolean isFormatterAvailable(@FormatFlag int flag, @NonNull Object param,
