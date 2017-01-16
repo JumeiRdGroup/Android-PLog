@@ -27,14 +27,7 @@ public class DefaultFormatter implements Formatter {
     public static final int FLAG_FMT_JSON = 1 << 1;
     public static final int FLAG_FMT_POJO = 1 << 2;
     public static final int FLAG_FMT_THROWABLE = 1 << 3;
-
-    @IntDef(flag = true, value = {FLAG_FMT_JSON, FLAG_FMT_POJO, FLAG_FMT_THROWABLE})
-    public @interface FormatFlag {
-
-    }
-
     private int mFormatFlag;
-
     /**
      * Use a collection to save implementations to avoid redundant implementation.
      */
@@ -68,6 +61,23 @@ public class DefaultFormatter implements Formatter {
             Log.i("DefaultFormatter", "The enabledFlag is " + Integer.toBinaryString(mFormatFlag));
         }
         initFormatter();
+    }
+
+    /**
+     * concat array content to string using a consistent format.
+     */
+    /*package*/
+    static String arrayToString(@NonNull Object[] params) {
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < params.length; i++) {
+            sb.append("param[")
+                    .append(i)
+                    .append("]=")
+                    .append(params[i])
+                    .append("\n")
+            ;
+        }
+        return sb.toString();
     }
 
     /**
@@ -112,7 +122,7 @@ public class DefaultFormatter implements Formatter {
             boolean formatted = false;
             for (FormatterImpl impl : mFormatterImpls) {
                 if (isFormatterAvailable(impl.typeFlag, param, impl.supportedClass)){
-                    formattedParam[i] = impl.formatter.format("", param);
+                    formattedParam[i] = impl.formatter.format(msg, param);
                     formatted = true;
                     break;
                 }
@@ -126,27 +136,11 @@ public class DefaultFormatter implements Formatter {
         if (!TextUtils.isEmpty(msg)) {
             formatResult = String.format(msg, (Object[]) formattedParam);
         } else if (formattedParam.length == 1) {
-            formatResult = formattedParam[0].toString();
+            formatResult = formattedParam[0] == null ? null : formattedParam[0].toString();
         } else {
             formatResult = arrayToString(formattedParam);
         }
         return formatResult;
-    }
-
-    /**
-     * concat array content to string using a consistent format.
-     */
-    /*package*/ static String arrayToString(@NonNull Object[] params){
-        StringBuilder sb = new StringBuilder("");
-        for (int i = 0; i < params.length; i++) {
-            sb.append("param[")
-                    .append(i)
-                    .append("]=")
-                    .append(params[i])
-                    .append("\n")
-            ;
-        }
-        return sb.toString();
     }
 
     private boolean isFormatterAvailable(@FormatFlag int flag, @NonNull Object param,
@@ -182,6 +176,11 @@ public class DefaultFormatter implements Formatter {
                 || clz.equals(Short.class) || clz.equals(Integer.class)
                 || clz.equals(Long.class) || clz.equals(Float.class)
                 || clz.equals(Double.class);
+    }
+
+    @IntDef(flag = true, value = {FLAG_FMT_JSON, FLAG_FMT_POJO, FLAG_FMT_THROWABLE})
+    public @interface FormatFlag {
+
     }
 
     private class FormatterImpl implements Comparable<FormatterImpl> {
