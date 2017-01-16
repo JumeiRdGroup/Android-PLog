@@ -8,6 +8,7 @@ import org.mym.plog.Category;
 import org.mym.plog.Formatter;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
+import org.mym.plog.SoftWrapper;
 import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 
@@ -19,11 +20,10 @@ import org.mym.plog.formatter.DefaultFormatter;
  */
 public class TextViewPrinter implements Printer {
 
-    private TextView mTextView;
-    private StringBuilder mBuffer;
-
     private static final String DISCLAIMER = "NOTE: This view printer is just for fun, please see logcat " +
             "or file output to get a practical experience.\n\n";
+    private TextView mTextView;
+    private StringBuilder mBuffer;
 
     public TextViewPrinter(@NonNull TextView mTextView) {
         this.mTextView = mTextView;
@@ -49,9 +49,19 @@ public class TextViewPrinter implements Printer {
         return null;
     }
 
+//    @Override
+//    public boolean isSoftWrapDisallowed() {
+//        return false;
+//    }
+
     @Override
-    public boolean isSoftWrapDisallowed() {
-        return false;
+    public SoftWrapper getSoftWrapper() {
+        return null;
+    }
+
+    @Override
+    public int getMaxLengthPerLine() {
+        return 0;
     }
 
     @Override

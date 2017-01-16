@@ -16,8 +16,15 @@ public class DebugPrinter implements Printer {
 
     private boolean isDebug;
 
+    private int maxLengthPerLine;
+
     public DebugPrinter(boolean isDebug) {
+        this(isDebug, 100);
+    }
+
+    public DebugPrinter(boolean isDebug, int maxLengthPerLine) {
         this.isDebug = isDebug;
+        this.maxLengthPerLine = maxLengthPerLine;
     }
 
     @CheckResult
@@ -48,11 +55,22 @@ public class DebugPrinter implements Printer {
     public Style getStyle() {
         return null;
     }
+//
+//    @CheckResult
+//    @Override
+//    public boolean isSoftWrapDisallowed() {
+//        return false;
+//    }
 
-    @CheckResult
+
     @Override
-    public boolean isSoftWrapDisallowed() {
-        return false;
+    public SoftWrapper getSoftWrapper() {
+        return SoftWrapper.WORD_LENGTH_WRAPPER;
+    }
+
+    @Override
+    public int getMaxLengthPerLine() {
+        return maxLengthPerLine;
     }
 
     @Override

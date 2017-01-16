@@ -131,7 +131,7 @@ public class LogWrapper {
 //                    .keepLineNumber(true)
 //                    .keepInnerClass(true)
 //                    .forceConcatGlobalTag(true)
-//                    .maxLengthPerLine(160)
+//                    .getMaxLengthPerLine(160)
 //                    //TODO replace your BuildConfig.DEBUG here
 //                    .controller(new EasyLogController(true, true))
 //                    .build());

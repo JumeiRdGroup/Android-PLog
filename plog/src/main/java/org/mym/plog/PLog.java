@@ -252,10 +252,10 @@ public final class PLog {
 //     * Soft wrap line rule implementation.
 //     *
 //     * @param logContent       log to be printed, NOT NULL
-//     * @param maxLengthPerLine max length
+//     * @param getMaxLengthPerLine max length
 //     * @return wrapped log
 //     */
-//    private static String wrapLine(String logContent, int maxLengthPerLine) {
+//    private static String wrapLine(String logContent, int getMaxLengthPerLine) {
 //        //Safety Check
 //        assert logContent != null;
 //
@@ -266,7 +266,7 @@ public final class PLog {
 //        int currentIndex = 0;
 //        //Use a StringBuilder to build multi line text but print only once, solve #6
 //        StringBuilder sb = new StringBuilder(logContent.length()
-//                + logContent.length() / maxLengthPerLine); //plus \n symbol
+//                + logContent.length() / getMaxLengthPerLine); //plus \n symbol
 //        while (currentIndex < logContent.length()) {
 //            //compute max length of this line
 //            int currentLineLength = Math.min(mConfig.getMaxLengthPerLine(),

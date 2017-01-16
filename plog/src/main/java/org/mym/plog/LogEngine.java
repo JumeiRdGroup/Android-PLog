@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.mym.plog.config.PLogConfig;
-import org.mym.plog.util.WordUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,9 +111,15 @@ final class LogEngine {
             }
 
             //SoftWrap if allowed
-            if (!printer.isSoftWrapDisallowed()) {
+            if (printer.getSoftWrapper() != null) {
 //                content = wrapLine(content, config.getMaxLengthPerLine(), style);
-                content = WordUtil.wrap(content, config.getMaxLengthPerLine());
+                if (printer.getMaxLengthPerLine() <= 0) {
+                    throw new IllegalArgumentException("max length should be a positive integer!");
+                } else {
+                    content = printer.getSoftWrapper().wrapLine(content,
+                            printer.getMaxLengthPerLine());
+                }
+//                content = WordBreakWrapper.wrap(content, config.getMaxLengthPerLine());
             }
 
             StringBuilder outputSb = new StringBuilder(content.length() * 2);
@@ -214,61 +219,6 @@ final class LogEngine {
                 TextUtils.isEmpty(element.getFileName()) ? "Unknown Source" : element.getFileName(),
                 element.getLineNumber(),
                 element.getMethodName());
-    }
-
-    /**
-     * Soft wrap line rule implementation.
-     *
-     * @param logContent       log to be printed, NOT NULL
-     * @param maxLengthPerLine max length
-     * @return wrapped log
-     */
-    private static String wrapLine(String logContent, int maxLengthPerLine, @NonNull Style style) {
-        //Safety Check
-        assert logContent != null;
-
-        if (logContent.isEmpty()) { // Not need to to StringBuilder and while loop
-            return logContent;
-        }
-
-        String lineHeader = style.lineHeader();
-        if (lineHeader == null) {
-            lineHeader = "";
-        }
-
-        int currentIndex = 0;
-        //Use a StringBuilder to build multi line text but print only once, solve #6
-        StringBuilder sb = new StringBuilder(logContent.length()
-                + logContent.length() / maxLengthPerLine); //plus \n symbol
-
-        while (currentIndex < logContent.length()) {
-            //compute max length of this line
-            int currentLineLength = Math.min(maxLengthPerLine,
-                    logContent.length() - currentIndex - lineHeader.length());
-
-            //Force new line if \n appears, otherwise use our soft wrap.
-            String subLine;
-
-            int newlineIndex = logContent.indexOf("\n", currentIndex);
-            int thisLineEnd = currentIndex + currentLineLength;
-
-            //has \n in this line;
-            if (newlineIndex != -1 && newlineIndex < thisLineEnd) {
-                subLine = logContent.substring(currentIndex, newlineIndex);
-                currentIndex = newlineIndex + 1;
-            } else {
-                subLine = logContent.substring(currentIndex, thisLineEnd);
-                currentIndex = thisLineEnd;
-            }
-
-            //Not print yet, only append.
-            sb.append(lineHeader).append(subLine);
-            //Has more chars
-            if (currentIndex < logContent.length()) {
-                sb.append("\n");
-            }
-        }
-        return sb.toString();
     }
 
     private static class DefaultStyle implements Style {

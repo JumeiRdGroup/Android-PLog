@@ -1,4 +1,8 @@
-package org.mym.plog.util;
+package org.mym.plog.internal;
+
+import android.support.annotation.NonNull;
+
+import org.mym.plog.SoftWrapper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,16 +15,12 @@ import java.util.regex.Pattern;
  * <p>
  * Created by muyangmin on Jan 13, 2017.
  *
- * @since 4.1.0
+ * @since 2.0.0
  */
 
-public class WordUtil {
+public class WordBreakWrapper implements SoftWrapper {
 
     private static final String LINE_SEPARATOR = getSystemProperty("line.separator");
-
-    public static String wrap(final String str, int wrapLength) {
-        return wrap(str, wrapLength, null, false, "[\\s\\n]+");
-    }
 
     /**
      * <p>Wraps a single line of text, identifying words by <code>wrapOn</code>.</p>
@@ -194,8 +194,6 @@ public class WordUtil {
         return wrappedLine.toString();
     }
 
-    // -----------------------------------------------------------------------
-
     /**
      * <p>
      * Gets a System property, defaulting to {@code null} if the property cannot be read.
@@ -219,6 +217,8 @@ public class WordUtil {
             return null;
         }
     }
+
+    // -----------------------------------------------------------------------
 
     /**
      * <p>Checks if a CharSequence is empty (""), null or whitespace only.</p>
@@ -248,5 +248,10 @@ public class WordUtil {
             }
         }
         return true;
+    }
+
+    @Override
+    public String wrapLine(@NonNull String input, int wrapLength) {
+        return wrap(input, wrapLength, null, false, null);
     }
 }

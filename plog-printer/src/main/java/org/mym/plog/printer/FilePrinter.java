@@ -17,6 +17,7 @@ import org.mym.plog.Category;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
+import org.mym.plog.SoftWrapper;
 import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 import org.mym.plog.Formatter;
@@ -127,10 +128,23 @@ public class FilePrinter implements Printer, Closeable {
         return null;
     }
 
-    @CheckResult
+//    @CheckResult
+//    @Override
+//    public boolean isSoftWrapDisallowed() {
+//        return true;
+//    }
+
+
     @Override
-    public boolean isSoftWrapDisallowed() {
-        return true;
+    public SoftWrapper getSoftWrapper() {
+//        return SoftWrapper.WORD_BREAK_WRAPPER;
+        return null;
+    }
+
+    @Override
+    public int getMaxLengthPerLine() {
+//        return 100;
+        return 0;
     }
 
     @Override
