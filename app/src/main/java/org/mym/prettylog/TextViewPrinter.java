@@ -66,10 +66,10 @@ public class TextViewPrinter implements Printer {
 
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
-        if (mBuffer ==null || mBuffer.length() > 150){
+        if (mBuffer == null || mBuffer.length() + msg.length() > DISCLAIMER.length() + 300) {
             mBuffer = new StringBuilder().append(DISCLAIMER);
         }
-        mBuffer.append(msg);
+        mBuffer.append(msg).append("\n");
         mTextView.setText(mBuffer);
     }
 }
