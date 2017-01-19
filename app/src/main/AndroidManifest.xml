@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="org.mym.prettylog"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.mym.prettylog">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".PLogApplication"

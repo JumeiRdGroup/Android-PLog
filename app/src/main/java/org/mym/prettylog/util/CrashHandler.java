@@ -1,6 +1,12 @@
 package org.mym.prettylog.util;
 
+import android.util.Log;
+
 import org.mym.plog.PLog;
+import org.mym.prettylog.CrashPrinter;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by muyangmin on 9/8/16.
@@ -41,11 +47,23 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         //TODO consider remove this on release version
-        throwable.printStackTrace();
-//        PLog.wtf(throwable);
+//        throwable.printStackTrace();
+        CrashPrinter.setExtraInfo(generateExtraInfo(thread));
+        PLog.level(Log.ERROR).category(CrashPrinter.CRASH).params(throwable).execute();
         if (mDefaultHandler != null) {
             mDefaultHandler.uncaughtException(thread, throwable);
         }
 
+    }
+
+    private String generateExtraInfo(Thread thread) {
+        //Print time and thread
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss, z",
+                Locale.getDefault());
+        //noinspection StringBufferReplaceableByString
+        StringBuilder sb = new StringBuilder();
+        sb.append("CrashTime: ").append(format.format(System.currentTimeMillis()));
+        sb.append("CrashThread: ").append(thread.toString());
+        return sb.toString();
     }
 }

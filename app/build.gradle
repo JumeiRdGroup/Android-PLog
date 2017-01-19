@@ -8,7 +8,8 @@ android {
     defaultConfig {
         applicationId "org.mym.prettylog"
         minSdkVersion rootProject.ext.MIN_SDK_VERSION as int
-        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
+//        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

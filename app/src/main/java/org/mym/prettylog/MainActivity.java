@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 LOG_TIMING
         }, getResources().getStringArray(R.array.usage_cases)));
 
-        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter));
+        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter),
+                CrashPrinter.getInstance(this));
     }
 
 
@@ -207,6 +208,10 @@ public class MainActivity extends AppCompatActivity {
 
         //force using error level
         PLog.level(Log.ERROR).throwable(e);
+
+        //Using crash category
+        PLog.level(Log.WARN).category(CrashPrinter.CRASH)
+                .params(e).execute();
     }
 
     void logJSON() {

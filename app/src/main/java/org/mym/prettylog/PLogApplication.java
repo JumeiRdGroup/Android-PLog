@@ -33,7 +33,8 @@ public class PLogApplication extends Application {
 //                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
 
-        PLog.prepare(new DebugPrinter(true));
+        PLog.prepare(new DebugPrinter(true),
+                CrashPrinter.getInstance(this));
 
         CrashHandler.getInstance().init();
     }

@@ -14,13 +14,13 @@ import android.util.Log;
 import android.util.PrintStreamPrinter;
 
 import org.mym.plog.Category;
+import org.mym.plog.Formatter;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.Printer;
 import org.mym.plog.SoftWrapper;
 import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
-import org.mym.plog.Formatter;
 
 import java.io.Closeable;
 import java.io.File;
@@ -151,6 +151,15 @@ public class FilePrinter implements Printer, Closeable {
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
         mPrintHandler.sendMessage(mPrintHandler.obtainMessage(PrintHandler.MSG_WRITE_LOG,
                 createPrintText(level, tag, msg)));
+    }
+
+    /**
+     * This method provides a quick method to provide file header, e.g. crash files.
+     * Although you still need to extends this class, but you needn't copy whole file management
+     * code.
+     */
+    protected void printFileHeader(PrintStreamPrinter printer) {
+
     }
 
     /**
@@ -369,6 +378,10 @@ public class FilePrinter implements Printer, Closeable {
             }
             mPrintStream = new PrintStream(new FileOutputStream(mCurrentFile), true, "UTF-8");
             mPrinter = new PrintStreamPrinter(mPrintStream);
+            FilePrinter printer;
+            if (mFilePrinter != null && ((printer = mFilePrinter.get()) != null)) {
+                printer.printFileHeader(mPrinter);
+            }
             return true;
         }
     }
