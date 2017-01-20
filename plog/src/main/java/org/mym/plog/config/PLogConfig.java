@@ -17,9 +17,6 @@ public class PLogConfig {
     private static final int DEFAULT_EMPTY_MSG_LEVEL = Log.DEBUG;
     private static final String DEFAULT_EMPTY_MSG = "Here executed.";
     private static final String DEFAULT_GLOBAL_TAG = "GlobalTag";
-    //In my test case, default logcat can display only 4048 characters per line, so we force
-    // print a new line when log is too long.
-    private static final int DEFAULT_MAX_LENGTH_PER_LINE = 4000;
     // -------------- DEFAULT FIELDS  END  --------------
 
     /**
@@ -49,12 +46,6 @@ public class PLogConfig {
      */
     private boolean keepInnerClass;
 
-     /**
-     * Max character count per line.
-     * @since 1.2.0
-     */
-    private int maxLengthPerLine;
-
     private PLogConfig(Builder builder) {
         globalStackOffset = builder.globalStackOffset;
         globalTag = builder.globalTag;
@@ -64,7 +55,6 @@ public class PLogConfig {
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
-        maxLengthPerLine = builder.maxLengthPerLine;
     }
 
     /**
@@ -86,9 +76,6 @@ public class PLogConfig {
         }
         if (config.getGlobalTag() == null) {
             throw new NullPointerException("Global tag cannot be null!");
-        }
-        if (config.getMaxLengthPerLine() <= 0){
-            throw new IllegalArgumentException("Max length per line must be positive!");
         }
     }
 
@@ -137,10 +124,6 @@ public class PLogConfig {
         return keepInnerClass;
     }
 
-    public int getMaxLengthPerLine() {
-        return maxLengthPerLine;
-    }
-
     public boolean isUseAutoTag() {
         return useAutoTag;
     }
@@ -154,7 +137,6 @@ public class PLogConfig {
         private String emptyMsg;
         private boolean keepLineNumber;
         private boolean keepInnerClass;
-        private int maxLengthPerLine;
         private int globalStackOffset;
 
         /**
@@ -172,7 +154,6 @@ public class PLogConfig {
             this.emptyMsgLevel = copy.emptyMsgLevel;
             this.keepLineNumber = copy.keepLineNumber;
             this.keepInnerClass = copy.keepInnerClass;
-            this.maxLengthPerLine = copy.maxLengthPerLine;
         }
 
         /**
@@ -240,18 +221,6 @@ public class PLogConfig {
             return this;
         }
 
-        /**
-         * Define a threshold value to tell logger to split log into multi lines when log length
-         * reaches this limitation.
-         *
-         * @param val any positive integer is now allowed. Default is {@value
-         *            #DEFAULT_MAX_LENGTH_PER_LINE} (i.e. logcat max length) by test result.
-         * @since 1.2.0
-         */
-        public Builder maxLengthPerLine(int val) {
-            maxLengthPerLine = val;
-            return this;
-        }
         public Builder globalStackOffset(int val) {
             globalStackOffset = val;
             return this;
@@ -269,11 +238,6 @@ public class PLogConfig {
 
             if (globalTag == null) {
                 globalTag = DEFAULT_GLOBAL_TAG;
-            }
-
-            //Assume all positive integers are acceptable
-            if (maxLengthPerLine <= 0) {
-                maxLengthPerLine = DEFAULT_MAX_LENGTH_PER_LINE;
             }
 
             return new PLogConfig(this);

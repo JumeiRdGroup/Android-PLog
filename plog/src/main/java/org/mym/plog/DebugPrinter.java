@@ -55,13 +55,6 @@ public class DebugPrinter implements Printer {
     public Style getStyle() {
         return null;
     }
-//
-//    @CheckResult
-//    @Override
-//    public boolean isSoftWrapDisallowed() {
-//        return false;
-//    }
-
 
     @Override
     public SoftWrapper getSoftWrapper() {

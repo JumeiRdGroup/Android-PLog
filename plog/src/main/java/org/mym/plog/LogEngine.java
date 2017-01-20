@@ -65,20 +65,6 @@ final class LogEngine {
             tag = String.format("%s[Category:%s]", tag, category.getName());
         }
 
-//        String tag = request.getTag();
-//        //Checking for auto tag
-//        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
-//            tag = StackTraceUtil.generateAutoTag(offset);
-//        }
-//        //Only concat when tag is not empty and config is specified to true
-//        if ((!TextUtils.isEmpty(tag)) && config.isForceConcatGlobalTag()) {
-//            tag = config.getGlobalTag() + "-" + tag;
-//        }
-//        //If still empty, using global
-//        else if (TextUtils.isEmpty(tag)) {
-//            tag = config.getGlobalTag();
-//        }
-
         for (Printer printer : mPrinters) {
 
             //Check intercept result
@@ -122,14 +108,12 @@ final class LogEngine {
 
             //SoftWrap if allowed
             if (printer.getSoftWrapper() != null) {
-//                content = wrapLine(content, config.getMaxLengthPerLine(), style);
                 if (printer.getMaxLengthPerLine() <= 0) {
                     throw new IllegalArgumentException("max length should be a positive integer!");
                 } else {
                     content = printer.getSoftWrapper().wrapLine(content,
                             printer.getMaxLengthPerLine());
                 }
-//                content = WordBreakWrapper.wrap(content, config.getMaxLengthPerLine());
             }
 
             StringBuilder outputSb = new StringBuilder(content.length() * 2);
@@ -138,12 +122,10 @@ final class LogEngine {
             }
 
             if (!TextUtils.isEmpty(style.msgPrefix())) {
-//                content = style.msgPrefix() + content;
                 outputSb.append(style.msgPrefix());
             }
             outputSb.append(content);
             if (!TextUtils.isEmpty(style.msgSuffix())) {
-//                content = content + style.msgSuffix();
                 outputSb.append(style.msgSuffix());
             }
 

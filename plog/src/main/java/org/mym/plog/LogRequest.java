@@ -1,7 +1,5 @@
 package org.mym.plog;
 
-import org.json.JSONObject;
-
 /**
  * Builder style API; use this class to fit complicated needs.
  * <p>
@@ -49,10 +47,6 @@ public final class LogRequest {
     }
 
     // ----- NOT core parameters; just for better usage BEGIN -----
-    public void json(JSONObject jsonObject) {
-        params(jsonObject);
-    }
-
     public void throwable(Throwable throwable) {
         params(throwable);
     }
