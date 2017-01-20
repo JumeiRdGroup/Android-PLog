@@ -74,6 +74,10 @@ public final class PLog {
         return mConfig;
     }
 
+    public static LogRequest category(@NonNull Category category) {
+        return new LogRequest().category(category);
+    }
+
     public static LogRequest level(@PrintLevel int level){
         return new LogRequest().level(level);
     }
