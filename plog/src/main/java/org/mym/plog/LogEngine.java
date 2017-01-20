@@ -35,6 +35,11 @@ final class LogEngine {
         }
     }
 
+    /*package*/
+    static void appendPrinter(@NonNull Printer printer) {
+        mPrinters.add(printer);
+    }
+
     /*package*/ static void handleLogRequest(LogRequest request) {
         if (request == null || (TextUtils.isEmpty(request.getMsg())
                 && (request.getParams() == null || request.getParams().length == 0))) {

@@ -332,4 +332,13 @@ public final class PLog {
     public static void prepare(Printer... printers) {
         LogEngine.setPrinters(printers);
     }
+
+    /**
+     * Append an extra printer to currently printer collection.
+     *
+     * @param printer cannot be null
+     */
+    public static void appendPrinter(@NonNull Printer printer) {
+        LogEngine.appendPrinter(printer);
+    }
 }
