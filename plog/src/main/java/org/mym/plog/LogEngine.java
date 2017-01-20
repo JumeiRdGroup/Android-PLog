@@ -60,6 +60,11 @@ final class LogEngine {
         StackTraceElement element = getLogStackElement(offset);
         String tag = prepareFinalTag(config, request.getTag(), element);
 
+        Category category = request.getCategory();
+        if (category != null && !TextUtils.isEmpty(category.getName())) {
+            tag = String.format("%s[Category:%s]", tag, category.getName());
+        }
+
 //        String tag = request.getTag();
 //        //Checking for auto tag
 //        if (TextUtils.isEmpty(tag) && config.isUseAutoTag()) {
