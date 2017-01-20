@@ -16,6 +16,7 @@
         <item>POJO</item>
         <item>Throwable</item>
         <item>Timing</item>
+        <item>Crash</item>
     </string-array>
 
     <string name="btn_basic_log">Basic usage</string>
@@ -46,4 +47,11 @@
     <string name="console_close_tip">Tap console TextView to backup logger.</string>
     <string name="file_logger_tip">Log file saved on path: %s</string>
     <string name="max_length_too_long_limit">TIPS: Max length over 4K is unnecessary.</string>
+
+    <string name="msg_storage_rationale">We need access external storage to save local
+        crash files, please click allow to continue.</string>
+    <string name="msg_storage_permission_denied">Crash printer is unavailable until you
+        granted permission.</string>
+
+    <string name="msg_crash_saved">Emulated crash information is saved on %s.</string>
 </resources>

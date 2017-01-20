@@ -33,9 +33,7 @@ ext {
     BUTTERKNIFE_VERSION = "8.4.0"
 
     APPCOMPAT_V7 = "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
-    DESIGN = "com.android.support:design:${SUPPORT_VERSION}"
     SUPPORT_ANNOTATION = "com.android.support:support-annotations:${SUPPORT_VERSION}"
-    MD_COLOR_PALETTE = "org.mym.material:md-colors:1.0.0"
 
     BUTTERKNIFE = "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
     BUTTERKNIFE_APT = "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"

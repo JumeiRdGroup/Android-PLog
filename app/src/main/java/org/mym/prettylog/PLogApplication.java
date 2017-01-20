@@ -1,6 +1,9 @@
 package org.mym.prettylog;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 
 import org.mym.plog.DebugPrinter;
 import org.mym.plog.PLog;
@@ -33,8 +36,11 @@ public class PLogApplication extends Application {
 //                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
 
-        PLog.prepare(new DebugPrinter(true),
-                CrashPrinter.getInstance(this));
+        PLog.prepare(new DebugPrinter(true));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            PLog.appendPrinter(CrashPrinter.getInstance(this));
+        }
 
         CrashHandler.getInstance().init();
     }

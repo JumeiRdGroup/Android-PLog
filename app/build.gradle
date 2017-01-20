@@ -9,7 +9,7 @@ android {
         applicationId "org.mym.prettylog"
         minSdkVersion rootProject.ext.MIN_SDK_VERSION as int
 //        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,12 +31,18 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile (rootProject.ext.APPCOMPAT_V7 as String)
-    compile (rootProject.ext.DESIGN as String)
-    compile (rootProject.ext.BUTTERKNIFE as String)
-    compile (rootProject.ext.MD_COLOR_PALETTE as String)
+    compile "com.android.support:appcompat-v7:${rootProject.ext.SUPPORT_VERSION as String}"
+    compile "com.android.support:design:${rootProject.ext.SUPPORT_VERSION as String}"
+    compile 'org.mym.material:md-colors:1.0.0'
 
+    compile('com.github.hotchemi:permissionsdispatcher:2.3.1') {
+        exclude group: "com.android.support"
+    }
+//    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
+
+    compile(rootProject.ext.BUTTERKNIFE as String)
     apt (rootProject.ext.BUTTERKNIFE_APT as String)
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
 
     compile project(':plog')
     compile project(':plog-printer')

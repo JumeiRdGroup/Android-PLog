@@ -1,9 +1,13 @@
 package org.mym.prettylog;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +32,7 @@ import org.mym.plog.timing.TimingLogger;
 import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +41,14 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOG_BASIC = 758;
@@ -46,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOG_THROWABLE = LOG_JSON + 1;
     private static final int LOG_POJO = LOG_THROWABLE + 1;
     private static final int LOG_TIMING = LOG_POJO + 1;
+    private static final int LOG_CRASH = LOG_TIMING + 1;
 
     @BindView(R.id.main_switch_inner_class)
     Switch mSwitchInnerClass;
@@ -86,16 +99,60 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new UsageAdapter(new int[]{
                 LOG_BASIC, LOG_LONG, LOG_TO_FILE,
                 LOG_JSON, LOG_POJO, LOG_THROWABLE,
-                LOG_TIMING
+                LOG_TIMING, LOG_CRASH
         }, getResources().getStringArray(R.array.usage_cases)));
 
-        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter),
-                CrashPrinter.getInstance(this));
+//        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter));
+        preparePrinters();
     }
 
+    public void preparePrinters() {
+        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG),
+                new TextViewPrinter(mTvPrinter));
+//        initCrashPrinter();
+        MainActivityPermissionsDispatcher.initCrashPrinterWithCheck(this);
+    }
 
-    private void toastMsg(@StringRes int msg){
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void initCrashPrinter() {
+        PLog.appendPrinter(CrashPrinter.getInstance(this));
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForExternalStorage(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.msg_storage_rationale)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDenyMessage() {
+        toastMsg(R.string.msg_storage_permission_denied);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this,
+                requestCode, grantResults);
+    }
+
+    private void toastMsg(@StringRes int msg, Object... params) {
+        Toast.makeText(this, getString(msg, params), Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.main_btn_apply_config)
@@ -155,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case LOG_TO_FILE:
                 logToFile();
+                break;
+            case LOG_CRASH:
+//                logCrash();
+                MainActivityPermissionsDispatcher.logCrashWithCheck(this);
                 break;
         }
     }
@@ -231,7 +292,11 @@ public class MainActivity extends AppCompatActivity {
     void logToFile() {
         FilePrinter printer = new FilePrinter(this);
         //ONLY printers changed
-        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG), printer);
+//        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG), printer);
+
+        //APPEND printer
+        PLog.appendPrinter(printer);
+
         PLog.i("This is the first line of file log.");
 
         PLog.v("file length can be very long");
@@ -241,9 +306,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, getString(R.string.file_logger_tip, printer.getLogFilePath()), Toast
                 .LENGTH_SHORT).show();
 
-        //RESET printers
+        //Close File printer. If all your logs are written to file, this step is optional.
         printer.close();
-        PLog.prepare(new DebugPrinter(BuildConfig.DEBUG), new TextViewPrinter(mTvPrinter));
+
+        //RESET printers
+        preparePrinters();
     }
 
     /**
@@ -268,6 +335,16 @@ public class MainActivity extends AppCompatActivity {
         logger.dumpToLog();
     }
 
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void logCrash() {
+        PLog.level(Log.ERROR).category(CrashPrinter.CRASH).params(new NullPointerException())
+                .execute();
+        File path = CrashPrinter.getCrashFileDir(this);
+        if (path != null && path.exists()) {
+            toastMsg(R.string.msg_crash_saved, path.getAbsolutePath());
+        }
+    }
+
     private void emulateTimeOperation() {
         Random random = new Random();
         try {
@@ -279,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
 
     @IntDef({LOG_BASIC, LOG_LONG, LOG_TO_FILE,
             LOG_JSON, LOG_POJO, LOG_THROWABLE,
-            LOG_TIMING})
+            LOG_TIMING, LOG_CRASH})
     private @interface UsageCase {
 
     }
