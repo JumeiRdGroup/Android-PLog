@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 .keepLineNumber(mSwitchLineInfo.isChecked())
                 .useAutoTag(mSwitchAutoTag.isChecked())
                 .forceConcatGlobalTag(mSwitchConcatTag.isChecked())
-                .maxLengthPerLine(maxLength)
+//                .maxLengthPerLine(maxLength)
                 .globalTag(newGlobalTag)
                 .build();
         PLog.init(config);

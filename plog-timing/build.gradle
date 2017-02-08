@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
+
 android {
     compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION as int
     buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION as String
@@ -15,4 +17,16 @@ dependencies {
 
     //For develop only
     provided project(':plog')
+}
+
+publish {
+    artifactId = 'plog-timing'
+    repoName = BINTRAY_REPO
+    // userOrg = 
+    groupId = GROUP
+    uploadName = POM_NAME
+    publishVersion = VERSION_NAME
+    desc = POM_DESCRIPTION
+    website = POM_URL
+    licences = POM_LICENCE_NAME
 }
