@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.PrintStreamPrinter;
 
+import org.mym.plog.AbsPrinter;
 import org.mym.plog.Category;
 import org.mym.plog.Formatter;
 import org.mym.plog.PLog;
@@ -39,7 +40,7 @@ import java.util.Locale;
  * @since 2.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class FilePrinter implements Printer, Closeable {
+public class FilePrinter extends AbsPrinter implements Closeable {
 
     /**
      * File size limit.
@@ -102,50 +103,50 @@ public class FilePrinter implements Printer, Closeable {
         return context.getFilesDir().getAbsolutePath() + File.separatorChar + "plog";
     }
 
-    @CheckResult
-    @Override
-    public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
-                               @Nullable Category category, @NonNull String msg) {
-        return false;
-    }
-
-    @Nullable
-    @Override
-    public Formatter getFormatter() {
-        try {
-            Class.forName("org.mym.plog.formatter.DefaultFormatter");
-            //Only create a instance for provided dependency
-            return new DefaultFormatter();
-        }catch (ClassNotFoundException e){
-            //If formatter module is not included, use null formatter.
-            return null;
-        }
-    }
-
-    @Nullable
-    @Override
-    public Style getStyle() {
-        return null;
-    }
-
 //    @CheckResult
 //    @Override
-//    public boolean isSoftWrapDisallowed() {
-//        return true;
+//    public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
+//                               @Nullable Category category, @NonNull String msg) {
+//        return false;
 //    }
-
-
-    @Override
-    public SoftWrapper getSoftWrapper() {
-//        return SoftWrapper.WORD_BREAK_WRAPPER;
-        return null;
-    }
-
-    @Override
-    public int getMaxLengthPerLine() {
-//        return 100;
-        return 0;
-    }
+//
+//    @Nullable
+//    @Override
+//    public Formatter getFormatter() {
+//        try {
+//            Class.forName("org.mym.plog.formatter.DefaultFormatter");
+//            //Only create a instance for provided dependency
+//            return new DefaultFormatter();
+//        }catch (ClassNotFoundException e){
+//            //If formatter module is not included, use null formatter.
+//            return null;
+//        }
+//    }
+//
+//    @Nullable
+//    @Override
+//    public Style getStyle() {
+//        return null;
+//    }
+//
+////    @CheckResult
+////    @Override
+////    public boolean isSoftWrapDisallowed() {
+////        return true;
+////    }
+//
+//
+//    @Override
+//    public SoftWrapper getSoftWrapper() {
+////        return SoftWrapper.WORD_BREAK_WRAPPER;
+//        return null;
+//    }
+//
+//    @Override
+//    public int getMaxLengthPerLine() {
+////        return 100;
+//        return 0;
+//    }
 
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {

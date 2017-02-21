@@ -12,19 +12,20 @@ import android.util.Log;
  * @since 2.0.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class DebugPrinter implements Printer {
+public class DebugPrinter extends AbsPrinter {
 
     private boolean isDebug;
 
-    private int maxLengthPerLine;
+//    private int maxLengthPerLine;
 
     public DebugPrinter(boolean isDebug) {
         this(isDebug, 100);
     }
 
     public DebugPrinter(boolean isDebug, int maxLengthPerLine) {
+        super(maxLengthPerLine);
         this.isDebug = isDebug;
-        this.maxLengthPerLine = maxLengthPerLine;
+//        this.maxLengthPerLine = maxLengthPerLine;
     }
 
     @CheckResult
@@ -32,39 +33,39 @@ public class DebugPrinter implements Printer {
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
                                @Nullable Category category, @NonNull String msg) {
         //Intercept all logs if not in debug
-        return !isDebug;
+        return !isDebug || super.onIntercept(level, tag, category, msg);
     }
-
-    @Nullable
-    @Override
-    public Formatter getFormatter() {
-        try {
-            //noinspection unchecked
-            Class<? extends Formatter> clz = ((Class<? extends Formatter>)
-                    Class.forName("org.mym.plog.formatter.DefaultFormatter"));
-            //Only create a instance for provided dependency
-            return clz.newInstance();
-        } catch (Exception e) {
-            //If formatter module is not included, use null formatter.
-            return null;
-        }
-    }
-
-    @Nullable
-    @Override
-    public Style getStyle() {
-        return null;
-    }
-
-    @Override
-    public SoftWrapper getSoftWrapper() {
-        return SoftWrapper.WORD_LENGTH_WRAPPER;
-    }
-
-    @Override
-    public int getMaxLengthPerLine() {
-        return maxLengthPerLine;
-    }
+//
+//    @Nullable
+//    @Override
+//    public Formatter getFormatter() {
+//        try {
+//            //noinspection unchecked
+//            Class<? extends Formatter> clz = ((Class<? extends Formatter>)
+//                    Class.forName("org.mym.plog.formatter.DefaultFormatter"));
+//            //Only create a instance for provided dependency
+//            return clz.newInstance();
+//        } catch (Exception e) {
+//            //If formatter module is not included, use null formatter.
+//            return null;
+//        }
+//    }
+//
+//    @Nullable
+//    @Override
+//    public Style getStyle() {
+//        return null;
+//    }
+//
+//    @Override
+//    public SoftWrapper getSoftWrapper() {
+//        return SoftWrapper.WORD_LENGTH_WRAPPER;
+//    }
+//
+//    @Override
+//    public int getMaxLengthPerLine() {
+//        return maxLengthPerLine;
+//    }
 
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {

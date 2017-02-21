@@ -13,19 +13,7 @@ import android.support.annotation.Nullable;
  * @since 2.0.0
  */
 @SuppressWarnings("unused")
-public interface Printer {
-    /**
-     * Indicate if this item of log can be printed.
-     *
-     * @param level    print level of this log.
-     * @param category category of this log, if specified.
-     * @param msg      content of this log(before formatting!).
-     * @return if returns true, this log won't be printed and just be ignored. Otherwise it would
-     * be formatted and printed as usual.
-     */
-    @CheckResult
-    boolean onIntercept(@PrintLevel int level, @NonNull String tag,
-                        @Nullable Category category, @NonNull String msg);
+public interface Printer extends Interceptor {
 
     /**
      * Specify the formatter of this printer.
