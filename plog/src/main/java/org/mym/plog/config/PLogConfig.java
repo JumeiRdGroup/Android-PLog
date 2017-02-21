@@ -1,8 +1,10 @@
 package org.mym.plog.config;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.mym.plog.Interceptor;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 
@@ -46,6 +48,13 @@ public class PLogConfig {
      */
     private boolean keepInnerClass;
 
+    /**
+     * Global interceptor which would affect all printers, may be null.
+     *
+     * @since 2.0.0
+     */
+    private Interceptor globalInterceptor;
+
     private PLogConfig(Builder builder) {
         globalStackOffset = builder.globalStackOffset;
         globalTag = builder.globalTag;
@@ -55,6 +64,7 @@ public class PLogConfig {
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
         keepInnerClass = builder.keepInnerClass;
+        globalInterceptor = builder.globalInterceptor;
     }
 
     /**
@@ -128,6 +138,11 @@ public class PLogConfig {
         return useAutoTag;
     }
 
+    @Nullable
+    public Interceptor getGlobalInterceptor() {
+        return globalInterceptor;
+    }
+
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
@@ -138,6 +153,8 @@ public class PLogConfig {
         private boolean keepLineNumber;
         private boolean keepInnerClass;
         private int globalStackOffset;
+        @Nullable
+        private Interceptor globalInterceptor;
 
         /**
          * Create a builder, you can also use static method {@link #newBuilder()}.
@@ -154,6 +171,7 @@ public class PLogConfig {
             this.emptyMsgLevel = copy.emptyMsgLevel;
             this.keepLineNumber = copy.keepLineNumber;
             this.keepInnerClass = copy.keepInnerClass;
+            this.globalInterceptor = copy.globalInterceptor;
         }
 
         /**
@@ -223,6 +241,11 @@ public class PLogConfig {
 
         public Builder globalStackOffset(int val) {
             globalStackOffset = val;
+            return this;
+        }
+
+        public Builder globalInterceptor(Interceptor val) {
+            globalInterceptor = val;
             return this;
         }
 

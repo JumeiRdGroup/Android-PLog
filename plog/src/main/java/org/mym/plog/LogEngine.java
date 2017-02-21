@@ -65,6 +65,12 @@ final class LogEngine {
             tag = String.format("%s[Category:%s]", tag, category.getName());
         }
 
+        //If intercepted by global interceptor, just do nothing and return
+        if ((config.getGlobalInterceptor() != null && config.getGlobalInterceptor().onIntercept
+                (request.getLevel(), tag, request.getCategory(), request.getMsg()))) {
+            return;
+        }
+
         for (Printer printer : mPrinters) {
 
             //Check intercept result

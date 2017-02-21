@@ -52,6 +52,7 @@ public final class PLog {
      * @see #init(PLogConfig)
      * @since 1.3.0
      */
+    @NonNull
     public static PLogConfig getCurrentConfig() {
         checkInitOrUseDefaultConfig();
         return mConfig;
