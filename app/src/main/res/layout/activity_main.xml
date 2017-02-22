@@ -53,19 +53,64 @@
             android:text="@string/cfg_global_tag"
             android:textSize="16sp"/>
 
+        <EditText
+            android:id="@+id/main_edt_global_intercept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/main_edt_global_tag"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/main_edt_global_tag"
+            android:hint="Intercept Word"
+            android:textSize="14sp"
+            />
+
         <Button
             android:id="@+id/main_btn_apply_config"
-            style="@style/DemoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/main_edt_global_tag"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
+            android:gravity="center"
             android:text="@string/btn_apply_config"
-            android:textSize="16sp"/>
-
+            android:textAllCaps="false"
+            android:textSize="14sp"/>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <EditText
+            android:id="@+id/main_edt_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Category"
+            android:textSize="12sp"
+            />
+
+        <EditText
+            android:id="@+id/main_edt_log_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="type your log content"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/main_btn_print_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Print"
+            android:textAllCaps="false"
+            android:textSize="14sp"/>
+    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
@@ -73,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

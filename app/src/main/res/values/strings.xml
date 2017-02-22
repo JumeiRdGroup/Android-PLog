@@ -22,6 +22,8 @@
     <string name="btn_apply_config">Apply</string>
 
     <string name="file_logger_tip">Log file saved on path: %s</string>
+    <string name="msg_tv_printer_disclaimer">NOTE: This view printer is just for fun, please see
+        logcat or file output to get a practical experience.</string>
 
     <string name="msg_storage_rationale">We need access external storage to save local
         crash files, please click allow to continue.</string>
@@ -29,7 +31,6 @@
         granted permission.</string>
 
     <string name="msg_crash_saved">Emulated crash information is saved on %s.</string>
-
-    <string name="msg_tv_printer_disclaimer">NOTE: This view printer is just for fun, please see
-        logcat or file output to get a practical experience.</string>
+    <string name="msg_log_was_intercepted">WARNING: a log was intercepted due to its
+        category or msg contains keyword %s.</string>
 </resources>

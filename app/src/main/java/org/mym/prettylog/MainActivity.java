@@ -1,11 +1,13 @@
 package org.mym.prettylog;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,8 +27,11 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mym.plog.Category;
 import org.mym.plog.DebugPrinter;
+import org.mym.plog.Interceptor;
 import org.mym.plog.PLog;
+import org.mym.plog.PrintLevel;
 import org.mym.plog.config.PLogConfig;
 import org.mym.plog.printer.FilePrinter;
 import org.mym.plog.timing.TimingLogger;
@@ -78,6 +84,15 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.main_tv_printer)
     TextView mTvPrinter;
+
+    @BindView(R.id.main_edt_global_intercept)
+    EditText mEdtInterceptWord;
+
+    @BindView(R.id.main_edt_category)
+    EditText mEdtCategory;
+
+    @BindView(R.id.main_edt_log_content)
+    EditText mEdtLogContent;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,12 +167,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.main_btn_apply_config)
-    void applyConfig(){
+    void applyConfig() {
 
         String newGlobalTag = mEdtGlobalTag.getText().toString().trim();
 
-        if (TextUtils.isEmpty(newGlobalTag)){
+        if (TextUtils.isEmpty(newGlobalTag)) {
             newGlobalTag = getString(R.string.cfg_global_tag);
+        }
+
+        Interceptor interceptor = null;
+        final String keyword = mEdtInterceptWord.getText().toString().trim();
+        if (!TextUtils.isEmpty(keyword)) {
+            interceptor = new Interceptor() {
+                @Override
+                public boolean onIntercept(@PrintLevel int level, @NonNull String tag, @Nullable
+                        Category category, @NonNull String msg) {
+                    boolean intercepted = msg.contains(keyword)
+                            || (category != null && category.getName().contains(keyword));
+                    if (intercepted) {
+                        toastMsg(R.string.msg_log_was_intercepted, keyword);
+                    }
+                    return intercepted;
+                }
+            };
         }
 
         PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
@@ -165,9 +197,31 @@ public class MainActivity extends AppCompatActivity {
                 .useAutoTag(mSwitchAutoTag.isChecked())
                 .forceConcatGlobalTag(mSwitchConcatTag.isChecked())
                 .globalTag(newGlobalTag)
+                .globalInterceptor(interceptor)
                 .build();
         PLog.init(config);
 
+        hideSoftInput();
+    }
+
+    @OnClick(R.id.main_btn_print_log)
+    void printLog() {
+        String category = mEdtCategory.getText().toString().trim();
+        String content = mEdtLogContent.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(content)) {
+            PLog.category(category).msg(content).execute();
+        } else {
+            PLog.empty();
+        }
+
+        hideSoftInput();
+    }
+
+    private void hideSoftInput() {
+        InputMethodManager imm = ((InputMethodManager) getSystemService(Context
+                .INPUT_METHOD_SERVICE));
+        imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
     }
 
     private void performClick(@UsageCase int action) {
@@ -377,7 +431,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final UsageHolder holder, final int position) {
             holder.displayData(mTexts[position]);
-            holder.itemView.setBackgroundResource(mItemColorPalette[position % mItemColorPalette.length]);
+            holder.itemView.setBackgroundResource(mItemColorPalette[position % mItemColorPalette
+                    .length]);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
