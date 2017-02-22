@@ -1,5 +1,7 @@
 package org.mym.plog;
 
+import android.util.Log;
+
 /**
  * Builder style API; use this class to fit complicated needs.
  * <p>
@@ -20,6 +22,10 @@ public final class LogRequest {
     private Category category;
     private String msg;
     private Object[] params;
+
+    public LogRequest() {
+        level = Log.VERBOSE;
+    }
 
     @PrintLevel
     public int getLevel() {
