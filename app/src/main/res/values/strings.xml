@@ -19,34 +19,9 @@
         <item>Crash</item>
     </string-array>
 
-    <string name="btn_basic_log">Basic usage</string>
-    <string name="btn_log_without_tag">Auto tag/GlobalTag</string>
-    <string name="btn_log_long">Very long log</string>
-    <string name="btn_log_objects">Objects</string>
-    <string name="btn_log_throwable">Throwable</string>
-    <string name="btn_log_json">JSON</string>
-    <string name="btn_file_logger">File Logger</string>
-    <string name="btn_timing_logger">Timing logger</string>
-    <string name="btn_tag_nested">Nested and anonymous class</string>
-    <string name="btn_customize_logger">Customized logger</string>
-    <string name="btn_stack_offset">Stack offset</string>
-    <string name="btn_log_using_wrapper_class">Wrapper class</string>
-
     <string name="btn_apply_config">Apply</string>
 
-    <string name="console_emulated_log"><![CDATA[
-    The New Teacher\n
-    George comes from school on the first of September.\n
-    "George, how did you like your new teacher?" asked his mother.\n
-    "I didn't like her, Mother, because she said that three and three were six and then she said that two and four were six too…"\n \n
-
-    TOM\'S EXCUSE\n
-    Teacher: Tom, why are you late for school every day?\n
-    Tom: Every time I come to the corner, a sign says, "School-Go Slow".
-    ]]></string>
-    <string name="console_close_tip">Tap console TextView to backup logger.</string>
     <string name="file_logger_tip">Log file saved on path: %s</string>
-    <string name="max_length_too_long_limit">TIPS: Max length over 4K is unnecessary.</string>
 
     <string name="msg_storage_rationale">We need access external storage to save local
         crash files, please click allow to continue.</string>
@@ -54,4 +29,7 @@
         granted permission.</string>
 
     <string name="msg_crash_saved">Emulated crash information is saved on %s.</string>
+
+    <string name="msg_tv_printer_disclaimer">NOTE: This view printer is just for fun, please see
+        logcat or file output to get a practical experience.</string>
 </resources>

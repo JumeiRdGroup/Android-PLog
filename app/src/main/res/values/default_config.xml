@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="cfg_inner_class">true</bool>
     <bool name="cfg_concat_tag">true</bool>
     <bool name="cfg_auto_tag">true</bool>
     <bool name="cfg_line_info">true</bool>
-    <integer name="cfg_max_length">160</integer>
     <string name="cfg_global_tag">@string/app_name</string>
 </resources>

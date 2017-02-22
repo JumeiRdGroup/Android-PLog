@@ -27,13 +27,9 @@ public class PLogApplication extends Application {
         PLog.init(new PLogConfig.Builder()
 //                .emptyMsgLevel(Log.INFO)
                 .forceConcatGlobalTag(getResources().getBoolean(R.bool.cfg_concat_tag))
-//                .keepInnerClass(getResources().getBoolean(R.bool.cfg_inner_class))
                 .keepLineNumber(getResources().getBoolean(R.bool.cfg_line_info))
                 .useAutoTag(getResources().getBoolean(R.bool.cfg_auto_tag))
-//                .maxLengthPerLine(getResources().getInteger(R.integer.cfg_max_length))
                 .globalTag(getString(R.string.cfg_global_tag))
-                //Auto disable log in release version
-//                .controller(new EasyLogController(BuildConfig.DEBUG, BuildConfig.DEBUG))
                 .build());
 
         PLog.prepare(new DebugPrinter(true));

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="org.mym.prettylog.MainActivity"
     tools:ignore="RtlHardcoded, HardcodedText">
 
@@ -13,11 +14,8 @@
         android:id="@+id/main_rl_configuration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <Switch
             android:id="@+id/main_switch_auto_tag"
@@ -45,38 +43,14 @@
             android:checked="@bool/cfg_line_info"
             android:text="keepLineInfo"/>
 
-        <Switch
-            android:id="@+id/main_switch_inner_class"
-            style="@style/DemoSwitch"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/main_switch_line_info"
-            android:checked="@bool/cfg_inner_class"
-            android:text="keepInnerClass"
-            />
-
         <EditText
             android:id="@+id/main_edt_global_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@id/main_switch_line_info"
             android:layout_marginTop="10dp"
             android:hint="GlobalTag"
             android:text="@string/cfg_global_tag"
-            android:textSize="16sp"/>
-
-        <EditText
-            android:id="@+id/main_edt_max_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/main_edt_global_tag"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/main_edt_global_tag"
-            android:hint="MaxLength"
-            android:inputType="number"
-            android:text="160"
             android:textSize="16sp"/>
 
         <Button
@@ -84,7 +58,7 @@
             style="@style/DemoButton"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/main_edt_max_length"
+            android:layout_alignTop="@id/main_edt_global_tag"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
             android:text="@string/btn_apply_config"
@@ -98,102 +72,29 @@
         android:id="@+id/main_recycler_usage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_rl_configuration"/>
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_light_blue_50"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="@string/msg_tv_printer_disclaimer"
+        android:textColor="@color/colorAccent"
+        />
+
     <TextView
         android:id="@+id/main_tv_printer"
-        android:layout_below="@id/main_recycler_usage"
-        android:gravity="left|top"
-        android:textSize="14sp"
-        android:textColor="@color/md_green_500"
-        android:background="@color/md_light_blue_50"
-        tools:text="ViewPrinter(just for fun)"
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/md_light_blue_50"
+        android:gravity="left|top"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/md_green_500"
+        android:textSize="14sp"
+        tools:text="ViewPrinter(just for fun)"/>
 
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_below="@id/main_rl_configuration">-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_basic_usage"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_basic_log"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_tags"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_without_tag"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_long"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_long"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_objects"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_objects"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_throwable"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_throwable"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_json"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_json"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_file_logger"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_file_logger"-->
-    <!--/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_timing_logger"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_timing_logger"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_customize_logger"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_customize_logger"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_tag_nested"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_tag_nested"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_stack_offset"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_stack_offset"/>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/btn_log_using_wrapper_class"-->
-    <!--style="@style/DemoButton"-->
-    <!--android:text="@string/btn_log_using_wrapper_class"/>-->
-    <!--</LinearLayout>-->
-    <!--</ScrollView>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/main_tv_virtual_console"-->
-    <!--android:layout_width="240dp"-->
-    <!--android:layout_height="380dp"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:background="@color/bkg_virtual_console"-->
-    <!--android:padding="10dp"-->
-    <!--android:textColor="@color/text_virtual_console"-->
-    <!--android:visibility="invisible"-->
-    <!--tools:text="com.android.support:(200) log on single line"/>-->
-</RelativeLayout>
+</LinearLayout>

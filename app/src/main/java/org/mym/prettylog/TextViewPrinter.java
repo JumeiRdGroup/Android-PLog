@@ -2,8 +2,10 @@ package org.mym.prettylog;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 
+import org.mym.plog.AbsPrinter;
 import org.mym.plog.Category;
 import org.mym.plog.Formatter;
 import org.mym.plog.PrintLevel;
@@ -18,16 +20,12 @@ import org.mym.plog.formatter.DefaultFormatter;
  * @author Muyangmin
  * @since 2.0.0
  */
-public class TextViewPrinter implements Printer {
+public class TextViewPrinter extends AbsPrinter {
 
-    private static final String DISCLAIMER = "NOTE: This view printer is just for fun, please see logcat " +
-            "or file output to get a practical experience.\n\n";
     private TextView mTextView;
-    private StringBuilder mBuffer;
 
     public TextViewPrinter(@NonNull TextView mTextView) {
         this.mTextView = mTextView;
-        mTextView.setText(DISCLAIMER);
     }
 
     @Override
@@ -40,36 +38,37 @@ public class TextViewPrinter implements Printer {
     @Nullable
     @Override
     public Formatter getFormatter() {
+        //we can explicit set formatter here
         return new DefaultFormatter();
-    }
-
-    @Nullable
-    @Override
-    public Style getStyle() {
-        return null;
-    }
-
-//    @Override
-//    public boolean isSoftWrapDisallowed() {
-//        return false;
-//    }
-
-    @Override
-    public SoftWrapper getSoftWrapper() {
-        return null;
-    }
-
-    @Override
-    public int getMaxLengthPerLine() {
-        return 0;
     }
 
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
-        if (mBuffer == null || mBuffer.length() + msg.length() > DISCLAIMER.length() + 300) {
-            mBuffer = new StringBuilder().append(DISCLAIMER);
+        mTextView.setText(createPrintText(level, tag, msg));
+    }
+
+    private String createPrintText(final int level, final String tag, final String msg) {
+        String levelChar = "V";
+        switch (level) {
+            case Log.VERBOSE:
+                levelChar = "V";
+                break;
+            case Log.DEBUG:
+                levelChar = "D";
+                break;
+            case Log.INFO:
+                levelChar = "I";
+                break;
+            case Log.WARN:
+                levelChar = "W";
+                break;
+            case Log.ERROR:
+                levelChar = "E";
+                break;
+            case Log.ASSERT:
+                levelChar = "A";
+                break;
         }
-        mBuffer.append(msg).append("\n");
-        mTextView.setText(mBuffer);
+        return String.format("%s/%s: %s", levelChar, tag, msg);
     }
 }

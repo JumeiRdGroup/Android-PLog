@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOG_TIMING = LOG_POJO + 1;
     private static final int LOG_CRASH = LOG_TIMING + 1;
 
-    @BindView(R.id.main_switch_inner_class)
-    Switch mSwitchInnerClass;
 
     @BindView(R.id.main_switch_line_info)
     Switch mSwitchLineInfo;
@@ -74,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.main_edt_global_tag)
     EditText mEdtGlobalTag;
-    @BindView(R.id.main_edt_max_length)
-    EditText mEdtMaxLength;
 
     @BindView(R.id.main_recycler_usage)
     RecyclerView mRecyclerView;
@@ -158,20 +154,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.main_btn_apply_config)
     void applyConfig(){
 
-        String lenStr = mEdtMaxLength.getText().toString().trim();
-
-        int maxLength;
-        if (TextUtils.isEmpty(lenStr)){
-            maxLength = getResources().getInteger(R.integer.cfg_max_length);
-        }
-        else{
-            maxLength  = Integer.parseInt(lenStr);
-        }
-
-        if (maxLength > 4000){
-            toastMsg(R.string.max_length_too_long_limit);
-        }
-
         String newGlobalTag = mEdtGlobalTag.getText().toString().trim();
 
         if (TextUtils.isEmpty(newGlobalTag)){
@@ -179,11 +161,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
-//                .keepInnerClass(mSwitchInnerClass.isChecked())
                 .keepLineNumber(mSwitchLineInfo.isChecked())
                 .useAutoTag(mSwitchAutoTag.isChecked())
                 .forceConcatGlobalTag(mSwitchConcatTag.isChecked())
-//                .maxLengthPerLine(maxLength)
                 .globalTag(newGlobalTag)
                 .build();
         PLog.init(config);
