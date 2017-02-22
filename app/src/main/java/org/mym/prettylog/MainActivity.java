@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
-                .keepInnerClass(mSwitchInnerClass.isChecked())
+//                .keepInnerClass(mSwitchInnerClass.isChecked())
                 .keepLineNumber(mSwitchLineInfo.isChecked())
                 .useAutoTag(mSwitchAutoTag.isChecked())
                 .forceConcatGlobalTag(mSwitchConcatTag.isChecked())

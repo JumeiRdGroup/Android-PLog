@@ -42,11 +42,6 @@ public class PLogConfig {
     private String emptyMsg;
     private int emptyMsgLevel;
     private boolean keepLineNumber;
-    /**
-     * If this set to false, then inner class name would not be printed.
-     * @since 1.0.0
-     */
-    private boolean keepInnerClass;
 
     /**
      * Global interceptor which would affect all printers, may be null.
@@ -63,7 +58,6 @@ public class PLogConfig {
         emptyMsg = builder.emptyMsg;
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
-        keepInnerClass = builder.keepInnerClass;
         globalInterceptor = builder.globalInterceptor;
     }
 
@@ -130,10 +124,6 @@ public class PLogConfig {
         return keepLineNumber;
     }
 
-    public boolean isKeepInnerClass() {
-        return keepInnerClass;
-    }
-
     public boolean isUseAutoTag() {
         return useAutoTag;
     }
@@ -151,7 +141,6 @@ public class PLogConfig {
         private int emptyMsgLevel;
         private String emptyMsg;
         private boolean keepLineNumber;
-        private boolean keepInnerClass;
         private int globalStackOffset;
         @Nullable
         private Interceptor globalInterceptor;
@@ -170,7 +159,6 @@ public class PLogConfig {
             this.emptyMsg = copy.emptyMsg;
             this.emptyMsgLevel = copy.emptyMsgLevel;
             this.keepLineNumber = copy.keepLineNumber;
-            this.keepInnerClass = copy.keepInnerClass;
             this.globalInterceptor = copy.globalInterceptor;
         }
 
@@ -227,15 +215,6 @@ public class PLogConfig {
          */
         public Builder keepLineNumber(boolean val) {
             keepLineNumber = val;
-            return this;
-        }
-
-        /**
-         * If this sets to true and the log printed in an inner class, then this inner class name
-         * would also printed before method name.
-         */
-        public Builder keepInnerClass(boolean val) {
-            keepInnerClass = val;
             return this;
         }
 
