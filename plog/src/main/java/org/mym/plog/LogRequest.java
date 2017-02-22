@@ -46,11 +46,15 @@ public final class LogRequest {
         return params;
     }
 
-    // ----- NOT core parameters; just for better usage BEGIN -----
-    public void throwable(Throwable throwable) {
-        params(throwable);
+    // ----- Decor methods; just for better usage BEGIN -----
+    public LogRequest throwable(Throwable throwable) {
+        return params(throwable);
     }
-    // ----- NOT core parameters; just for better usage END -----
+
+    public LogRequest category(String category) {
+        return category(new SimpleCategory(category));
+    }
+    // ----- Decor methods; just for better usage END -----
 
     // -----BUILDER STYLE CODE BEGIN -----
 

@@ -58,6 +58,10 @@ public final class PLog {
         return mConfig;
     }
 
+    public static LogRequest category(String category) {
+        return category(new SimpleCategory(category));
+    }
+
     public static LogRequest category(@NonNull Category category) {
         return new LogRequest().category(category);
     }
