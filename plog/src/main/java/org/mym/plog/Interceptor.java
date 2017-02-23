@@ -15,7 +15,8 @@ public interface Interceptor {
      *
      * @param level    print level of this log.
      * @param category category of this log, if specified.
-     * @param msg      content of this log(before formatting!).
+     * @param msg      content of this log(before formatting!). <strong> Note if msg in the
+     *                 original request is null, you'll get an empty string here.</strong>
      * @return if returns true, this log won't be printed and just be ignored. Otherwise it would
      * be formatted and printed as usual.
      */

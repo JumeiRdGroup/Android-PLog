@@ -66,8 +66,9 @@ final class LogEngine {
         }
 
         //If intercepted by global interceptor, just do nothing and return
+        String safeMsgForIntercept = request.getMsg() == null ? "" : request.getMsg();
         if ((config.getGlobalInterceptor() != null && config.getGlobalInterceptor().onIntercept
-                (request.getLevel(), tag, request.getCategory(), request.getMsg()))) {
+                (request.getLevel(), tag, request.getCategory(), safeMsgForIntercept))) {
             return;
         }
 
@@ -75,7 +76,7 @@ final class LogEngine {
 
             //Check intercept result
             if (printer.onIntercept(request.getLevel(), tag, request.getCategory(),
-                    request.getMsg())) {
+                    safeMsgForIntercept)) {
                 //Skip and ignore this log
                 continue;
             }
