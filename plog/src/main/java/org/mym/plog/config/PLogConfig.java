@@ -1,5 +1,6 @@
 package org.mym.plog.config;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -138,6 +139,7 @@ public class PLogConfig {
         private String globalTag;
         private boolean forceConcatGlobalTag;
         private boolean useAutoTag;
+        @PrintLevel
         private int emptyMsgLevel;
         private String emptyMsg;
         private boolean keepLineNumber;
@@ -149,6 +151,8 @@ public class PLogConfig {
          * Create a builder, you can also use static method {@link #newBuilder()}.
          */
         public Builder() {
+            //DEFAULT FIELDS IS INIT HERE
+            useAutoTag = true;
         }
 
         public Builder(PLogConfig copy) {
@@ -196,7 +200,7 @@ public class PLogConfig {
          *            {@link Log#WARN}, {@link Log#ERROR}.
          *            Otherwise this param is ignored.
          */
-        public Builder emptyMsgLevel(int val) {
+        public Builder emptyMsgLevel(@PrintLevel int val) {
             emptyMsgLevel = val;
             return this;
         }
@@ -205,7 +209,7 @@ public class PLogConfig {
          * Set default message for log printed by calling {@link PLog#empty()}.
          * The default value is "{@value #DEFAULT_EMPTY_MSG}".
          */
-        public Builder emptyMsg(String val) {
+        public Builder emptyMsg(@NonNull String val) {
             emptyMsg = val;
             return this;
         }
@@ -223,7 +227,7 @@ public class PLogConfig {
             return this;
         }
 
-        public Builder globalInterceptor(Interceptor val) {
+        public Builder globalInterceptor(@Nullable Interceptor val) {
             globalInterceptor = val;
             return this;
         }
