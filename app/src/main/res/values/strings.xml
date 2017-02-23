@@ -1,12 +1,5 @@
 <resources>
     <string name="app_name">PrettyLog</string>
-    <string name="plog_description"><![CDATA[
-    <h2>Welcome to use PLog!<h2>
-    <p>
-    This is a powerful, light-weight and active developed library. <br/>
-    </p>
-    Basic and common usages are shown below. For more details, please checkout from GitHub or see Wiki.
-    ]]></string>
 
     <string-array name="usage_cases">
         <item>Basic Log</item>
@@ -33,4 +26,18 @@
     <string name="msg_crash_saved">Emulated crash information is saved on %s.</string>
     <string name="msg_log_was_intercepted">WARNING: a log was intercepted due to its
         category or msg contains keyword %s.</string>
+
+    <string name="about_title">@string/app_name</string>
+    <string name="about_library_description"><![CDATA[
+    <p>
+    This library is designed to be an useful android log tool.
+    </p>
+    Using this library can lead you away from duplicate and boring works, e.g. thinking of log tags,
+    writing object params, and filtering large logs from which logged by colleagues.
+    ]]></string>
+    <string name="about_label_library_link">Library Home</string>
+    <string name="about_value_library_link"><![CDATA[
+    https://github.com/Muyangmin/Android-PLog
+    ]]></string>
+    <string name="about_label_version">Library version</string>
 </resources>

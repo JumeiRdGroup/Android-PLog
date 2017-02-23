@@ -11,7 +11,7 @@ android {
 //        targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -3,6 +3,8 @@ package org.mym.prettylog;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
@@ -13,10 +15,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -47,6 +51,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.internal.DebouncingOnClickListener;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -96,8 +101,38 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO add action button
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                showAboutDialog();
+                return true;
+        }
+        return false;
+    }
+
+    private void showAboutDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(R.layout.dialog_about)
+                .show();
+        TextView tvDescription = ButterKnife.findById(dialog, R.id.about_tv_description);
+        tvDescription.setText(Html.fromHtml(getString(R.string.about_library_description)));
+
+        TextView tvVersion = ButterKnife.findById(dialog, R.id.about_tv_version);
+        tvVersion.setText(BuildConfig.VERSION_NAME);
+
+        TextView tvHome = ButterKnife.findById(dialog, R.id.about_tv_library_home);
+        tvHome.setOnClickListener(new DebouncingOnClickListener() {
+            @Override
+            public void doClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(getString(R.string.about_value_library_link)));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -221,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     private void hideSoftInput() {
         InputMethodManager imm = ((InputMethodManager) getSystemService(Context
                 .INPUT_METHOD_SERVICE));
-        imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void performClick(@UsageCase int action) {

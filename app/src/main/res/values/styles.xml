@@ -26,4 +26,20 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+
+    <style name="AboutTvLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/md_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AboutTvValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/md_grey_500</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

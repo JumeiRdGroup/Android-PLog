@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/about_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/about_tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/about_library_description"
+        android:textSize="14sp"/>
+
+    <TextView
+        style="@style/AboutTvLabel"
+        android:layout_marginTop="10dp"
+        android:text="@string/about_label_version"
+        />
+
+    <TextView
+        android:id="@+id/about_tv_version"
+        style="@style/AboutTvValue"
+        tools:text="2.0.0-beta2"/>
+
+    <TextView
+        style="@style/AboutTvLabel"
+        android:layout_marginTop="10dp"
+        android:text="@string/about_label_library_link"
+        />
+
+    <TextView
+        android:id="@+id/about_tv_library_home"
+        style="@style/AboutTvValue"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/about_value_library_link"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"/>
+
+</LinearLayout>
