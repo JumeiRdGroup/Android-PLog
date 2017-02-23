@@ -96,6 +96,11 @@ public final class LogRequest {
     // -----BUILDER STYLE CODE END -----
 
     public void execute() {
-        LogEngine.handleLogRequest(this);
+        //add try-catch block to avoid crash from library if any internal exception is thrown.
+        try {
+            LogEngine.handleLogRequest(this);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 }
