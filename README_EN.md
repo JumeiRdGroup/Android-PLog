@@ -3,6 +3,35 @@
 #### [中文版文档](./README.md)
 
 ## Summary
+PLog is a logging library for Android, which has following features:
+#### Easy to print
+* print without tag
+* print without message
+* accept anny type of arguments
+* accept variable length arguments
+* auto formatting
+* print with builder style code
+
+#### Controllable output
+* intercept with multi dimension
+* customizable output decoration (style)
+* multi channel output
+* soft wrap supported
+
+#### Easy to filter
+* global tag (for filtering apps)
+* auto tag (for filtering classes)
+* keep stacktrace (for filtering files and/or methods)
+* category (for filtering developers or groups, etc)
+
+#### Dependency on demand
+You can use `plog-core` module for simple scenarios, but you can also import other modules for
+advanced usage. As you like.
+
+#### Flexible Setting/Extension
+You can use built-in options or just a little interface implementation to satisfy almost all
+ your needs.
+
 PLog is a logging library for Android, follows following principle:
 #### Applicability
  > Focus on log itself, discard divider lines and other complicated decors but still keep being
@@ -20,17 +49,6 @@ configurations. And you can user `Builder` class to simply build your own config
 Bonus: `recommend` method maybe help you much!
 
 ## Usage
-Only one step!
-```Groovy
-    compile 'org.mym.plog:android-plog:${latestVersion}'
-```
-Sample codes below:
-```Java
-    PLog.empty();
-    PLog.v("This is a verbose log.");
-    PLog.d("DebugTag", "This is a debug log.");
-    PLog.e("This is an error log.");
-```
 Please view [Wiki](https://github.com/Muyangmin/Android-PLog/wiki) to get usage details and advanced
 features.
 
@@ -48,23 +66,33 @@ features.
 * **Logger redirect support（useful for adapt a 3-party logging, etc）**
 * **Very long log content support, either auto line wrap(soft wrap)**
 
+## Compare With Other Libs
+| Library Name | [Logger](https://github.com/orhanobut/logger) | [Timber](https://github.com/JakeWharton/timber) | [KLog](https://github.com/ZhaoKaiQiang/KLog) | [Android-PLog](https://github.com/Muyangmin/Android-PLog)
+| ------| ------ | ------ | ------ | ----- |
+| Star/Fork | 5.7K+/1.0K+ | 3.5K+/366 | 1.1K+/251 | **Welcome!**|
+| Easy To Print | √ | √ | √ | √ |
+| Easy To Use | √ | √ | √ | √ |
+| Flexible Settings | ☆ | ☆ | ☆ | ☆ |
+| Light Weight | ☆ | ☆☆ | ☆ | ☆☆ |
+| Locating in IDE | √ | × | √ | √ |
+| Thread Info | √ | × | × | √ |
+| Easy To Filter | ☆ | ×  | ☆ | ☆☆ |
+| Beautify | ☆ | × | ☆ | ☆☆ |
+| Controllable and Multi Output | × | ☆☆ | ☆ | ☆☆ |
+
 ## Sample Screen Shot
 ![ScreenShot](./ScreenShot.png)
 
-## Thanks
-* [Logger](https://github.com/orhanobut/logger)
-* [KLog](https://github.com/ZhaoKaiQiang/KLog)
 
 ## Contribution & Contact
-Thanks for using PLog, this library is still in active development.**Any contribution or material
-bonus are appreciated and welcome.**
+Thanks for using PLog, this library is still in active development.**Any contribution and suggestions are welcome.**
 Please feel free to contact me by using following way:
 
 **Email: muyangmin@foxmail.com**
 
 ## Licence
 ```
-Copyright 2016 Muyangmin
+Copyright 2016-2017 Muyangmin
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

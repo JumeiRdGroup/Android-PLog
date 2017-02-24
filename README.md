@@ -3,64 +3,64 @@
 
 [English Version](README_EN.md)
 
-## 2.0版本预告/讨论请点这里：[#21](https://github.com/Muyangmin/Android-PLog/issues/21)
+## PLog 2.0 beta2已经发布，欢迎试用！
 
+## Summary / Features
+PLog是一个Android专用的日志封装库，具备以下特性：
+#### 容易打印
+* **支持无Tag打印**
+* **支持空消息打印（通常用于观察某处是否执行）**
+* **支持任意参数类型**
+* **支持变长参数和自动格式化**
+* **支持Builder方式打印**
 
-## Summary
-PLog是一个Android专用的日志封装库，遵从以下的设计哲学：
-#### 追求实用性
- > 回归Log本身，在保持强大功能的同时取消花哨的修饰，特别是行分割线和花边等功能。
+#### 输出可控
+* **支持多维度的输出拦截**
+* **支持自定义输出装饰样式**
+* **支持多通道同时输出**
+* **支持自动换行（SoftWrap）**
 
-#### 轻巧，极简
- > PLog为降低使用成本和依赖负担，尽量避免冗余，目前还是**零依赖**状态。
+#### 筛选容易
+* **支持全局Tag**(可以区分不同应用)
+* **支持自动Tag**(可以区分不同类名)
+* **支持保留堆栈**(可以区分不同文件和方法，并且实现在AS中**自动日志定位**)
+* **支持分组打印**(可以区分不同开发者, etc)
 
-#### 充分考虑可扩展性
-> PLog提供丰富的设置项可供定制而无需修改库本身的实现。
+#### 按需依赖
+核心功能模块和定制特性完全分离，体积轻巧，并且全部支持Jcenter依赖。
 
-#### 约定大于配置
-> PLog虽然提供了`init`方法，但是实际上即使没有调用该方法也可以正常打印日志。并且由于提供了Builder，使用者在需要定制时也只用关心自己要修改的设置项即可。
+#### 扩展灵活
+核心功能全部接口化，通过简单的设置和接口注入就可以完成绝大部分日志需求。
+
+## Compare With Other Libs
+| Library Name | [Logger](https://github.com/orhanobut/logger) | [Timber](https://github.com/JakeWharton/timber) | [KLog](https://github.com/ZhaoKaiQiang/KLog) | [Android-PLog](https://github.com/Muyangmin/Android-PLog)
+| ------| ------ | ------ | ------ | ----- |
+| Star/Fork | 5.7K+/1.0K+ | 3.5K+/366 | 1.1K+/251 | **Welcome!**|
+| 容易打印 | √ | √ | √ | √ |
+| 上手简单 | √ | √ | √ | √ |
+| 设置灵活 | ☆ | ☆ | ☆ | ☆ |
+| 体积轻巧 | ☆ | ☆☆ | ☆ | ☆☆ |
+| 支持定位 | √ | × | √ | √ |
+| 线程信息 | √ | × | × | √ |
+| 筛选容易 | ☆ | ×  | ☆ | ☆☆ |
+| 日志美观 | ☆ | × | ☆ | ☆☆ |
+| 输出可控 | × | ☆☆ | ☆ | ☆☆ |
+
+> 关于表格内各个比较维度的解释，请参见：[我为什么要写PLog](https://github.com/Muyangmin/Android-PLog/wiki/WhyUsePLog)。
 
 ## Usage
-只需一步即可打印日志! Jcenter依赖如下:
-```Groovy
-    compile 'org.mym.plog:android-plog:${latestVersion}'
-```
-打印样例:
-```Java
-    PLog.empty();
-    PLog.v("This is a verbose log.");
-    PLog.d("DebugTag", "This is a debug log.");
-    PLog.e("This is an error log.");
-```
-请参阅[Wiki](https://github.com/Muyangmin/Android-PLog/wiki)以获取详细的使用说明和高级特性。
-
-## Features
-* **支持JCenter, 轻巧零依赖**
-* **支持空消息打印（通常用于观察某处是否执行）**
-* **支持无Tag、全局/局部Tag、自动Tag打印**
-* **支持变长参数和自动格式化**
-* **支持JSON格式化打印**
-* **支持Throwable格式化打印**
-* **任意类智能格式化打印**
-* **支持打点计时日志(TimingLog)**
-* **支持显示行号,Android Studio控制台点击可跳转到源文件对应行, 还可以通过栈帧偏移控制跳转位置**
-* **支持粒度可控的的loggable控制**
-* **可保存到本地文件, 并可自定义文件大小和路径**
-* **支持重定向Logger, 并可扩展接入其他日志**
-* **无限长字符串打印, 支持自动换行(Soft Wrap)**
+请参考Wiki：[Basic Usage](https://github.com/Muyangmin/Android-PLog/wiki)
 
 ## Sample Screen Shot
 ![ScreenShot](./ScreenShot.png)
 
 ## Contribution & Contact
-Thanks for using PLog, this library is still in active development.
-Please feel free to contact me by using following way:
-
-**Email: muyangmin@foxmail.com**
+如果您在使用这个库的时候遇到困难，或者有任何的反馈、建议，都可以通过GitHub Issue 功能或下面的邮箱联系我：
+**<muyangmin@foxmail.com>**
 
 ## Licence 
 ```
-Copyright 2016 Muyangmin
+Copyright 2016-2017 Muyangmin
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
