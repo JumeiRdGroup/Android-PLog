@@ -3,5 +3,6 @@
     <bool name="cfg_concat_tag">true</bool>
     <bool name="cfg_auto_tag">true</bool>
     <bool name="cfg_line_info">true</bool>
+    <bool name="cfg_thread_info">false</bool>
     <string name="cfg_global_tag">@string/app_name</string>
 </resources>

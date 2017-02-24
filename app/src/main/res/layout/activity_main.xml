@@ -43,6 +43,15 @@
             android:checked="@bool/cfg_line_info"
             android:text="keepLineInfo"/>
 
+        <Switch
+            android:id="@+id/main_switch_thread_info"
+            style="@style/DemoSwitch"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/main_switch_line_info"
+            android:checked="@bool/cfg_concat_tag"
+            android:text="keepThreadInfo"/>
+
         <EditText
             android:id="@+id/main_edt_global_tag"
             android:layout_width="wrap_content"

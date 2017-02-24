@@ -23,6 +23,7 @@
     <string name="msg_storage_permission_denied">Crash printer is unavailable until you
         granted permission.</string>
 
+    <string name="main_msg_config_applied">config successfully applied</string>
     <string name="msg_crash_saved">Emulated crash information is saved on %s.</string>
     <string name="msg_log_was_intercepted">WARNING: a log was intercepted due to its
         category or msg contains keyword %s.</string>

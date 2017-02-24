@@ -29,6 +29,7 @@ public class PLogApplication extends Application {
                 .forceConcatGlobalTag(getResources().getBoolean(R.bool.cfg_concat_tag))
                 .keepLineNumber(getResources().getBoolean(R.bool.cfg_line_info))
                 .useAutoTag(getResources().getBoolean(R.bool.cfg_auto_tag))
+                .keepThreadInfo(getResources().getBoolean(R.bool.cfg_thread_info))
                 .globalTag(getString(R.string.cfg_global_tag))
                 .build());
 

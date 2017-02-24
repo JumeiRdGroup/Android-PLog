@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_switch_concat_tag)
     Switch mSwitchConcatTag;
 
+    @BindView(R.id.main_switch_thread_info)
+    Switch mSwitchThreadInfo;
+
     @BindView(R.id.main_edt_global_tag)
     EditText mEdtGlobalTag;
 
@@ -149,7 +153,17 @@ public class MainActivity extends AppCompatActivity {
         }, getResources().getStringArray(R.array.usage_cases)));
 
 //        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter));
+        showDefaultConfig();
         preparePrinters();
+    }
+
+    private void showDefaultConfig() {
+        Resources res = getResources();
+        mSwitchAutoTag.setChecked(res.getBoolean(R.bool.cfg_auto_tag));
+        mSwitchConcatTag.setChecked(res.getBoolean(R.bool.cfg_concat_tag));
+        mSwitchLineInfo.setChecked(res.getBoolean(R.bool.cfg_line_info));
+        mSwitchThreadInfo.setChecked(res.getBoolean(R.bool.cfg_thread_info));
+        mEdtGlobalTag.setText(res.getString(R.string.cfg_global_tag));
     }
 
     public void preparePrinters() {
@@ -229,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         PLogConfig config = PLogConfig.newBuilder(PLog.getCurrentConfig())
                 .keepLineNumber(mSwitchLineInfo.isChecked())
+                .keepThreadInfo(mSwitchThreadInfo.isChecked())
                 .useAutoTag(mSwitchAutoTag.isChecked())
                 .forceConcatGlobalTag(mSwitchConcatTag.isChecked())
                 .globalTag(newGlobalTag)
@@ -237,6 +252,8 @@ public class MainActivity extends AppCompatActivity {
         PLog.init(config);
 
         hideSoftInput();
+
+        toastMsg(R.string.main_msg_config_applied);
     }
 
     @OnClick(R.id.main_btn_print_log)
@@ -297,6 +314,13 @@ public class MainActivity extends AppCompatActivity {
         PLog.i("InfoTag", "This is an info log using specified tag.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
+
+        new Thread("BackgroundThread") {
+            @Override
+            public void run() {
+                PLog.level(Log.INFO).msg("This is a log in another thread.").execute();
+            }
+        }.start();
     }
 
     void logLong() {
