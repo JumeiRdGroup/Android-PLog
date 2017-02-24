@@ -128,6 +128,10 @@ final class LogEngine {
                 outputSb.append(generateLineInfo(element));
             }
 
+            if (config.isKeepThreadInfo()) {
+                outputSb.append(generateThreadInfo(Thread.currentThread()));
+            }
+
             if (!TextUtils.isEmpty(style.msgPrefix())) {
                 outputSb.append(style.msgPrefix());
             }
@@ -218,6 +222,11 @@ final class LogEngine {
                 TextUtils.isEmpty(element.getFileName()) ? "Unknown Source" : element.getFileName(),
                 element.getLineNumber(),
                 element.getMethodName());
+    }
+
+    @NonNull
+    private static String generateThreadInfo(@Nullable Thread thread) {
+        return thread == null ? " [Thread:N/A] " : " [" + thread.toString() + "] ";
     }
 
     private static class DefaultStyle implements Style {

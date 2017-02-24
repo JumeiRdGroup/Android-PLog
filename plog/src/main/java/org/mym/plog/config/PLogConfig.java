@@ -45,6 +45,13 @@ public class PLogConfig {
     private boolean keepLineNumber;
 
     /**
+     * If set to true, all log message will contains current thread information.
+     *
+     * @since 2.0.0
+     */
+    private boolean keepThreadInfo;
+
+    /**
      * Global interceptor which would affect all printers, may be null.
      *
      * @since 2.0.0
@@ -60,6 +67,7 @@ public class PLogConfig {
         emptyMsgLevel = builder.emptyMsgLevel;
         keepLineNumber = builder.keepLineNumber;
         globalInterceptor = builder.globalInterceptor;
+        keepThreadInfo = builder.keepThreadInfo;
     }
 
     /**
@@ -134,6 +142,10 @@ public class PLogConfig {
         return globalInterceptor;
     }
 
+    public boolean isKeepThreadInfo() {
+        return keepThreadInfo;
+    }
+
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
@@ -146,6 +158,7 @@ public class PLogConfig {
         private int globalStackOffset;
         @Nullable
         private Interceptor globalInterceptor;
+        private boolean keepThreadInfo;
 
         /**
          * Create a builder, you can also use static method {@link #newBuilder()}.
@@ -229,6 +242,11 @@ public class PLogConfig {
 
         public Builder globalInterceptor(@Nullable Interceptor val) {
             globalInterceptor = val;
+            return this;
+        }
+
+        public Builder keepThreadInfo(boolean val) {
+            keepThreadInfo = val;
             return this;
         }
 
