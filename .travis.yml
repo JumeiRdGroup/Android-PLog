@@ -16,8 +16,7 @@ jdk:
 branches:
   only:
     - master
-    # Temporarily disable CI before 2.0 develop finish
-    #- dev
+    - dev
 
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
