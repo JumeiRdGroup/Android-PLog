@@ -10,6 +10,13 @@ android {
         targetSdkVersion rootProject.ext.TARGET_SDK_VERSION as int
     }
 
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
