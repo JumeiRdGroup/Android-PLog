@@ -1,5 +1,9 @@
+#Android-PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)
+
+[ ![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--PLog-brightgreen.svg?style=flat) ](https://android-arsenal.com/details/1/4884)![[](http://www.methodscount.com/?lib=org.mym.plog%3Aplog-core%3A2.0.0-beta2)](https://img.shields.io/badge/Methods and size-200 | 21 KB-e91e63.svg)
+===
+
 ![logo](./app/src/main/res/mipmap-xxhdpi/ic_launcher.png)
-#Android-PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)<a href="http://www.methodscount.com/?lib=org.mym.plog%3Aandroid-plog%3A1.5.0"><img src="https://img.shields.io/badge/Methods and size-201 | 20 KB-e91e63.svg"/></a>
 
 [English Version](README_EN.md)
 
