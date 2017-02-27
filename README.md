@@ -1,6 +1,6 @@
-[ ![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--PLog-brightgreen.svg?style=flat) ](https://android-arsenal.com/details/1/4884)
+[ ![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--PLog-brightgreen.svg?style=flat) ](https://android-arsenal.com/details/1/4884)[![](https://jitpack.io/v/Muyangmin/Android-PLog.svg)](https://jitpack.io/#Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)
 
-#Android-PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)[ ![Download](https://api.bintray.com/packages/muyangmin/org.mym/Android-PLog/images/download.svg) ](https://bintray.com/muyangmin/org.mym/Android-PLog/_latestVersion)![[](http://www.methodscount.com/?lib=org.mym.plog%3Aplog-core%3A2.0.0-beta2)](https://img.shields.io/badge/Methods and size-200 | 21 KB-e91e63.svg)
+#Android-PLog  [![Build Status](https://travis-ci.org/Muyangmin/Android-PLog.svg?branch=master)](https://travis-ci.org/Muyangmin/Android-PLog)![[](http://www.methodscount.com/?lib=org.mym.plog%3Aplog-core%3A2.0.0-beta2)](https://img.shields.io/badge/Methods and size-200 | 21 KB-e91e63.svg)
 
 ![logo](./app/src/main/res/mipmap-xxhdpi/ic_launcher.png)
 
