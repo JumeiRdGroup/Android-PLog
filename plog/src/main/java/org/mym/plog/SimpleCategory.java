@@ -23,6 +23,11 @@ public class SimpleCategory implements Category {
     }
 
     @Override
+    public boolean isSameAs(@NonNull String name) {
+        return mName.equals(name);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Category) {
             return mName.equalsIgnoreCase(((Category) obj).getName());

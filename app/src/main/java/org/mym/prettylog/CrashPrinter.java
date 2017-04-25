@@ -28,7 +28,9 @@ import java.util.Arrays;
  */
 public class CrashPrinter extends FilePrinter {
 
-    public static final Category CRASH = new SimpleCategory("crash");
+    //    public static final Category CRASH = new SimpleCategory("crash");
+    public static final String CAT_CRASH = "crash";
+
     private static volatile CrashPrinter sInstance = null;
     private static String sExtraInfo;
     private Context mApplicationContext;
@@ -94,7 +96,8 @@ public class CrashPrinter extends FilePrinter {
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
                                @Nullable Category category, @NonNull String msg) {
         // accept only crash category!
-        return !CRASH.equals(category);
+//        return !CRASH.equals(category);
+        return !(category != null && category.isSameAs(CAT_CRASH));
     }
 
     @Override

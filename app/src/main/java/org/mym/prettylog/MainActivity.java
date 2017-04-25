@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
         PLog.level(Log.ERROR).throwable(e);
 
         //Using crash category
-        PLog.level(Log.WARN).category(CrashPrinter.CRASH)
+        PLog.level(Log.WARN).category(CrashPrinter.CAT_CRASH)
                 .params(e).execute();
     }
 
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void logCrash() {
-        PLog.level(Log.ERROR).category(CrashPrinter.CRASH).params(new NullPointerException())
+        PLog.level(Log.ERROR).category(CrashPrinter.CAT_CRASH).params(new NullPointerException())
                 .execute();
         File path = CrashPrinter.getCrashFileDir(this);
         if (path != null && path.exists()) {

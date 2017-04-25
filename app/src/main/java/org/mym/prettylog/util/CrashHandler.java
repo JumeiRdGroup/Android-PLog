@@ -49,7 +49,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         //TODO consider remove this on release version
         throwable.printStackTrace();
         CrashPrinter.setExtraInfo(generateExtraInfo(thread));
-        PLog.level(Log.ERROR).category(CrashPrinter.CRASH).params(throwable).execute();
+        PLog.level(Log.ERROR).category(CrashPrinter.CAT_CRASH).params(throwable).execute();
         if (mDefaultHandler != null) {
             mDefaultHandler.uncaughtException(thread, throwable);
         }
