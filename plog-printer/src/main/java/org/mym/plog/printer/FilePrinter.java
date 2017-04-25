@@ -1,27 +1,20 @@
 package org.mym.plog.printer;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.PrintStreamPrinter;
 
 import org.mym.plog.AbsPrinter;
-import org.mym.plog.Category;
-import org.mym.plog.Formatter;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
-import org.mym.plog.Printer;
-import org.mym.plog.SoftWrapper;
-import org.mym.plog.Style;
-import org.mym.plog.formatter.DefaultFormatter;
 
 import java.io.Closeable;
 import java.io.File;
@@ -41,6 +34,25 @@ import java.util.Locale;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class FilePrinter extends AbsPrinter implements Closeable {
+
+    /**
+     * Place holder string for the internal files dir.
+     *
+     * @see Context#getFilesDir()
+     */
+    protected static final String DIR_INT_FILES = "${INT_PKG}";
+    /**
+     * Place holder string for the external files dir. (requires no permission)
+     *
+     * @see Context#getExternalFilesDir(String)
+     */
+    protected static final String DIR_EXT_FILES = "${EXT_PKG}";
+    /**
+     * Place holder string for the external storage root dir.(requires WRITE PERMISSION)
+     *
+     * @see Environment#getExternalStorageDirectory()
+     */
+    protected static final String DIR_EXT_ROOT = "${EXT_ROOT}";
 
     /**
      * File size limit.
@@ -65,24 +77,42 @@ public class FilePrinter extends AbsPrinter implements Closeable {
     private SimpleDateFormat mTimeFormatter;
 
     /**
-     * Create a file logger using default config.
+     * Create a file printer using default path (external files dir).
+     *
+     * @throws IllegalStateException If try to use external storage but external storage
+     *                               is unavailable.
      */
-    public FilePrinter(Context mContext) {
-        this(getDefaultLogFilePath(mContext), new TimingFileNameGenerator(), 1024 * 1024);
+    public FilePrinter(@NonNull Context context) throws IllegalStateException {
+        this(context, DIR_EXT_FILES + "/logs");
     }
 
     /**
-     * Create a file logger.
+     * Create a file printer using specified path.
      *
-     * @param mFileSizeLimit     file size limit. By default a single log file would not over 1M.
-     *                           If a non-positive integer is provided, log files has no size limit.
-     * @param mFileNameGenerator a generator to provide filename when creating new log file.
+     * @param logFilePath absolute path; may use predefined placeholders in start. Currently
+     *                    supported placeholders: {@link #DIR_INT_FILES}, {@link #DIR_EXT_FILES},
+     *                    {@link #DIR_EXT_ROOT}.
+     * @throws IllegalStateException If try to use external storage but external storage
+     *                               is unavailable.
      */
-    public FilePrinter(String mLogFilePath, FileNameGenerator mFileNameGenerator,
-                      long mFileSizeLimit) {
-        this.mLogFilePath = mLogFilePath;
-        this.mFileNameGenerator = mFileNameGenerator;
-        this.mFileSizeLimit = mFileSizeLimit;
+    public FilePrinter(@NonNull Context context, @NonNull String logFilePath)
+            throws IllegalStateException {
+        this(context, logFilePath, new TimingFileNameGenerator(), 1024 * 1024);
+    }
+
+    /**
+     * Create a file printer.
+     *
+     * @param fileSizeLimit file size limit. By default a single log file would not over 1M.
+     *                      If a non-positive integer is provided, log files has no size limit.
+     * @param generator     a generator to provide filename when creating new log file.
+     */
+    public FilePrinter(@NonNull Context context, @NonNull String filePath,
+                       @NonNull FileNameGenerator generator, long fileSizeLimit)
+            throws IllegalStateException {
+        this.mLogFilePath = FilePrinterHelper.parseActualPath(context, filePath);
+        this.mFileNameGenerator = generator;
+        this.mFileSizeLimit = fileSizeLimit;
 
         HandlerThread mPrintThread = new HandlerThread("PLogFilePrinterThread",
                 Process.THREAD_PRIORITY_BACKGROUND + Process.THREAD_PRIORITY_MORE_FAVORABLE);
@@ -91,62 +121,6 @@ public class FilePrinter extends AbsPrinter implements Closeable {
 
         mTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS", Locale.US);
     }
-
-    /**
-     * Handy method defines default log file path.
-     *
-     * @param context the context of package.
-     * @return the absolute path is [package-path]/files/plog/.
-     * @see Context#getFilesDir()
-     */
-    public static String getDefaultLogFilePath(Context context) {
-        return context.getFilesDir().getAbsolutePath() + File.separatorChar + "plog";
-    }
-
-//    @CheckResult
-//    @Override
-//    public boolean onIntercept(@PrintLevel int level, @NonNull String tag,
-//                               @Nullable Category category, @NonNull String msg) {
-//        return false;
-//    }
-//
-//    @Nullable
-//    @Override
-//    public Formatter getFormatter() {
-//        try {
-//            Class.forName("org.mym.plog.formatter.DefaultFormatter");
-//            //Only create a instance for provided dependency
-//            return new DefaultFormatter();
-//        }catch (ClassNotFoundException e){
-//            //If formatter module is not included, use null formatter.
-//            return null;
-//        }
-//    }
-//
-//    @Nullable
-//    @Override
-//    public Style getStyle() {
-//        return null;
-//    }
-//
-////    @CheckResult
-////    @Override
-////    public boolean isSoftWrapDisallowed() {
-////        return true;
-////    }
-//
-//
-//    @Override
-//    public SoftWrapper getSoftWrapper() {
-////        return SoftWrapper.WORD_BREAK_WRAPPER;
-//        return null;
-//    }
-//
-//    @Override
-//    public int getMaxLengthPerLine() {
-////        return 100;
-//        return 0;
-//    }
 
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
@@ -206,34 +180,8 @@ public class FilePrinter extends AbsPrinter implements Closeable {
      *
      * @return the absolute path for log files; should not be null
      */
-    public String getLogFilePath() {
+    public final String getLogFilePath() {
         return mLogFilePath;
-    }
-
-    /**
-     * Resolve and check for log path defined by {@link #getLogFilePath()}.
-     *
-     * @return A readable and writable path. If path does not exist, create it automatically.
-     * @throws IllegalArgumentException If path is empty, or path is not a directory, or path
-     *                                  cannot be readable or writable.
-     */
-    private File resolveLogFileDir() throws IllegalArgumentException {
-        String path = getLogFilePath();
-        if (TextUtils.isEmpty(path)) {
-            throw new IllegalArgumentException("Log file path cannot be null!");
-        }
-        File file = new File(path);
-        if (!file.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            file.mkdirs();
-        }
-        if (!file.isDirectory()) {
-            throw new IllegalArgumentException("Log file path is not a directory!");
-        }
-        if (!file.canRead() || !file.canWrite()) {
-            throw new IllegalArgumentException("Log file path cannot be read/write!");
-        }
-        return file;
     }
 
     /**
@@ -360,7 +308,7 @@ public class FilePrinter extends AbsPrinter implements Closeable {
          * @throws IOException if occurs
          */
         private boolean createOutputStream(FilePrinter logger) throws IOException {
-            File path = logger.resolveLogFileDir();
+            File path = FilePrinterHelper.resolveDirOrCreate(logger.getLogFilePath());
             String name = logger.mFileNameGenerator.nextFile();
 
             File file = new File(path, name);

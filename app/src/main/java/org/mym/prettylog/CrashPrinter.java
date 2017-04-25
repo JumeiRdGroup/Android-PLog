@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -12,9 +11,7 @@ import android.text.format.Formatter;
 import android.util.PrintStreamPrinter;
 
 import org.mym.plog.Category;
-import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
-import org.mym.plog.SimpleCategory;
 import org.mym.plog.printer.FilePrinter;
 
 import java.io.File;
@@ -38,7 +35,8 @@ public class CrashPrinter extends FilePrinter {
     private CrashPrinter(Context mContext) {
         //Assume not null
         //noinspection ConstantConditions
-        super(getCrashFileDir(mContext).getAbsolutePath(),
+//        super(getCrashFileDir(mContext).getAbsolutePath(),
+        super(mContext, DIR_EXT_ROOT + "/crash",
                 new TimingFileNameGenerator(), 1024 * 1024L);
         mApplicationContext = mContext.getApplicationContext();
     }
@@ -67,30 +65,6 @@ public class CrashPrinter extends FilePrinter {
         sExtraInfo = extraInfo;
     }
 
-    /**
-     * Get recommended crash file directory, if not exist, it would be created automatically.
-     *
-     * @param context Cannot be null
-     * @return null if external storage not mounted, or create directory failed.
-     */
-    public static File getCrashFileDir(@NonNull Context context) {
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return null;
-        }
-
-        File rootDir = Environment.getExternalStorageDirectory();
-        File pkgDir = new File(rootDir, context.getPackageName());
-        PLog.objects(pkgDir);
-        //If package dir not exist and create failed, return null
-        if (!pkgDir.exists() && !pkgDir.mkdir()) {
-            return null;
-        }
-        File crashFileDir = new File(pkgDir, "crash");
-        if (!crashFileDir.exists() && !crashFileDir.mkdir()) {
-            return null;
-        }
-        return crashFileDir;
-    }
 
     @Override
     public boolean onIntercept(@PrintLevel int level, @NonNull String tag,

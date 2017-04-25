@@ -43,7 +43,6 @@ import org.mym.plog.timing.TimingLogger;
 import org.mym.prettylog.data.JSONEntity;
 import org.mym.prettylog.data.User;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -432,10 +431,8 @@ public class MainActivity extends AppCompatActivity {
     void logCrash() {
         PLog.level(Log.ERROR).category(CrashPrinter.CAT_CRASH).params(new NullPointerException())
                 .execute();
-        File path = CrashPrinter.getCrashFileDir(this);
-        if (path != null && path.exists()) {
-            toastMsg(R.string.msg_crash_saved, path.getAbsolutePath());
-        }
+        String path = CrashPrinter.getInstance(this).getLogFilePath();
+        toastMsg(R.string.msg_crash_saved, path);
     }
 
     private void emulateTimeOperation() {
