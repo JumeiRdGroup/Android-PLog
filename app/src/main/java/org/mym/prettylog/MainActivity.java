@@ -368,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void logJSON() {
+        //Sample 1: for JSON objects
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(JSONEntity.DATA);
@@ -375,6 +376,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             PLog.throwable(e);
         }
+
+        //Sample 2: for String arguments
+        PLog.objects(JSONEntity.DATA1);
+        PLog.objects(JSONEntity.DATA2);
+
+        //Sample 3: formatting json string with message tips
+        PLog.d("I have a json string like this: %s", JSONEntity.DATA1);
     }
 
     /**

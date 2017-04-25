@@ -6,7 +6,7 @@
 
 [English Version](README_EN.md)
 
-## PLog 2.0 beta2已经发布，欢迎试用！
+## PLog 2.0 beta2已经发布，欢迎试用！([迁移指南](https://github.com/Muyangmin/Android-PLog/wiki/Migrating))
 
 ## Summary / Features
 PLog是一个Android专用的日志封装库，具备以下特性：
