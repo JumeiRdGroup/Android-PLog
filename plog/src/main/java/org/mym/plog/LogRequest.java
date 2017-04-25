@@ -24,6 +24,7 @@ public final class LogRequest {
     private Object[] params;
 
     public LogRequest() {
+        //level must be assigned in constructor explicitly due to 0 is not belong to valid levels.
         level = Log.VERBOSE;
     }
 
@@ -58,7 +59,7 @@ public final class LogRequest {
     }
 
     public LogRequest category(String category) {
-        return category(new SimpleCategory(category));
+        return category(SimpleCategory.obtain(category));
     }
     // ----- Decor methods; just for better usage END -----
 

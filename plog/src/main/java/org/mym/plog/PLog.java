@@ -59,7 +59,7 @@ public final class PLog {
     }
 
     public static LogRequest category(String category) {
-        return category(new SimpleCategory(category));
+        return category(SimpleCategory.obtain(category));
     }
 
     public static LogRequest category(@NonNull Category category) {
