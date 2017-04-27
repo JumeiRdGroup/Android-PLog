@@ -25,7 +25,6 @@ import java.util.Arrays;
  */
 public class CrashPrinter extends FilePrinter {
 
-    //    public static final Category CRASH = new SimpleCategory("crash");
     public static final String CAT_CRASH = "crash";
 
     private static volatile CrashPrinter sInstance = null;
@@ -36,15 +35,11 @@ public class CrashPrinter extends FilePrinter {
         //Assume not null
         //noinspection ConstantConditions
 //        super(getCrashFileDir(mContext).getAbsolutePath(),
-        super(mContext, DIR_EXT_ROOT + "/crash",
+        super(mContext, DIR_EXT_FILES + "/crash",
                 new TimingFileNameGenerator(), 1024 * 1024L);
         mApplicationContext = mContext.getApplicationContext();
     }
 
-    //    private CrashPrinter(){
-//
-//    }
-//
     public static CrashPrinter getInstance(Context context) {
         //create a temp variable to improve performance for reading volatile field.
         CrashPrinter instance = sInstance;
