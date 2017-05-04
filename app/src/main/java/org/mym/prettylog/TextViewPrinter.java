@@ -1,5 +1,7 @@
 package org.mym.prettylog;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,9 +25,11 @@ import org.mym.plog.formatter.DefaultFormatter;
 public class TextViewPrinter extends AbsPrinter {
 
     private TextView mTextView;
+    private Handler mHandler;
 
     public TextViewPrinter(@NonNull TextView mTextView) {
         this.mTextView = mTextView;
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -43,8 +47,14 @@ public class TextViewPrinter extends AbsPrinter {
     }
 
     @Override
-    public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
-        mTextView.setText(createPrintText(level, tag, msg));
+    public void print(final @PrintLevel int level, final @NonNull String tag,
+                      final @NonNull String msg) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mTextView.setText(createPrintText(level, tag, msg));
+            }
+        });
     }
 
     private String createPrintText(final int level, final String tag, final String msg) {

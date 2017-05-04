@@ -9,6 +9,7 @@ import org.mym.plog.config.PLogConfig;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This is the core logic for PLog 2.0: it contains dependencies of almost all interfaces, and
@@ -24,7 +25,8 @@ final class LogEngine {
 
     private static List<Printer> mPrinters = new ArrayList<>();
 
-    /*package*/ static void setPrinters(Printer... printers) {
+    /*package*/
+    static void setPrinters(Printer... printers) {
         if (printers != null && printers.length > 0) {
             if (!mPrinters.isEmpty()) {
                 mPrinters.clear();
@@ -40,13 +42,14 @@ final class LogEngine {
         mPrinters.add(printer);
     }
 
-    /*package*/ static void handleLogRequest(LogRequest request) {
-        if (request == null || (TextUtils.isEmpty(request.getMsg())
+    /*package*/
+    static void handleLogRequest(LogRequest request) {
+        if (request == null || (!request.isPrintTraceOnly() && TextUtils.isEmpty(request.getMsg())
                 && (request.getParams() == null || request.getParams().length == 0))) {
             throw new IllegalArgumentException("Bad request: both msg and param are null/empty!");
         }
 
-        if (mPrinters.isEmpty() && !HAS_WARN_NO_PRINTERS){
+        if (mPrinters.isEmpty() && !HAS_WARN_NO_PRINTERS) {
             mPrinters.add(new DebugPrinter(true));
             PLog.e("No printer prepared, did you forgot it?");
             HAS_WARN_NO_PRINTERS = true;
@@ -81,10 +84,33 @@ final class LogEngine {
                 continue;
             }
 
+            // ---------- Build formatted(if need) content for this printer ----------
+
             //Format if allowed
             String content = request.getMsg();
+
+            if (request.isPrintTraceOnly()) {
+                StackTraceElement[] stack = getLogStackForDiagnosis();
+                StringBuilder sb = new StringBuilder();
+                if (stack == null) {
+                    sb.append("Stack trace unavailable!");
+                } else {
+                    sb.append(String.format(Locale.US,
+                            "FYI: Library offset = %d, globalOffset = %d, requestOffset = %d.\n",
+                            STACK_TRACE_INDEX, config.getGlobalStackOffset(), request
+                                    .getStackOffset()));
+                    sb.append("Tips: VMStack(0) maybe not shown on some cases.\n");
+                    for (int i = 1; i < stack.length; i++) {
+                        StackTraceElement traceElement = stack[i];
+                        sb.append(String.format(Locale.US, "\t%2d  %s\n",
+                                i, traceElement));
+                    }
+                }
+                content = sb.toString();
+            }
+
             //If no formatter specified but has param, just toString.
-            if (printer.getFormatter() == null && content == null) {
+            else if (printer.getFormatter() == null && content == null) {
                 StringBuilder sb = new StringBuilder();
                 Object[] params = request.getParams();
                 for (int i = 0; i < params.length; i++) {
@@ -99,15 +125,17 @@ final class LogEngine {
             }
 
             //Else: assume formatter can handle all cases
-            if (printer.getFormatter() != null) {
+            else if (printer.getFormatter() != null) {
                 try {
                     content = printer.getFormatter().format(request.getMsg(), request.getParams());
                 } catch (Exception ignored) {
-                    //TODO consider remove this on release version
-                    ignored.printStackTrace();
+                    if (BuildConfig.DEBUG) {
+                        ignored.printStackTrace();
+                    }
                 }
             }
 
+            // ---------- Soft wrap(if need) content for this printer ----------
             Style style = printer.getStyle();
             if (style == null) {
                 style = DefaultStyle.INSTANCE;
@@ -123,8 +151,10 @@ final class LogEngine {
                 }
             }
 
+            // ---------- Build Final content for this printer ----------
+
             StringBuilder outputSb = new StringBuilder(content.length() * 2);
-            if (config.isKeepLineNumber() && element!=null) {
+            if (config.isKeepLineNumber() && element != null) {
                 outputSb.append(generateLineInfo(element));
             }
 
@@ -140,13 +170,14 @@ final class LogEngine {
                 outputSb.append(style.msgSuffix());
             }
 
-            //call printer at last
+            // ---------- Call printer at last ----------
             printer.print(request.getLevel(), tag, outputSb.toString());
         }
     }
 
     @NonNull
-    private static String prepareFinalTag(PLogConfig config, String explicitTag, @Nullable StackTraceElement element) {
+    private static String prepareFinalTag(PLogConfig config, String explicitTag, @Nullable
+            StackTraceElement element) {
         String tag = explicitTag;
         //Checking for auto tag
         if (TextUtils.isEmpty(tag) && config.isUseAutoTag() && element != null) {
@@ -168,13 +199,24 @@ final class LogEngine {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         //VMStack->ThreadStack->getLogStack->handleLogRequest->LogRequest.execute()
         //->CallerCode.
-        if (stack==null || stack.length <= offset){
+        if (stack == null || stack.length <= offset) {
             return null;
         }
         return stack[offset];
     }
 
-    private static String generateAutoTag(@NonNull StackTraceElement element){
+    /**
+     * Note this is a emulated method to keep same level with user calling; normally user code
+     * just call {@link #getLogStackElement(int)}.
+     *
+     * @see #getLogStackElement(int)
+     */
+    @Nullable
+    private static StackTraceElement[] getLogStackForDiagnosis() {
+        return Thread.currentThread().getStackTrace();
+    }
+
+    private static String generateAutoTag(@NonNull StackTraceElement element) {
         String className = element.getClassName();
         //parse to simple name
         String pkgPath[] = className.split("\\.");
@@ -217,7 +259,7 @@ final class LogEngine {
         return TextUtils.isEmpty(innerClassName) ? className : innerClassName;
     }
 
-    private static String generateLineInfo(@NonNull StackTraceElement element){
+    private static String generateLineInfo(@NonNull StackTraceElement element) {
         return String.format("[(%s:%s):%s]",
                 TextUtils.isEmpty(element.getFileName()) ? "Unknown Source" : element.getFileName(),
                 element.getLineNumber(),

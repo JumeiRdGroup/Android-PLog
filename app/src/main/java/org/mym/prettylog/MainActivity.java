@@ -314,6 +314,9 @@ public class MainActivity extends AppCompatActivity {
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
 
+        //Helper method to observe calling trace.
+        PLog.printStackTraceHere();
+
         new Thread("BackgroundThread") {
             @Override
             public void run() {
@@ -500,7 +503,6 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PLog.empty();
                     performClick(mActions[holder.getAdapterPosition()]);
                 }
             });

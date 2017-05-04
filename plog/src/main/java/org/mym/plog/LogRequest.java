@@ -22,6 +22,7 @@ public final class LogRequest {
     private Category category;
     private String msg;
     private Object[] params;
+    private boolean printTraceOnly;
 
     public LogRequest() {
         //level must be assigned in constructor explicitly due to 0 is not belong to valid levels.
@@ -52,6 +53,11 @@ public final class LogRequest {
     public Object[] getParams() {
         return params;
     }
+
+    /*package*/ boolean isPrintTraceOnly() {
+        return printTraceOnly;
+    }
+
 
     // ----- Decor methods; just for better usage BEGIN -----
     public LogRequest throwable(Throwable throwable) {
@@ -94,6 +100,12 @@ public final class LogRequest {
         this.stackOffset = stackOffset;
         return this;
     }
+
+    /*package*/ LogRequest printTraceOnly() {
+        this.printTraceOnly = true;
+        return this;
+    }
+
     // -----BUILDER STYLE CODE END -----
 
     public void execute() {

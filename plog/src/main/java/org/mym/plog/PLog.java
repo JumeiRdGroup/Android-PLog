@@ -106,6 +106,14 @@ public final class PLog {
     }
 
     /**
+     * A helper method to print a PLOG call stack trace here.
+     * @since 2.0.0-beta4
+     */
+    public static void printStackTraceHere() {
+        new LogRequest().level(Log.INFO).printTraceOnly().execute();
+    }
+
+    /**
      * A helper method useful when you just want to print objects using default format.
      * The log level for this method is defined as {@link Log#INFO}.
      *
