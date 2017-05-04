@@ -19,7 +19,6 @@
             android:src="@mipmap/ic_launcher"/>
 
         <TextView
-            android:id="@+id/about_tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

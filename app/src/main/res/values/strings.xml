@@ -28,7 +28,6 @@
     <string name="msg_log_was_intercepted">WARNING: a log was intercepted due to its
         category or msg contains keyword %s.</string>
 
-    <string name="about_title">@string/app_name</string>
     <string name="about_library_description"><![CDATA[
     <p>
     This library is designed to be an useful android log tool.

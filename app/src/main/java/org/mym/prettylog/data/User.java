@@ -7,6 +7,7 @@ import java.util.List;
  * @author muyangmin
  * @since V1.3.0
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class User {
 
     private String name;

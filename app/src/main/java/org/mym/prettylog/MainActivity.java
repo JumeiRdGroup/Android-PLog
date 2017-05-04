@@ -338,9 +338,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void logObjects() {
-        /**
-         * User class is a data class without toString() method overridden.
-         */
+        //User class is a data class without toString() method overridden.
         User.Cat tom = new User.Cat("Tom", "Blue");
         User.Cat jerry = new User.Cat("Jerry", "brown");
 
@@ -363,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
         PLog.throwable(e);
 
         //force using error level
-        PLog.level(Log.ERROR).throwable(e);
+        PLog.level(Log.ERROR).throwable(e).execute();
 
         //Using crash category
         PLog.level(Log.WARN).category(CrashPrinter.CAT_CRASH)

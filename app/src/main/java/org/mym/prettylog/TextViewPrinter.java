@@ -11,9 +11,6 @@ import org.mym.plog.AbsPrinter;
 import org.mym.plog.Category;
 import org.mym.plog.Formatter;
 import org.mym.plog.PrintLevel;
-import org.mym.plog.Printer;
-import org.mym.plog.SoftWrapper;
-import org.mym.plog.Style;
 import org.mym.plog.formatter.DefaultFormatter;
 
 /**

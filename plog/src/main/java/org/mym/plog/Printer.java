@@ -1,6 +1,5 @@
 package org.mym.plog;
 
-import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -24,13 +23,6 @@ public interface Printer extends Interceptor {
 
     @Nullable
     Style getStyle();
-
-//    /**
-//     * Specify soft wrap setting.
-//     * @return If returns true, soft wrap feature for this printer will be disabled.
-//     */
-//    @CheckResult
-//    boolean isSoftWrapDisallowed();
 
     /**
      * Specify word wrapper, if needed.
