@@ -55,19 +55,27 @@ public class ObjectUtil {
      * @return see the doc above.
      */
     public static String objectToString(Object obj) {
+        return objectToString(obj, false);
+    }
+
+    /**
+     * @param usingSimpleClassNamePrefix Decide if parsed class using simple name;
+     *                                   this is useful for decrease collection string length
+     *                                   and large POJOs.
+     */
+    private static String objectToString(Object obj, boolean usingSimpleClassNamePrefix) {
         if (obj == null) {
             return STR_OBJECT_EMPTY;
         }
         String result = obj.toString();
         if (result.matches(REGEX_STANDARD_HASHCODE)) {
-            result = parseObject(obj);
-        }
-        if (obj instanceof AbstractList && ((AbstractList) obj).size() > 0) {
+            result = parseObject(obj, usingSimpleClassNamePrefix);
+        } else if (obj instanceof AbstractList && ((AbstractList) obj).size() > 0) {
             //Assume all objects in list are same type, that is, **TYPE SAFE**
             Object flagObject = ((AbstractList) obj).get(0);
             //If this is not formatted class, recursively format
             if (flagObject.toString().matches(REGEX_STANDARD_HASHCODE)) {
-                result = formatNormalList((List<? extends Object>) obj);
+                result = formatNormalList((List<?>) obj, usingSimpleClassNamePrefix);
             }
         } else if (!TextUtils.isEmpty(result)) {
             //Guess JSONObject, use double check to improve accuracy
@@ -107,8 +115,9 @@ public class ObjectUtil {
 
     /**
      * This method is a copy of {@link AbstractCollection#toString()} but changes its parameter!
+     * @see #objectToString(Object, boolean)
      */
-    private static <E> String formatNormalList(List<E> list) {
+    private static <E> String formatNormalList(List<E> list, boolean usingSimpleClassNamePrefix) {
         Iterator<E> it = list.iterator();
         if (!it.hasNext())
             return "[]";
@@ -117,14 +126,18 @@ public class ObjectUtil {
         sb.append('[');
         for (; ; ) {
             E e = it.next();
-            sb.append(e == list ? "(this Collection)" : objectToString(e));
+            sb.append(e == list ? "(this Collection)" : objectToString(e,
+                    usingSimpleClassNamePrefix));
             if (!it.hasNext())
                 return sb.append(']').toString();
             sb.append(',').append(' ');
         }
     }
 
-    private static String parseObject(Object obj) {
+    /**
+     * @see #objectToString(Object, boolean)
+     */
+    private static String parseObject(Object obj, boolean usingSimpleClassNamePrefix) {
         // declare concat symbols here to define final format.
         // Current format is [a=1, b=2]
         final String FIELD_CONCAT_SYMBOL = ", ";
@@ -138,18 +151,30 @@ public class ObjectUtil {
 //            sb.append(clz.getSimpleName())
 //                    .append("@")
 //                    .append(obj.hashCode())
-            sb.append(obj.toString())
-                    .append(OBJECT_VALUE_SYMBOL_LEFT);
+            if (usingSimpleClassNamePrefix) {
+                sb.append(clz.getSimpleName());
+            } else {
+                sb.append(clz.getName())
+                        .append("@")
+                        .append(Integer.toHexString(obj.hashCode()));
+            }
+            //Add [ symbol
+            sb.append(OBJECT_VALUE_SYMBOL_LEFT);
             boolean appended = false;
             for (Field f : fields) {
+                boolean isAccessible = f.isAccessible();
                 f.setAccessible(true);
                 if (f.isAccessible()) {
                     // age=18,
                     sb.append(f.getName()).append(FIELD_VALUE_SYMBOL);
-                    sb.append(f.get(obj));
+                    //In internal fields, do not use full class name to avoid too long log in
+                    // arrays and collections, etc.
+                    sb.append(objectToString(f.get(obj), true));
                     sb.append(FIELD_CONCAT_SYMBOL);
                     appended = true;
                 }
+                //Restore accessibility
+                f.setAccessible(isAccessible);
             }
             //delete last ", "
             if (appended) {

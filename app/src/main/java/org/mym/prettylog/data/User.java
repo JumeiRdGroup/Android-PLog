@@ -12,11 +12,15 @@ public class User {
     private String name;
     private int age;
     private List<Cat> cats;
+    private Cat favCat;
 
     public User(String name, int age, List<Cat> cats) {
         this.name = name;
         this.age = age;
         this.cats = cats;
+        if (cats != null && cats.size() > 0) {
+            this.favCat = cats.get(0);
+        }
     }
 
     //toString method is not overridden
