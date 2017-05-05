@@ -30,9 +30,6 @@ dependencies {
     provided "${rootProject.ext.SUPPORT_ANNOTATION as String}"
 }
 
-//apply from: rootProject.file('gradle/android-artifacts.gradle')
-//apply from: rootProject.file('gradle/gradle-jcenter-push.gradle')
-
 publish {
     artifactId = 'plog-core'
     repoName = BINTRAY_REPO
