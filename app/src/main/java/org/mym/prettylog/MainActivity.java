@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Log.i("MainActivity", "This log should be checkout by lint tool.");
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(new UsageAdapter(new int[]{
                 LOG_BASIC, LOG_LONG, LOG_TO_FILE,

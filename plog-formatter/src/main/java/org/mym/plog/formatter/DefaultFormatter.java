@@ -3,7 +3,6 @@ package org.mym.plog.formatter;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,9 +53,6 @@ public class DefaultFormatter implements Formatter {
             for (int enabledType : enabledTypes) {
                 mFormatFlag |= enabledType;
             }
-        }
-        if (BuildConfig.DEBUG) {
-            Log.i("DefaultFormatter", "The enabledFlag is " + Integer.toBinaryString(mFormatFlag));
         }
         initFormatter();
     }

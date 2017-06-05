@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 
 android {
     compileSdkVersion rootProject.ext.COMPILE_SDK_VERSION as int
@@ -35,19 +35,19 @@ dependencies {
     compile "com.android.support:design:${rootProject.ext.SUPPORT_VERSION as String}"
     compile 'org.mym.material:md-colors:1.0.0'
 
-    compile('com.github.hotchemi:permissionsdispatcher:2.3.1') {
+    compile('com.github.hotchemi:permissionsdispatcher:2.4.0') {
         exclude group: "com.android.support"
     }
-//    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
 
     compile(rootProject.ext.BUTTERKNIFE as String)
-    apt (rootProject.ext.BUTTERKNIFE_APT as String)
-    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
+    annotationProcessor(rootProject.ext.BUTTERKNIFE_APT as String)
 
     compile project(':plog')
     compile project(':plog-printer')
     compile project(':plog-timing')
     compile project(':plog-formatter')
+    compile project(':plog-lint-aar')
 //    compile 'org.mym.plog:android-plog:1.7.0'
 
 }

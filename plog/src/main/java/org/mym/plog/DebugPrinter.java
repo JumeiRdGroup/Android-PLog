@@ -1,5 +1,6 @@
 package org.mym.plog;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,6 @@ public class DebugPrinter extends AbsPrinter {
 
     private boolean isDebug;
 
-//    private int maxLengthPerLine;
-
     public DebugPrinter(boolean isDebug) {
         this(isDebug, 100);
     }
@@ -25,7 +24,6 @@ public class DebugPrinter extends AbsPrinter {
     public DebugPrinter(boolean isDebug, int maxLengthPerLine) {
         super(maxLengthPerLine);
         this.isDebug = isDebug;
-//        this.maxLengthPerLine = maxLengthPerLine;
     }
 
     @CheckResult
@@ -35,38 +33,8 @@ public class DebugPrinter extends AbsPrinter {
         //Intercept all logs if not in debug
         return !isDebug || super.onIntercept(level, tag, category, msg);
     }
-//
-//    @Nullable
-//    @Override
-//    public Formatter getFormatter() {
-//        try {
-//            //noinspection unchecked
-//            Class<? extends Formatter> clz = ((Class<? extends Formatter>)
-//                    Class.forName("org.mym.plog.formatter.DefaultFormatter"));
-//            //Only create a instance for provided dependency
-//            return clz.newInstance();
-//        } catch (Exception e) {
-//            //If formatter module is not included, use null formatter.
-//            return null;
-//        }
-//    }
-//
-//    @Nullable
-//    @Override
-//    public Style getStyle() {
-//        return null;
-//    }
-//
-//    @Override
-//    public SoftWrapper getSoftWrapper() {
-//        return SoftWrapper.WORD_LENGTH_WRAPPER;
-//    }
-//
-//    @Override
-//    public int getMaxLengthPerLine() {
-//        return maxLengthPerLine;
-//    }
 
+    @SuppressLint("LogNotPLog")
     @Override
     public void print(@PrintLevel int level, @NonNull String tag, @NonNull String msg) {
         switch (level) {

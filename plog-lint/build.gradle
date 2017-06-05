@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+//sourceCompatibility = "1.7"
+//targetCompatibility = "1.7"
+
+configurations {
+    lintJarOutput
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry': 'org.mym.plog.lint.IssueRegistry')
+    }
+}
+
+dependencies {
+    compile "com.android.tools.lint:lint-api:${rootProject.ext.SUPPORT_VERSION}"
+    compile "com.android.tools.lint:lint-checks:${rootProject.ext.SUPPORT_VERSION}"
+
+    lintJarOutput files(jar)
+}
+
+defaultTasks 'assemble'

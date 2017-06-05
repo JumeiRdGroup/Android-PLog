@@ -1,1 +1,1 @@
-include ':app', ':plog', ':plog-formatter', ':plog-printer', ':plog-timing'
+include ':app', ':plog', ':plog-formatter', ':plog-printer', ':plog-timing', ':plog-lint', ':plog-lint-aar'
