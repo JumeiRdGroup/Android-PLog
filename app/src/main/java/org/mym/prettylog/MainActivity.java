@@ -310,6 +310,13 @@ public class MainActivity extends AppCompatActivity {
     void logBasic() {
         PLog.empty();
 
+        //检查消息或参数为空的情况
+        String act = null;
+        //noinspection ConstantConditions
+        PLog.d(act);
+        //noinspection ConstantConditions
+        PLog.objects(act);
+
         PLog.v("This is a verbose log.");
         PLog.d("This is a debug log. param is %d, %.2f and %s", 1, 2.413221, "Great");
         PLog.i("InfoTag", "This is an info log using specified tag.");

@@ -44,10 +44,16 @@ final class LogEngine {
 
     /*package*/
     static void handleLogRequest(LogRequest request) {
-        if (request == null || (!request.isPrintTraceOnly() && TextUtils.isEmpty(request.getMsg())
-                && (request.getParams() == null || request.getParams().length == 0))) {
-            throw new IllegalArgumentException("Bad request: both msg and param are null/empty!");
-        }
+        //REMOVED this check on 2.0.0-beta5.
+        // This check is introduced at earlier version to help developers to find useless calls.
+        // However, there is a product environment case: developer only print log(SomeVar) while
+        // SomeVar becomes null at runtime. In this case log should not be rejected, so just
+        // remove this check.
+
+//        if (request == null || (!request.isPrintTraceOnly() && TextUtils.isEmpty(request.getMsg())
+//                && (request.getParams() == null || request.getParams().length == 0))) {
+//            throw new IllegalArgumentException("Bad request: both msg and param are null/empty!");
+//        }
 
         if (mPrinters.isEmpty() && !HAS_WARN_NO_PRINTERS) {
             mPrinters.add(new DebugPrinter(true));
@@ -129,9 +135,7 @@ final class LogEngine {
                 try {
                     content = printer.getFormatter().format(request.getMsg(), request.getParams());
                 } catch (Exception ignored) {
-                    if (BuildConfig.DEBUG) {
-                        ignored.printStackTrace();
-                    }
+                    //Empty
                 }
             }
 
@@ -153,7 +157,7 @@ final class LogEngine {
 
             // ---------- Build Final content for this printer ----------
 
-            StringBuilder outputSb = new StringBuilder(content.length() * 2);
+            StringBuilder outputSb = new StringBuilder(content == null ? 32 : content.length() * 2);
             if (config.isNeedLineNumber() && element != null) {
                 outputSb.append(generateLineInfo(element));
             }
@@ -259,6 +263,7 @@ final class LogEngine {
         return TextUtils.isEmpty(innerClassName) ? className : innerClassName;
     }
 
+    @NonNull
     private static String generateLineInfo(@NonNull StackTraceElement element) {
         return String.format("[(%s:%s):%s]",
                 TextUtils.isEmpty(element.getFileName()) ? "Unknown Source" : element.getFileName(),
