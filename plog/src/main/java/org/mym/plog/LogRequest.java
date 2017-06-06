@@ -108,7 +108,27 @@ public final class LogRequest {
 
     // -----BUILDER STYLE CODE END -----
 
+    /**
+     * @deprecated This method name may be a little ambiguous. Consider use {@link #print()}
+     * instead.
+     */
+    @Deprecated
     public void execute() {
+        //add try-catch block to avoid crash from library if any internal exception is thrown.
+        try {
+            LogEngine.handleLogRequest(this);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /**
+     * Print log to prepared printers.
+     *
+     * @since 2.0.0-beta5
+     */
+    public void print() {
+        // Use same code with execute() to keep same stack level
         //add try-catch block to avoid crash from library if any internal exception is thrown.
         try {
             LogEngine.handleLogRequest(this);

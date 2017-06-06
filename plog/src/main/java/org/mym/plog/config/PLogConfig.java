@@ -25,7 +25,7 @@ public class PLogConfig {
     /**
      * This is a very useful setting when user does NOT directly call `PLog.xxx` but called by
      * `PLogWrapper.xxx`, etc.
-     * Without this setting, the keepLineNumber function would not work correctly.
+     * Be careful for this setting: if you pass a wrong value, all your line number maybe incorrect.
      * @since 1.4.0
      */
     private int globalStackOffset;
@@ -42,14 +42,14 @@ public class PLogConfig {
     private boolean useAutoTag;
     private String emptyMsg;
     private int emptyMsgLevel;
-    private boolean keepLineNumber;
+    private boolean needLineNumber;
 
     /**
      * If set to true, all log message will contains current thread information.
      *
      * @since 2.0.0
      */
-    private boolean keepThreadInfo;
+    private boolean needThreadInfo;
 
     /**
      * Global interceptor which would affect all printers, may be null.
@@ -65,9 +65,9 @@ public class PLogConfig {
         useAutoTag = builder.useAutoTag;
         emptyMsg = builder.emptyMsg;
         emptyMsgLevel = builder.emptyMsgLevel;
-        keepLineNumber = builder.keepLineNumber;
+        needLineNumber = builder.needLineNumber;
         globalInterceptor = builder.globalInterceptor;
-        keepThreadInfo = builder.keepThreadInfo;
+        needThreadInfo = builder.needThreadInfo;
     }
 
     /**
@@ -112,10 +112,6 @@ public class PLogConfig {
         return globalStackOffset;
     }
 
-    public String getGlobalTag() {
-        return globalTag;
-    }
-
     public String getEmptyMsg() {
         return emptyMsg;
     }
@@ -125,12 +121,12 @@ public class PLogConfig {
         return emptyMsgLevel;
     }
 
-    public boolean isForceConcatGlobalTag() {
-        return forceConcatGlobalTag;
+    public String getGlobalTag() {
+        return globalTag;
     }
 
-    public boolean isKeepLineNumber() {
-        return keepLineNumber;
+    public boolean isForceConcatGlobalTag() {
+        return forceConcatGlobalTag;
     }
 
     public boolean isUseAutoTag() {
@@ -142,8 +138,12 @@ public class PLogConfig {
         return globalInterceptor;
     }
 
-    public boolean isKeepThreadInfo() {
-        return keepThreadInfo;
+    public boolean isNeedLineNumber() {
+        return needLineNumber;
+    }
+
+    public boolean isNeedThreadInfo() {
+        return needThreadInfo;
     }
 
     @SuppressWarnings("unused")
@@ -154,11 +154,11 @@ public class PLogConfig {
         @PrintLevel
         private int emptyMsgLevel;
         private String emptyMsg;
-        private boolean keepLineNumber;
+        private boolean needLineNumber;
         private int globalStackOffset;
         @Nullable
         private Interceptor globalInterceptor;
-        private boolean keepThreadInfo;
+        private boolean needThreadInfo;
 
         /**
          * Create a builder, you can also use static method {@link #newBuilder()}.
@@ -168,6 +168,9 @@ public class PLogConfig {
             useAutoTag = true;
         }
 
+        /**
+         * Create a builder.
+         */
         public Builder(PLogConfig copy) {
             this.globalStackOffset = copy.globalStackOffset;
             this.globalTag = copy.globalTag;
@@ -175,8 +178,9 @@ public class PLogConfig {
             this.useAutoTag = copy.useAutoTag;
             this.emptyMsg = copy.emptyMsg;
             this.emptyMsgLevel = copy.emptyMsgLevel;
-            this.keepLineNumber = copy.keepLineNumber;
             this.globalInterceptor = copy.globalInterceptor;
+            this.needLineNumber = copy.needLineNumber;
+            this.needThreadInfo = copy.needThreadInfo;
         }
 
         /**
@@ -228,25 +232,56 @@ public class PLogConfig {
         }
 
         /**
-         * If this sets to true, the line number info would printed in log message.
+         * If set to true, the line number info will be printed in log message.
+         * @deprecated This method name is a little ambiguous, use {@link #needLineNumber(boolean)}
+         * instead.
          */
         public Builder keepLineNumber(boolean val) {
-            keepLineNumber = val;
+            return needLineNumber(val);
+        }
+
+        /**
+         * If set to true, the line number info will be printed in log message.
+         */
+        public Builder needLineNumber(boolean val) {
+            needLineNumber = val;
             return this;
         }
 
+        /**
+         * Set a global stack offset.
+         * <p>
+         * The recommended value is your wrapper level to `PLog` calls.
+         * If you use PLog.xxx() directly, you DO NOT need this method.
+         * </p>
+         */
         public Builder globalStackOffset(int val) {
             globalStackOffset = val;
             return this;
         }
 
+        /**
+         * Register a global interceptor, useful for handle different app environments.
+         */
         public Builder globalInterceptor(@Nullable Interceptor val) {
             globalInterceptor = val;
             return this;
         }
 
+        /**
+         * @deprecated This method name is a little ambiguous, use {@link #needThreadInfo(boolean)}
+         * instead.
+         */
+        @Deprecated
         public Builder keepThreadInfo(boolean val) {
-            keepThreadInfo = val;
+            return needThreadInfo(val);
+        }
+
+        /**
+         * If set to true, thread info will be printed into log message.
+         */
+        public Builder needThreadInfo(boolean val) {
+            needThreadInfo = val;
             return this;
         }
 

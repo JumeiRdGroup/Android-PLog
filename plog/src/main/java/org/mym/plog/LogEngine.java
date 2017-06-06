@@ -154,11 +154,11 @@ final class LogEngine {
             // ---------- Build Final content for this printer ----------
 
             StringBuilder outputSb = new StringBuilder(content.length() * 2);
-            if (config.isKeepLineNumber() && element != null) {
+            if (config.isNeedLineNumber() && element != null) {
                 outputSb.append(generateLineInfo(element));
             }
 
-            if (config.isKeepThreadInfo()) {
+            if (config.isNeedThreadInfo()) {
                 outputSb.append(generateThreadInfo(Thread.currentThread()));
             }
 
