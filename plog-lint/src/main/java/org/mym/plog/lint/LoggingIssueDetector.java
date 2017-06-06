@@ -18,14 +18,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Detect issues for logging usage.
  * Created by muyangmin on Jun 05, 2017.
+ * @see #ISSUE_LOG_CLASS
  */
-public final class LoggingIssueDetector extends Detector implements Detector.JavaPsiScanner {
+/*package*/ final class LoggingIssueDetector extends Detector implements Detector.JavaPsiScanner {
 
     /**
      * Reports issue on calls to `android.util.Log` or `System.out.println`。
      */
-    public static final Issue ISSUE_LOG_CLASS =
+    private static final Issue ISSUE_LOG_CLASS =
             Issue.create("LogNotPLog",
                     "Should use PLog or wrapper class",
                     "Your project has included PLog, logging calls should be going to PLog " +

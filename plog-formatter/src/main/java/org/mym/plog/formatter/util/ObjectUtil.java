@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ObjectUtil {
 
-    public static final String STR_OBJECT_EMPTY = "[null object]";
+    private static final String STR_OBJECT_EMPTY = "[null object]";
     /**
      * a-zA-Z\. matches for class name, while 0-9a-fA-F matches hashcode.
      * Use $ to match inner classes.

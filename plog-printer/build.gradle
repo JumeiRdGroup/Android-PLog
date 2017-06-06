@@ -25,7 +25,7 @@ dependencies {
 
     //For develop only
     provided project(':plog')
-    provided project(':plog-formatter')
+//    provided project(':plog-formatter')
     provided "com.android.support:support-annotations:${rootProject.ext.SUPPORT_VERSION as String}"
 }
 

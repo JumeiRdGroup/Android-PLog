@@ -16,7 +16,7 @@ import java.util.Locale;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static volatile CrashHandler sInstance = null;
-    Thread.UncaughtExceptionHandler mDefaultHandler;
+    private Thread.UncaughtExceptionHandler mDefaultHandler;
 
     private CrashHandler() {
 

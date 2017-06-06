@@ -16,8 +16,8 @@ public class SimpleCategory implements Category {
     /**
      * Use a static Map to cache same categories and avoid frequently object allocating.
      */
-    private static Map<String, SimpleCategory> sCachedMap = new HashMap<>();
-    private String mName;
+    private static final Map<String, SimpleCategory> sCachedMap = new HashMap<>();
+    private final String mName;
 
     private SimpleCategory(@NonNull String name) {
         this.mName = name;
