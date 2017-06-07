@@ -18,9 +18,14 @@ public final class LintTestCase {
         System.out.println("test lint not plog.");
 
         Log.d("Lint", "use android.util.Log class.");
+
+        PLog.v("use PLog, this is right.");
     }
 
     void testLintNestedFormatInPLog() {
         PLog.d(String.format(Locale.US, "%s %s", "Hello", "World"));
+
+        //emulate a normal formatting
+        String result = String.format("This is %s right call.", 2);
     }
 }

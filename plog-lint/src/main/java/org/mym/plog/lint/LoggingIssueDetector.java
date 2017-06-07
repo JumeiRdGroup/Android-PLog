@@ -26,7 +26,10 @@ import java.util.regex.Pattern;
  * Created by muyangmin on Jun 05, 2017.
  * @see #ISSUE_LOG_CLASS
  */
-/*package*/ final class LoggingIssueDetector extends Detector implements Detector.JavaPsiScanner {
+//This class must be public since its actual caller is Class
+// com.android.tools.lint.client.api.IssueRegistry
+@SuppressWarnings("WeakerAccess")
+public final class LoggingIssueDetector extends Detector implements Detector.JavaPsiScanner {
 
     /**
      * Reports issue on calls to `android.util.Log` or `System.out.println`。
@@ -46,9 +49,9 @@ import java.util.regex.Pattern;
      */
     private static final Issue ISSUE_NESTED_FORMAT =
             Issue.create("NestedFormatInPLog",
-                    "explicit String.format() is redundant",
+                    "Explicit String.format() is redundant when use PLog",
                     "PLog will handle string formatting automatically, " +
-                            "so this explicit format() is useless",
+                            "so this explicit format() is useless.",
                     Category.MESSAGES,
                     6,
                     Severity.WARNING,
@@ -61,17 +64,24 @@ import java.util.regex.Pattern;
         List<Issue> issues = new ArrayList<>();
 
         issues.add(ISSUE_LOG_CLASS);
+        issues.add(ISSUE_NESTED_FORMAT);
         //To be continue if needed ...
 
         return issues;
     }
 
+    /**
+     * Reports issue if this call is inside PLog.x().
+     * Calling this method assumes actual calling method is 'String#format'.
+     *
+     * @see #ISSUE_NESTED_FORMAT
+     */
     private static void checkNestedStringFormat(JavaContext context, PsiMethodCallExpression call) {
         PsiElement current = call;
         while (true) {
             current = LintUtils.skipParentheses(current.getParent());
             if (current == null || current instanceof PsiCodeBlock) {
-                // Reached AST root or code block node; String.format not inside Timber.X(..).
+                // Reached AST root or code block node; String.format not inside PLog.X(..).
                 return;
             }
             if (current instanceof PsiMethodCallExpression) {
@@ -87,7 +97,7 @@ import java.util.regex.Pattern;
 
     @Override
     public List<String> getApplicableMethodNames() {
-        return Arrays.asList("v", "d", "i", "w", "e", "wtf");
+        return Arrays.asList("format", "v", "d", "i", "w", "e", "wtf");
     }
 
     @Override
