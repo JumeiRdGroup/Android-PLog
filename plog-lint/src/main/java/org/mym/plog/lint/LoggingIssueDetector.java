@@ -5,10 +5,13 @@ import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Implementation;
 import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
+import com.android.tools.lint.detector.api.LintUtils;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
 import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.JavaElementVisitor;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
 import com.intellij.psi.PsiReferenceExpression;
@@ -16,6 +19,7 @@ import com.intellij.psi.PsiReferenceExpression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Detect issues for logging usage.
@@ -33,9 +37,23 @@ import java.util.List;
                     "Your project has included PLog, logging calls should be going to PLog " +
                             "instead of `android.util.Log` or `System.out.println`.",
                     Category.MESSAGES,
-                    8,
+                    6,
                     Severity.WARNING,
                     new Implementation(LoggingIssueDetector.class, Scope.JAVA_FILE_SCOPE));
+
+    /**
+     * Reports issue on explicit format on v/d/i/w/e methods.
+     */
+    private static final Issue ISSUE_NESTED_FORMAT =
+            Issue.create("NestedFormatInPLog",
+                    "explicit String.format() is redundant",
+                    "PLog will handle string formatting automatically, " +
+                            "so this explicit format() is useless",
+                    Category.MESSAGES,
+                    6,
+                    Severity.WARNING,
+                    new Implementation(LoggingIssueDetector.class, Scope.JAVA_FILE_SCOPE));
+
     private static final IssueReportHelper sHelper = new IssueReportHelper();
 
     /*package*/
@@ -46,6 +64,25 @@ import java.util.List;
         //To be continue if needed ...
 
         return issues;
+    }
+
+    private static void checkNestedStringFormat(JavaContext context, PsiMethodCallExpression call) {
+        PsiElement current = call;
+        while (true) {
+            current = LintUtils.skipParentheses(current.getParent());
+            if (current == null || current instanceof PsiCodeBlock) {
+                // Reached AST root or code block node; String.format not inside Timber.X(..).
+                return;
+            }
+            if (current instanceof PsiMethodCallExpression) {
+                PsiMethodCallExpression expression = (PsiMethodCallExpression) current;
+                if (Pattern.matches("org\\.mym\\.plog\\.PLog\\.(v|d|i|w|e)",
+                        expression.getMethodExpression().getQualifiedName())) {
+                    sHelper.reportIssue(context, ISSUE_NESTED_FORMAT, call);
+                    return;
+                }
+            }
+        }
     }
 
     @Override
@@ -63,17 +100,21 @@ import java.util.List;
                 //Handle multiple overloaded out.print(and println, etc) methods.
                 || fullyQualifiedMethodName.startsWith("java.lang.System.out.print")) {
             sHelper.reportIssue(context, ISSUE_LOG_CLASS, methodExpression);
+            return;
         }
 
+        if (fullyQualifiedMethodName.equals("java.lang.String.format")) {
+            checkNestedStringFormat(context, call);
+            return;
+        }
     }
 
     private static class IssueReportHelper {
         /**
          * All param should be non-null.
          */
-        void reportIssue(JavaContext context, Issue issue,
-                         PsiReferenceExpression methodExpression) {
-            context.report(issue, methodExpression, context.getLocation(methodExpression),
+        void reportIssue(JavaContext context, Issue issue, PsiElement element) {
+            context.report(issue, element, context.getLocation(element),
                     issue.getBriefDescription(TextFormat.TEXT));
         }
     }
