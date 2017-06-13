@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         String content = mEdtLogContent.getText().toString().trim();
 
         if (!TextUtils.isEmpty(content)) {
-            PLog.category(category).msg(content).execute();
+            PLog.category(category).msg(content).print();
         } else {
             PLog.empty();
         }
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread("BackgroundThread") {
             @Override
             public void run() {
-                PLog.level(Log.INFO).msg("This is a log in another thread.").execute();
+                PLog.level(Log.INFO).msg("This is a log in another thread.").print();
             }
         }.start();
     }
@@ -370,11 +370,11 @@ public class MainActivity extends AppCompatActivity {
         PLog.throwable(e);
 
         //force using error level
-        PLog.level(Log.ERROR).throwable(e).execute();
+        PLog.level(Log.ERROR).throwable(e).print();
 
         //Using crash category
         PLog.level(Log.WARN).category(CrashPrinter.CAT_CRASH)
-                .params(e).execute();
+                .params(e).print();
     }
 
     void logJSON() {
@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void logCrash() {
         PLog.level(Log.ERROR).category(CrashPrinter.CAT_CRASH).params(new NullPointerException())
-                .execute();
+                .print();
         String path = CrashPrinter.getInstance(this).getLogFilePath();
         toastMsg(R.string.msg_crash_saved, path);
     }
