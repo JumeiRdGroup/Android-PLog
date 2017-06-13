@@ -6,7 +6,16 @@
 
 [English Version](README_EN.md)
 
-## 2.0.0 beta4 已经发布，欢迎试用！([迁移指南](https://github.com/Muyangmin/Android-PLog/wiki/Migrating))
+## 最新消息 & 使用指南
+#### 最新版本
+**2017-06-13: `2.0.0-beta5`已经发布。**
+
+#### 初次使用PLog？
+请参考Wiki: [基本用法](https://github.com/Muyangmin/Android-PLog/wiki)
+
+#### 从1.x版本迁移
+请参考Wiki: [迁移指南](https://github.com/Muyangmin/Android-PLog/wiki/Migrating)
+
 
 ## Summary / Features
 PLog是一个Android专用的日志封装库，具备以下特性：
@@ -50,9 +59,6 @@ PLog是一个Android专用的日志封装库，具备以下特性：
 | 输出可控 | × | ☆☆ | ☆ | ☆☆ |
 
 > 关于表格内各个比较维度的解释，请参见：[我为什么要写PLog](https://github.com/Muyangmin/Android-PLog/wiki/WhyUsePLog)。
-
-## Usage
-请参考Wiki：[Basic Usage](https://github.com/Muyangmin/Android-PLog/wiki)
 
 ## Sample Screen Shot
 ![ScreenShot](./ScreenShot.png)
