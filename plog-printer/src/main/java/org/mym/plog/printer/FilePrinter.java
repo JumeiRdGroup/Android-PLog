@@ -308,7 +308,18 @@ public class FilePrinter extends AbsPrinter implements Closeable {
          * @throws IOException if occurs
          */
         private boolean createOutputStream(FilePrinter logger) throws IOException {
-            File path = FilePrinterHelper.resolveDirOrCreate(logger.getLogFilePath());
+            File path;
+            try {
+                path = FilePrinterHelper.resolveDirOrCreate(logger.getLogFilePath());
+            } catch (SecurityException ignored) {
+                path = null;
+            }
+
+            //Create failed, not read/writable, etc
+            if (path == null) {
+                return false;
+            }
+
             String name = logger.mFileNameGenerator.nextFile();
 
             File file = new File(path, name);

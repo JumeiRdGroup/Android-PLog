@@ -2,7 +2,8 @@ package org.mym.plog.printer;
 
 import android.content.Context;
 import android.os.Environment;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -73,23 +74,30 @@ import static org.mym.plog.printer.FilePrinter.DIR_INT_FILES;
      * Resolve and check for log path.
      *
      * @return A readable and writable path. If path does not exist, create it automatically.
-     * @throws IllegalArgumentException If path is empty, or path is not a directory, or path
-     *                                  cannot be readable or writable.
+     * If create failed, this method will return <code>null</code>.
+     * @throws SecurityException
+     *          If a security manager exists and its <code>{@link
+     *          java.lang.SecurityManager#checkRead(java.lang.String)}</code>
+     *          method does not permit verification of the existence of the
+     *          named directory and all necessary parent directories; or if
+     *          the <code>{@link
+     *          java.lang.SecurityManager#checkWrite(java.lang.String)}</code>
+     *          method does not permit the named directory and all necessary
+     *          parent directories to be created
      */
-    static File resolveDirOrCreate(String path) throws IllegalArgumentException {
-        if (TextUtils.isEmpty(path)) {
-            throw new IllegalArgumentException("Path cannot be null!");
-        }
+    @Nullable
+    static File resolveDirOrCreate(@NonNull String path) throws SecurityException {
         File file = new File(path);
-        if (!file.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            file.mkdirs();
+        if (!file.exists() && !file.mkdirs()) {
+            return null;
         }
         if (!file.isDirectory()) {
-            throw new IllegalArgumentException("Path is not a directory!");
+//            throw new IllegalArgumentException("Path is not a directory!");
+            return null;
         }
         if (!file.canRead() || !file.canWrite()) {
-            throw new IllegalArgumentException("Path cannot be read/write!");
+//            throw new IllegalArgumentException("Path cannot be read/write!");
+            return null;
         }
         return file;
     }
