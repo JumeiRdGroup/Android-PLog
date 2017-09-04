@@ -278,7 +278,7 @@ public class FilePrinter extends AbsPrinter implements Closeable {
             //single log length (content) may over limit; but needn't to care this situation
             // because it's still safe.
             if (mCurrentFile != null
-                    && (mCurrentFile.length() + content.length() > logger.mFileSizeLimit)) {
+                    && (logger.mFileSizeLimit > 0 && mCurrentFile.length() + content.length() > logger.mFileSizeLimit)) {
                 resetOutputStream();
             }
 
