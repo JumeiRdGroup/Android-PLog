@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import org.mym.plog.Category;
 import org.mym.plog.DebugPrinter;
 import org.mym.plog.Interceptor;
+import org.mym.plog.LogRequest;
 import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 import org.mym.plog.config.PLogConfig;
@@ -319,12 +320,21 @@ public class MainActivity extends AppCompatActivity {
 
         PLog.v("This is a verbose log.");
         PLog.d("This is a debug log. param is %d, %.2f and %s", 1, 2.413221, "Great");
-        PLog.i("InfoTag", "This is an info log using specified tag.");
+        PLog.i("This is an info log.");
         PLog.w("This is a warn log.");
         PLog.e("This is an error log.");
 
         //Helper method to observe calling trace.
         PLog.printStackTraceHere();
+
+        //In PLog 2.0, auto tag is strongly recommended;
+        //If you really need specify tag somewhere, you should use builder:
+        new LogRequest()
+                .tag("InfoTag")
+                .level(Log.INFO)
+                .msg("This is an info log using specified tag.")
+                //DO NOT FORGET TO CALL PRINT!
+                .print();
 
         new Thread("BackgroundThread") {
             @Override
