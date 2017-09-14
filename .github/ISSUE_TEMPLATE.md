@@ -1,10 +1,11 @@
 <!-- Thanks for attention to this library! Please provide some information before submitting your
- issue, so that we can help your more quickly. :) -->
+ issue, so that we can help you more quickly. :) -->
 
-#### Basic info
+## Basic info
 PLog version:  
 
-#### For Bugs
+## Figure out a bug
+<!-- 
 How to reproduce:  
 1. TODO...
 
@@ -12,5 +13,7 @@ What expected:
 
 Actually result:  
 
-#### Feature Request
+-->
+
+## Feature Request
 <!-- please describle it. -->
