@@ -1,0 +1,13 @@
+### Mac OS
+*.DS_Store
+
+### Windows
+Thumbs.db
+
+### IDEA, WebStorm
+.idea
+
+### Jekyll template
+_site/
+.sass-cache/
+.jekyll-metadata
