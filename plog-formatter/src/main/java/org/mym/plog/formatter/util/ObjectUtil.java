@@ -47,35 +47,32 @@ public class ObjectUtil {
      * declared fields and append after class name and hashcode. In this case the final
      * result maybe like this: <br>
      * <code>
-     *     org.mym.plog.Driver@23ac3874[mName=Tank, mAge=199, mCar=Benz S400]
+     * org.mym.plog.Driver@23ac3874[mName=Tank, mAge=199, mCar=Benz S400]
      * </code>
      * </p>
      *
-     * @param obj the object to log.
-     * @return see the doc above.
-     */
-    public static String objectToString(Object obj) {
-        return objectToString(obj, false);
-    }
-
-    /**
+     * @param obj                        the object to log.
      * @param usingSimpleClassNamePrefix Decide if parsed class using simple name;
      *                                   this is useful for decrease collection string length
      *                                   and large POJOs.
+     * @param allowRecursiveDepth        if <=0, recursive format is disabled.
      */
-    private static String objectToString(Object obj, boolean usingSimpleClassNamePrefix) {
+    public static String objectToString(Object obj, boolean usingSimpleClassNamePrefix,
+                                        int allowRecursiveDepth) {
         if (obj == null) {
             return STR_OBJECT_EMPTY;
         }
         String result = obj.toString();
         if (result.matches(REGEX_STANDARD_HASHCODE)) {
-            result = parseObject(obj, usingSimpleClassNamePrefix);
+            result = allowRecursiveDepth <= 0 ? obj.toString()
+                    : parseObject(obj, usingSimpleClassNamePrefix, --allowRecursiveDepth);
         } else if (obj instanceof AbstractList && ((AbstractList) obj).size() > 0) {
             //Assume all objects in list are same type, that is, **TYPE SAFE**
             Object flagObject = ((AbstractList) obj).get(0);
             //If this is not formatted class, recursively format
             if (flagObject.toString().matches(REGEX_STANDARD_HASHCODE)) {
-                result = formatNormalList((List<?>) obj, usingSimpleClassNamePrefix);
+                result = formatNormalList((List<?>) obj, usingSimpleClassNamePrefix,
+                        allowRecursiveDepth);
             }
         } else if (!TextUtils.isEmpty(result)) {
             //Guess JSONObject, use double check to improve accuracy
@@ -115,9 +112,10 @@ public class ObjectUtil {
 
     /**
      * This method is a copy of {@link AbstractCollection#toString()} but changes its parameter!
-     * @see #objectToString(Object, boolean)
+     * @see #objectToString(Object, boolean, int)
      */
-    private static <E> String formatNormalList(List<E> list, boolean usingSimpleClassNamePrefix) {
+    private static <E> String formatNormalList(List<E> list, boolean usingSimpleClassNamePrefix,
+                                               final int allowRecursiveDepth) {
         Iterator<E> it = list.iterator();
         if (!it.hasNext())
             return "[]";
@@ -127,7 +125,7 @@ public class ObjectUtil {
         for (; ; ) {
             E e = it.next();
             sb.append(e == list ? "(this Collection)" : objectToString(e,
-                    usingSimpleClassNamePrefix));
+                    usingSimpleClassNamePrefix, allowRecursiveDepth));
             if (!it.hasNext())
                 return sb.append(']').toString();
             sb.append(',').append(' ');
@@ -135,9 +133,10 @@ public class ObjectUtil {
     }
 
     /**
-     * @see #objectToString(Object, boolean)
+     * @see #objectToString(Object, boolean, int)
      */
-    private static String parseObject(Object obj, boolean usingSimpleClassNamePrefix) {
+    private static String parseObject(Object obj, boolean usingSimpleClassNamePrefix,
+                                      final int allowRecursiveDepth) {
         // declare concat symbols here to define final format.
         // Current format is [a=1, b=2]
         final String FIELD_CONCAT_SYMBOL = ", ";
@@ -169,7 +168,7 @@ public class ObjectUtil {
                     sb.append(f.getName()).append(FIELD_VALUE_SYMBOL);
                     //In internal fields, do not use full class name to avoid too long log in
                     // arrays and collections, etc.
-                    sb.append(objectToString(f.get(obj), true));
+                    sb.append(objectToString(f.get(obj), true, allowRecursiveDepth));
                     sb.append(FIELD_CONCAT_SYMBOL);
                     appended = true;
                 }

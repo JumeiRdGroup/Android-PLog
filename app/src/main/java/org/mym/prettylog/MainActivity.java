@@ -42,6 +42,7 @@ import org.mym.plog.config.PLogConfig;
 import org.mym.plog.printer.FilePrinter;
 import org.mym.plog.timing.TimingLogger;
 import org.mym.prettylog.data.JSONEntity;
+import org.mym.prettylog.data.Singleton;
 import org.mym.prettylog.data.User;
 
 import java.util.ArrayList;
@@ -157,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
 //        PLog.prepare(new DebugPrinter(true), new TextViewPrinter(mTvPrinter));
         showDefaultConfig();
         preparePrinters();
+
+        extraComplicatedScenarios();
     }
 
     private void showDefaultConfig() {
@@ -370,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
         PLog.objects(user);
 
         //Log multi objects.
-        PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
+//        PLog.objects("RxJava", "RxAndroid", "RxBinding", "RxBus");
 
     }
 
@@ -470,6 +473,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException ignored) {
 
         }
+    }
+
+    private void extraComplicatedScenarios() {
+        PLog.w(" ----- Running extra complicated scenarios, go! ----- ");
+        PLog.objects(Singleton.getInstance());
+        PLog.i(" ----- Extra complicated scenarios are all passed. ----- ");
     }
 
     @IntDef({LOG_BASIC, LOG_LONG, LOG_TO_FILE,

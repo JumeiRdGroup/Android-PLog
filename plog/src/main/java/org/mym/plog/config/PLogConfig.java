@@ -58,6 +58,14 @@ public class PLogConfig {
      */
     private Interceptor globalInterceptor;
 
+    /**
+     * Define a max limit for recursive formatting. Currently only affect when using default
+     * formatter, please see `formatter` module or documentation for more details.
+     *
+     * @since 2.0.0
+     */
+    private int maxRecursiveDepth;
+
     private PLogConfig(Builder builder) {
         globalStackOffset = builder.globalStackOffset;
         globalTag = builder.globalTag;
@@ -68,6 +76,7 @@ public class PLogConfig {
         needLineNumber = builder.needLineNumber;
         globalInterceptor = builder.globalInterceptor;
         needThreadInfo = builder.needThreadInfo;
+        maxRecursiveDepth = builder.maxRecursiveDepth;
     }
 
     /**
@@ -146,6 +155,10 @@ public class PLogConfig {
         return needThreadInfo;
     }
 
+    public int getMaxRecursiveDepth() {
+        return maxRecursiveDepth;
+    }
+
     @SuppressWarnings("unused")
     public static final class Builder {
         private String globalTag;
@@ -159,6 +172,7 @@ public class PLogConfig {
         @Nullable
         private Interceptor globalInterceptor;
         private boolean needThreadInfo;
+        private int maxRecursiveDepth;
 
         /**
          * Create a builder, you can also use static method {@link #newBuilder()}.
@@ -166,6 +180,7 @@ public class PLogConfig {
         public Builder() {
             //DEFAULT FIELDS IS INIT HERE
             useAutoTag = true;
+            maxRecursiveDepth = 2;
         }
 
         /**
@@ -181,6 +196,7 @@ public class PLogConfig {
             this.globalInterceptor = copy.globalInterceptor;
             this.needLineNumber = copy.needLineNumber;
             this.needThreadInfo = copy.needThreadInfo;
+            this.maxRecursiveDepth = copy.maxRecursiveDepth;
         }
 
         /**
@@ -282,6 +298,15 @@ public class PLogConfig {
          */
         public Builder needThreadInfo(boolean val) {
             needThreadInfo = val;
+            return this;
+        }
+
+        /**
+         * @param depth should be positive. pass 0 to totally disable recursive formatting.
+         * @since 2.0.0
+         */
+        public Builder maxRecursiveDepth(int depth) {
+            maxRecursiveDepth = depth;
             return this;
         }
 
