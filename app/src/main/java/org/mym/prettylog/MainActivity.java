@@ -42,6 +42,7 @@ import org.mym.plog.config.PLogConfig;
 import org.mym.plog.printer.FilePrinter;
 import org.mym.plog.timing.TimingLogger;
 import org.mym.prettylog.data.JSONEntity;
+import org.mym.prettylog.data.LoremIpsum;
 import org.mym.prettylog.data.Singleton;
 import org.mym.prettylog.data.User;
 
@@ -354,11 +355,11 @@ public class MainActivity extends AppCompatActivity {
                 " line of text that is going to be wrapped after 20 columns.Here is one line of " +
                 "text that is going to be wrapped after 20 columns.");
 
-        StringBuilder sb = new StringBuilder("无限长字符串测试");
-        for (int i = 0; i < 100; i++) {
-            sb.append("[").append(i).append("]");
-        }
-        PLog.d(sb.toString());
+//        StringBuilder sb = new StringBuilder("无限长字符串测试");
+//        for (int i = 0; i < 100; i++) {
+//            sb.append("[").append(i).append("]");
+//        }
+        PLog.d(LoremIpsum.TEXT);
     }
 
     void logObjects() {
