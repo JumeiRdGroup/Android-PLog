@@ -47,7 +47,9 @@ import org.mym.prettylog.data.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -366,10 +368,14 @@ public class MainActivity extends AppCompatActivity {
 
         List<User.Cat> cats = new ArrayList<>();
         Collections.addAll(cats, tom, jerry);
+        PLog.objects(cats);
+
+        Map<String, User.Cat> catMap = new HashMap<>();
+        catMap.put("tom cat", tom);
+        catMap.put("jerry cat", jerry);
+        PLog.objects(catMap);
 
         User user = new User("Alice", 23, cats);
-
-        PLog.objects(cats);
         PLog.objects(user);
 
         //Log multi objects.

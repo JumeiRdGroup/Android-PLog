@@ -10,8 +10,10 @@ import org.mym.plog.BuildConfig;
 import java.lang.reflect.Field;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
+import java.util.AbstractMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -68,10 +70,21 @@ public class ObjectUtil {
                     : parseObject(obj, usingSimpleClassNamePrefix, --allowRecursiveDepth);
         } else if (obj instanceof AbstractList && ((AbstractList) obj).size() > 0) {
             //Assume all objects in list are same type, that is, **TYPE SAFE**
+            //A IMPORTANT assume logic is, if (and only if) the first object is not well-formed,
+            // the whole collection should be re-formatted.
             Object flagObject = ((AbstractList) obj).get(0);
             //If this is not formatted class, recursively format
             if (flagObject.toString().matches(REGEX_STANDARD_HASHCODE)) {
                 result = formatNormalList((List<?>) obj, usingSimpleClassNamePrefix,
+                        allowRecursiveDepth);
+            }
+        } else if (obj instanceof AbstractMap && ((AbstractMap) obj).size() > 0) {
+            //see docs on list branch
+            Object flagKey = ((AbstractMap) obj).keySet().iterator().next();
+            Object flagValue = ((AbstractMap) obj).get(flagKey);
+            //If this is not formatted class, recursively format
+            if (flagValue.toString().matches(REGEX_STANDARD_HASHCODE)) {
+                result = formatMap((Map<?, ?>) obj, usingSimpleClassNamePrefix,
                         allowRecursiveDepth);
             }
         } else if (!TextUtils.isEmpty(result)) {
@@ -128,6 +141,30 @@ public class ObjectUtil {
                     usingSimpleClassNamePrefix, allowRecursiveDepth));
             if (!it.hasNext())
                 return sb.append(']').toString();
+            sb.append(',').append(' ');
+        }
+    }
+
+    private static <K, V> String formatMap(Map<K, V> map, boolean usingSimpleClassNamePrefix,
+                                           final int allowRecursiveDepth) {
+
+        Iterator<Map.Entry<K, V>> i = map.entrySet().iterator();
+        if (!i.hasNext())
+            return "{}";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        for (; ; ) {
+            Map.Entry<K, V> e = i.next();
+            K key = e.getKey();
+            V value = e.getValue();
+            sb.append(key == map ? "(this Map)" : objectToString(key,
+                    usingSimpleClassNamePrefix, allowRecursiveDepth));
+            sb.append('=');
+            sb.append(value == map ? "(this Map)" : objectToString(value,
+                    usingSimpleClassNamePrefix, allowRecursiveDepth));
+            if (!i.hasNext())
+                return sb.append('}').toString();
             sb.append(',').append(' ');
         }
     }
