@@ -9,9 +9,15 @@ import java.util.ArrayList;
 
 /**
  * IMPORTANT:This class is copied from AOSP standard class {@link android.util.TimingLogger}.
+ * <p>
  * CHANGES:
- * 1. removed disable logic. using PLog's timing logger means you totally wants to log these messages.
- * 2. redirect output logic to PLog standard log flow.
+ * <ul>
+ * <li>redirect output logic to PLog standard log flow.</li>
+ * <li>removed disable logic. using PLog's timing logger means you totally wants to log these
+ * messages. However you can still intercept logs via PLog core library API.
+ * </li>
+ * </ul>
+ * </p>
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class TimingLogger {

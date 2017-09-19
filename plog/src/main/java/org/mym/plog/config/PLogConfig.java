@@ -10,9 +10,14 @@ import org.mym.plog.PLog;
 import org.mym.plog.PrintLevel;
 
 /**
- * Class for config fields.
+ * Configuration class for the whole library.
  *
- * @author Muyangmin
+ * <p>
+ *     You can't call constructor directly; instead we recommend you to use Builder. All options
+ *     are documented in that class.
+ * </p>
+ *
+ * @see PLogConfig.Builder
  * @since 1.0.0
  */
 public class PLogConfig {
@@ -22,20 +27,20 @@ public class PLogConfig {
     private static final String DEFAULT_GLOBAL_TAG = "GlobalTag";
     // -------------- DEFAULT FIELDS  END  --------------
 
-    /**
-     * This is a very useful setting when user does NOT directly call `PLog.xxx` but called by
+    /*
+     * A very useful setting when user does NOT directly call `PLog.xxx` but called by
      * `PLogWrapper.xxx`, etc.
      * Be careful for this setting: if you pass a wrong value, all your line number maybe incorrect.
      * @since 1.4.0
      */
     private int globalStackOffset;
     private String globalTag;
-    /**
+    /*
      * If this config is set to true, then all tags would be appended after global tag.
      * @since 1.0.0
      */
     private boolean forceConcatGlobalTag;
-    /**
+    /*
      * If set to true, then use class name as tag. The concat global tag config is still valid.
      * @since 1.2.0
      */
@@ -44,21 +49,21 @@ public class PLogConfig {
     private int emptyMsgLevel;
     private boolean needLineNumber;
 
-    /**
+    /*
      * If set to true, all log message will contains current thread information.
      *
      * @since 2.0.0
      */
     private boolean needThreadInfo;
 
-    /**
+    /*
      * Global interceptor which would affect all printers, may be null.
      *
      * @since 2.0.0
      */
     private Interceptor globalInterceptor;
 
-    /**
+    /*
      * Define a max limit for recursive formatting. Currently only affect when using default
      * formatter, please see `formatter` module or documentation for more details.
      *
@@ -80,14 +85,15 @@ public class PLogConfig {
     }
 
     /**
-     * This method check whether a config is valid. This is very useful when importing new
+     * Check whether a config is valid or not. This is useful when our library importing new
      * config items, and can prevent user's wrong usage.
-     * <p>If all condition check pass, then this method do nothing; otherwise it would throw a
-     * Runtime Exception.</p>
+     * <p>
+     * If all condition check pass, then this method do nothing; otherwise it would throw a
+     * Runtime Exception.
+     * </p>
      *
      * @param config config object to detect
-     * @throws RuntimeException maybe any subclass of RuntimeException if any condition assert
-     *                          failed, though it usually be a {@link NullPointerException}.
+     * @throws RuntimeException maybe any subclass of RuntimeException if any assertion failed.
      */
     public static void checkConfigSafe(PLogConfig config) throws RuntimeException {
         if (config == null) {
@@ -102,7 +108,7 @@ public class PLogConfig {
     }
 
     /**
-     * @see Builder#Builder()
+     * Create a new Builder.
      */
     @SuppressWarnings("unused")
     public static Builder newBuilder() {
@@ -110,7 +116,7 @@ public class PLogConfig {
     }
 
     /**
-     * @see Builder#Builder(PLogConfig)
+     * Create a new builder and clone all options in the argument.
      */
     @SuppressWarnings("unused")
     public static Builder newBuilder(PLogConfig copy) {
@@ -200,15 +206,18 @@ public class PLogConfig {
         }
 
         /**
-         * Set global tag for all log, param must be not null.
+         * Set global tag for all logs, param should not be null.
          */
-        public Builder globalTag(String val) {
+        public Builder globalTag(@NonNull String val) {
             globalTag = val;
             return this;
         }
 
         /**
-         * If this sets to true, then all tags would be appended after global tag.
+         * If set to true, all tags will be appended after global tag, regardless of it is an
+         * auto tag or explicit tag.
+         *
+         * We recommend you set to true if you've set a `global tag`.
          */
         public Builder forceConcatGlobalTag(boolean val) {
             forceConcatGlobalTag = val;
@@ -216,7 +225,7 @@ public class PLogConfig {
         }
 
         /**
-         * If set to true, then use class name as tag. The concat global tag config is still valid.
+         * If set to true(as default option), use class name as tag.
          *
          * @since 1.2.0
          */
@@ -226,7 +235,7 @@ public class PLogConfig {
         }
 
         /**
-         * Set level for empty log. Default is {@value #DEFAULT_EMPTY_MSG_LEVEL}.
+         * Set level for empty log. Default is <pre><code>Log.DEBUG</code></pre>.
          *
          * @param val Must be one of
          *            {@link Log#VERBOSE}, {@link Log#DEBUG}, {@link Log#INFO},
@@ -240,7 +249,6 @@ public class PLogConfig {
 
         /**
          * Set default message for log printed by calling {@link PLog#empty()}.
-         * The default value is "{@value #DEFAULT_EMPTY_MSG}".
          */
         public Builder emptyMsg(@NonNull String val) {
             emptyMsg = val;
@@ -249,15 +257,15 @@ public class PLogConfig {
 
         /**
          * If set to true, the line number info will be printed in log message.
-         * @deprecated This method name is a little ambiguous, use {@link #needLineNumber(boolean)}
-         * instead.
+         * @deprecated This method name is a little ambiguous, and will be removed in future
+         * release. Use {@link #needLineNumber(boolean)} instead.
          */
         public Builder keepLineNumber(boolean val) {
             return needLineNumber(val);
         }
 
         /**
-         * If set to true, the line number info will be printed in log message.
+         * If set to true, the source line number info will be printed in log message.
          */
         public Builder needLineNumber(boolean val) {
             needLineNumber = val;
@@ -277,7 +285,7 @@ public class PLogConfig {
         }
 
         /**
-         * Register a global interceptor, useful for handle different app environments.
+         * Register a global interceptor, useful for handle different app environments etc.
          */
         public Builder globalInterceptor(@Nullable Interceptor val) {
             globalInterceptor = val;
@@ -285,10 +293,9 @@ public class PLogConfig {
         }
 
         /**
-         * @deprecated This method name is a little ambiguous, use {@link #needThreadInfo(boolean)}
-         * instead.
+         * @deprecated This method name is a little ambiguous, and will be removed in future
+         * release. Use {@link #needThreadInfo(boolean)} instead.
          */
-        @Deprecated
         public Builder keepThreadInfo(boolean val) {
             return needThreadInfo(val);
         }
@@ -302,7 +309,11 @@ public class PLogConfig {
         }
 
         /**
-         * @param depth should be positive. pass 0 to totally disable recursive formatting.
+         * Set max depth limit when recursively format objects. If you do not use `formatter`
+         * dependency, you don't need this option as well.
+         *
+         * @param depth should be positive. pass non-positive value will totally disable
+         *              recursive formatting.
          * @since 2.0.0
          */
         public Builder maxRecursiveDepth(int depth) {

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 /**
  * This interface and its subclasses defines how logs are decorated.
  *
- * @author Muyangmin
  * @since 2.0.0
  */
 public interface Style {

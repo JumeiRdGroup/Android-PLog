@@ -15,7 +15,6 @@ import java.util.Locale;
  * This is the core logic for PLog 2.0: it contains dependencies of almost all interfaces, and
  * decide how to use them.
  *
- * @author Muyangmin
  * @since 2.0.0
  */
 final class LogEngine {

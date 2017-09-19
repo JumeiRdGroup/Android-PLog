@@ -17,9 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class is a default implementation for {@link Formatter}, provide all supported types.
+ * Default implementation for {@link Formatter}, provide all supported types.
  *
- * @author Muyangmin
  * @since 1.0.0
  */
 @SuppressWarnings("WeakerAccess")

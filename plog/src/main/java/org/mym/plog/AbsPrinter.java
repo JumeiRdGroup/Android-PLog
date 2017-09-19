@@ -4,9 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * This class provides an abstract implementation for printer;
- * only default initialization and get/set methods are implemented.
- * Created by muyangmin on Feb 21, 2017.
+ * An abstract implementation for printer，Only default initialization and get/set methods are
+ * implemented.
  *
  * @since 2.0.0-beta2
  */

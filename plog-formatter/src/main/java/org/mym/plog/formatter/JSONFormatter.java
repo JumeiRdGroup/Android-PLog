@@ -5,10 +5,8 @@ import org.json.JSONObject;
 import org.mym.plog.Formatter;
 
 /**
- * Created by muyangmin on Sep 09, 2016.
- * Since 2.0.0, the semantics of this class has changed: it just format standard JSON/JSONArray.
+ * Format standard JSON/JSONArray.
  *
- * @author muyangmin
  * @since 2.0.0
  */
 public class JSONFormatter implements Formatter {

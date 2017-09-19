@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
  * 1. PLog use this only for providing more stable soft-wrap feature without include dependency.
  * 2. PLog also respect APACHE licence.
  * <p>
- * Created by muyangmin on Jan 13, 2017.
  *
  * @since 2.0.0
  */

@@ -7,7 +7,6 @@ import java.util.Map;
 
 /**
  * The simplest category implementation: it just return the value passed in the constructor.
- * Created by muyangmin on Jan 17, 2017.
  *
  * @since 2.0.0
  */

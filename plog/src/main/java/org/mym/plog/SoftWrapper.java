@@ -6,9 +6,7 @@ import org.mym.plog.internal.WordLengthWrapper;
 import org.mym.plog.internal.WordBreakWrapper;
 
 /**
- * This class provided soft wrap feature.
- * For more details, please see Wiki:(not finished for this topic yet).
- * Created by muyangmin on Jan 16, 2017.
+ * Provide soft wrap feature.
  *
  * @since 2.0.0
  */

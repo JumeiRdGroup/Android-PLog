@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
  * Please consider it as compose of logger and controller in PLog 1.x version;
  * or just like the "Tree" concept of Timber library.
  *
- * @author Muyangmin
  * @since 2.0.0
  */
 @SuppressWarnings("unused")

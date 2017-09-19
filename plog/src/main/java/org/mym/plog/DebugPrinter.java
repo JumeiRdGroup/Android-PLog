@@ -10,7 +10,11 @@ import android.util.Log;
 /**
  * Print all message to logcat.
  *
- * @author Muyangmin
+ * <p>
+ *     Note that messages longer than 4K characters will be truncated into parts, to avoid
+ *     default logcat 4K issue.
+ * </p>
+ *
  * @since 2.0.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})

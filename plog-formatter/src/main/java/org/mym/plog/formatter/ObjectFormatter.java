@@ -5,8 +5,7 @@ import org.mym.plog.PLog;
 import org.mym.plog.formatter.util.ObjectUtil;
 
 /**
- * This class JUST format pure OBJECTS.
- * Created by muyangmin on Sep 09, 2016.
+ * Recursively format all type of objects.
  *
  * @author muyangmin
  * @since 1.5.0

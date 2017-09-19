@@ -109,10 +109,9 @@ public final class LogRequest {
     // -----BUILDER STYLE CODE END -----
 
     /**
-     * @deprecated This method name may be a little ambiguous. Consider use {@link #print()}
-     * instead.
+     * @deprecated This method name may be a little ambiguous, and will be removed in future
+     * release. Consider use {@link #print()} instead.
      */
-    @Deprecated
     public void execute() {
         //add try-catch block to avoid crash from library if any internal exception is thrown.
         try {

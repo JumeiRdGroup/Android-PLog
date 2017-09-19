@@ -8,14 +8,10 @@ import org.mym.plog.config.PLogConfig;
 
 
 /**
- * Entry class of log module, settings, and init configs are all here.
- * <p>You don't need to create this class since it is only an utility class, for configs,
- * please use {@link #init(PLogConfig)}. <br>
- * Also, it is strongly recommended to create config instance using
- * {@link org.mym.plog.config.PLogConfig.Builder}, instead of directly call constructor.
- * </p>
  *
- * @author Muyangmin
+ * Entry of all library public API; you can set configurations and launch log requests using this
+ * class with only a static method call.
+ *
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
@@ -45,8 +41,8 @@ public final class PLog {
     }
 
     /**
-     * Get current config; maybe this is useful for temporarily change config and backup then.
-     * Another scenario is to debug this library.
+     * Get current config, useful for temporarily change config and backup then.
+     * Another scenario is to debug this library, or using in extend libraries.
      *
      * @return Current config; or default config if {@link #init(PLogConfig)} is not called yet.
      * @see #init(PLogConfig)
@@ -96,8 +92,10 @@ public final class PLog {
     }
 
     /**
-     * Print {@link PLogConfig#getEmptyMsg()}, using DEBUG Level,
-     * or {@link PLogConfig#getEmptyMsgLevel()} if specified.
+     * Print a predefined message using a predefined level.
+     *
+     * @see org.mym.plog.config.PLogConfig.Builder#emptyMsg(String)
+     * @see org.mym.plog.config.PLogConfig.Builder#emptyMsgLevel(int)
      */
     public static void empty() {
         new LogRequest().level(getCurrentConfig().getEmptyMsgLevel())
@@ -114,8 +112,8 @@ public final class PLog {
     }
 
     /**
-     * A helper method useful when you just want to print objects using default format.
-     * The log level for this method is defined as {@link Log#INFO}.
+     * A recommended helper method useful when you just want to print objects using default format.
+     * The log level for this method is defined as <pre><code>Log.DEBUG</code></pre>.
      *
      * @param params objects to print.
      */
@@ -124,7 +122,9 @@ public final class PLog {
     }
 
     /**
-     * Print json string.
+     * Print out json string representing by a JSONObject.
+     * @deprecated use {@link #objects(Object...)} instead. This method will be removed in future
+     * release.
      * @since 2.0.0
      */
     public static void json(JSONObject jsonObject) {
@@ -154,12 +154,13 @@ public final class PLog {
     /**
      * Prepare printers; this method should always be called on application start because you should
      * set your own onIntercept logic using {@link Printer} interface.
-     * <p>
-     * Sample usage: <br>
-     * <code>
+     * <pre>
+     *     <code>
      * PLog.prepare(new DebugPrinter(BuildConfig.DEBUG));
-     * </code>
-     * </p>
+     *     </code>
+     * </pre>
+     *
+     * <strong>Note that calling this method will clear all printers set before.</strong>
      *
      * @param printers printers to print logs; they are parallel from each other.
      */

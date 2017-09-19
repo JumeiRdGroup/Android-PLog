@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Created by muyangmin on Feb 21, 2017.
+ * Decide intercept a log, or let it print out.
  *
  * @since 2.0.0-beta2
  */
 public interface Interceptor {
     /**
-     * Indicate whether this item of log should be intercepted.
+     * Decide whether this item of log should be intercepted.
      *
      * @param level    print level of this log.
      * @param category category of this log, if specified.

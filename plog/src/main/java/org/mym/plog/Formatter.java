@@ -2,9 +2,7 @@ package org.mym.plog;
 
 /**
  * This interface defines how to format log msg.
- * Created by muyangmin on Sep 09, 2016.
  *
- * @author muyangmin
  * @since 1.5.0
  */
 public interface Formatter {

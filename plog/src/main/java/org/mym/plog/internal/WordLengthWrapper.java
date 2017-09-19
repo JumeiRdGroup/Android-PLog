@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import org.mym.plog.SoftWrapper;
 
 /**
- * Created by muyangmin on Jan 16, 2017.
+ * A simple length truncate wrapper.
  *
  * @since 2.0.0
  */
