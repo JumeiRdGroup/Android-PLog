@@ -75,6 +75,11 @@ D/Playground-MainActivity: [(MainActivity.java:58):onCreate] [Thread[main,5,main
 config.setFormatter(new DefaultFormatter());
 ```
 
+#### maxRecursiveDepth
+该选项仅在使用 [Formatter扩展][5] 时生效，关于该选项的更多介绍请参见 [递归深度][6] 。
+
+该选项默认值为 ``2``.
+
 ### 常见问题
 
 #### 零配置启动
@@ -90,5 +95,7 @@ config.setFormatter(new DefaultFormatter());
 
 [1]: {{ site.baseurl }}/doc/download-setup.html  
 [2]: {{ site.baseurl }}/doc/printer.html  
-[3]: {{ site.baseurl }}/javadocs/2.0.0/org/mym/plog/DebugPrinter.html
-[4]: {{ site.baseurl }}/javadocs/2.0.0/org/mym/plog/PLog.html#init
+[3]: {{ site.baseurl }}/javadocs/2.0.0/org/mym/plog/DebugPrinter.html  
+[4]: {{ site.baseurl }}/javadocs/2.0.0/org/mym/plog/PLog.html#init  
+[5]: {{ site.baseurl }}/ext/formatter.html  
+[6]: {{ site.baseurl }}/ext/formatter.html#递归深度
