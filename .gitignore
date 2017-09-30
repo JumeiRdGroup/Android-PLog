@@ -1,3 +1,30 @@
+*.iml
+/local.properties
+/.idea
+.DS_Store
+/captures
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+.gradle/
+build/
+proguard/
+*.log
+.navigation/
+captures/
+*.jks
+
+### Jekyll template
+_site/
+.sass-cache/
+.jekyll-metadata
+
+
+
 ### Mac OS
 *.DS_Store
 
@@ -11,3 +38,4 @@ Thumbs.db
 _site/
 .sass-cache/
 .jekyll-metadata
+
