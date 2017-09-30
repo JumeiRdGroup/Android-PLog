@@ -6,19 +6,9 @@
 
 [English Version](README_EN.md)
 
-## 最新消息 & 使用指南
-#### 最新版本
-**2017-06-13: `2.0.0-beta5`已经发布。**
-
-#### 初次使用PLog？
-请参考Wiki: [基本用法](https://github.com/Muyangmin/Android-PLog/wiki)
-
-#### 从1.x版本迁移
-请参考Wiki: [迁移指南](https://github.com/Muyangmin/Android-PLog/wiki/Migrating)
-
-
-## Summary / Features
-PLog是一个Android专用的日志封装库，具备以下特性：
+## 概述
+Android-PLog 项目(简称 PLog )是一个专为 Android 
+应用程序设计的开源日志封装库，追求纯粹、易用、强大，帮助开发者更好地使用日志调试程序，提高开发效率。概括来讲，它具有以下特性：
 #### 容易打印
 * **支持无Tag打印**
 * **支持空消息打印（通常用于观察某处是否执行）**
@@ -44,24 +34,8 @@ PLog是一个Android专用的日志封装库，具备以下特性：
 #### 扩展灵活
 核心功能全部接口化，通过简单的设置和接口注入就可以完成绝大部分日志需求。
 
-## Compare With Other Libs
-| Library Name | [Logger](https://github.com/orhanobut/logger) | [Timber](https://github.com/JakeWharton/timber) | [KLog](https://github.com/ZhaoKaiQiang/KLog) | [Android-PLog](https://github.com/Muyangmin/Android-PLog)
-| ------| ------ | ------ | ------ | ----- |
-| Star/Fork | 5.7K+/1.0K+ | 3.5K+/366 | 1.1K+/251 | **Welcome!**|
-| 容易打印 | √ | √ | √ | √ |
-| 上手简单 | √ | √ | √ | √ |
-| 设置灵活 | ☆ | ☆ | ☆ | ☆ |
-| 体积轻巧 | ☆ | ☆☆ | ☆ | ☆☆ |
-| 支持定位 | √ | × | √ | √ |
-| 线程信息 | √ | × | × | √ |
-| 筛选容易 | ☆ | ×  | ☆ | ☆☆ |
-| 日志美观 | ☆ | × | ☆ | ☆☆ |
-| 输出可控 | × | ☆☆ | ☆ | ☆☆ |
 
-> 关于表格内各个比较维度的解释，请参见：[我为什么要写PLog](https://github.com/Muyangmin/Android-PLog/wiki/WhyUsePLog)。
-
-## Sample Screen Shot
-![ScreenShot](./ScreenShot.png)
+**关于项目的更多信息，包括下载、使用和注意事项，请访问[完整文档地址](https://jumeirdgroup.github.io/Android-PLog/)。**
 
 ## Contribution & Contact
 如果您在使用这个库的时候遇到困难，或者有任何的反馈、建议，都可以通过GitHub Issue 功能或下面的邮箱联系我：
