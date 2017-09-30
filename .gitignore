@@ -17,3 +17,9 @@ proguard/
 .navigation/
 captures/
 *.jks
+
+### Jekyll template
+_site/
+.sass-cache/
+.jekyll-metadata
+
