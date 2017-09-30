@@ -57,7 +57,8 @@ public class ObjectUtil {
      * @param usingSimpleClassNamePrefix Decide if parsed class using simple name;
      *                                   this is useful for decrease collection string length
      *                                   and large POJOs.
-     * @param allowRecursiveDepth        if <=0, recursive format is disabled.
+     * @param allowRecursiveDepth        if non-positive, recursive format is disabled.
+     * @return formatted string
      */
     public static String objectToString(Object obj, boolean usingSimpleClassNamePrefix,
                                         int allowRecursiveDepth) {

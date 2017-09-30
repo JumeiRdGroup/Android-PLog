@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * messages. However you can still intercept logs via PLog core library API.
  * </li>
  * </ul>
- * </p>
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class TimingLogger {
